@@ -1,5 +1,15 @@
-# ACL-2A-UL-MAX
-WALID BRINI
-Moemen BEN HAMAD
-Khaoula Chaib
-Othmene Derouich
+
+# Balade dans un labyrinthe
+
+L’objectif de ce projet est la réalisation d’un jeu mono-utilisateur avec une interface 
+graphique. Le jeu consiste à déplacer un personnage dans un labyrinthe dans le but de 
+découvrir un trésor. Dans le labyrinthe il peut y avoir des monstres de différents types qui 
+essayent d’attaquer le personnage
+
+# Réalisé Par :  ACL-2A-UL-MAX
+| BRINI Walid |  BEN HAMAD Moemen |  CHAIB Khaoula | DEROUICH Othmene |
+ISN 2N
+
+
+
+
