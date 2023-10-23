@@ -1,6 +1,6 @@
-package Code;
+package Code.game.src.main.java.com.example;
 import java.util.ArrayList;
-public class main {
+public class Main {
     public static void main(String[] args){
         Labyrinthe L = new Labyrinthe(5,5);
 

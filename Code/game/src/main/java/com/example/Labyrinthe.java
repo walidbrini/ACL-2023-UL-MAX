@@ -1,4 +1,4 @@
-package Code;
+package Code.game.src.main.java.com.example;
 import java.util.Random;
 
 public class Labyrinthe {
