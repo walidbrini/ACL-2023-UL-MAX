@@ -1,4 +1,4 @@
-package Code.game.src.main.java.com.example;
+package com.example;
 
 public class Wall extends Square{
     public Wall() {

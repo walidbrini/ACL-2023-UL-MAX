@@ -56,7 +56,7 @@ public class ImageLoader {
         frame.setVisible(true);
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ImageLoader loader = new ImageLoader("D:\\2AISN\\ACL-2023-UL-MAX\\Code\\game\\res\\player\\M_07.png");
         BufferedImage image = loader.grabImage(1, 1, 16 , 16);
 
@@ -65,5 +65,5 @@ public class ImageLoader {
         } else {
             // Image grabbing failed, handle the error
         }
-    }*/
+    }
 }

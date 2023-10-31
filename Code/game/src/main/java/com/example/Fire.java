@@ -1,4 +1,4 @@
-package Code.game.src.main.java.com.example;
+package com.example;
 
 public class Fire extends Square{
     private static final int damage = 10;
