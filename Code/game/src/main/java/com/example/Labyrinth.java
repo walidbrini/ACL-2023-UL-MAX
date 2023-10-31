@@ -49,17 +49,20 @@ public class Labyrinth {
         double wallProbability = 0;
 
         switch (level) {
-            case CHICKEN, EASY:
-                wallProbability = 0.05; // 1% chance of a wall
+            case CHICKEN:
+                wallProbability = 0.05;
+                break;
+            case EASY:
+                wallProbability = 0.052;
                 break;
             case MEDIUM:
-                wallProbability = 0.07; // 6% chance of a wall
+                wallProbability = 0.07;
                 break;
             case HARD:
-                wallProbability = 0.09; // 8% chance of a wall
+                wallProbability = 0.09;
                 break;
             case INSANE:
-                wallProbability = 0.2; // 12% chance of a wall
+                wallProbability = 0.2;
                 break;
         }
 
@@ -81,16 +84,16 @@ public class Labyrinth {
                 fireProbability = 0.0;  // No fire for CHICKEN level
                 break;
             case EASY:
-                fireProbability = 0.03;  // 2% chance of fire
+                fireProbability = 0.03;
                 break;
             case MEDIUM:
-                fireProbability = 0.07;  // 4% chance of fire
+                fireProbability = 0.07;
                 break;
             case HARD:
-                fireProbability = 0.1;  // 6% chance of fire
+                fireProbability = 0.1;
                 break;
             case INSANE:
-                fireProbability = 0.12;  // 10% chance of fire
+                fireProbability = 0.12;
                 break;
         }
 
@@ -111,16 +114,19 @@ public class Labyrinth {
         double aidProbability = 0;
         switch (level) {
             case CHICKEN:
-                aidProbability = 0.05;  // 10% chance of first aid
+                aidProbability = 0.05;
                 break;
-            case EASY, MEDIUM:
-                aidProbability = 0.025; // 8% chance of first aid
+            case EASY:
+                aidProbability = 0.025;
+                break;
+            case MEDIUM:
+                aidProbability = 0.020;
                 break;
             case HARD:
-                aidProbability = 0.012; // 4% chance of first aid
+                aidProbability = 0.012;
                 break;
             case INSANE:
-                aidProbability = 0.005; // 2% chance of first aid
+                aidProbability = 0.005;
                 break;
         }
 
