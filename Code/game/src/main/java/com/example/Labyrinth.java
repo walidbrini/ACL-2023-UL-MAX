@@ -222,6 +222,9 @@ public class Labyrinth {
     }
     */
 
+    public Square[][] getGrid() {
+        return grid;
+    }
 
     // FOR TESTING
     public void afficheVersionTexte(){
