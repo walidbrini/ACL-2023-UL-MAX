@@ -1,4 +1,4 @@
-package com.example;
+package Code.game.src.main.java.com.example;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
