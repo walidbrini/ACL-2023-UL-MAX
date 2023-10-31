@@ -1,4 +1,4 @@
-package com.example;
+package Code.game.src.main.java.com.example;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -18,14 +18,12 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int tileSize = scale * originalTileSize ;  
 
 	public static int maxScreenCol = 16;
-	public static int maxScreenRow = 12; 
+	public static int maxScreenRow = 16;
 
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
-	
-	
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.CHICKEN, this);
 
-		
 	Thread thread;
 	Controller Control= new Controller();
 
@@ -36,10 +34,16 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(Control); // Wait for key input
 		this.setFocusable(true);
 	}
-	
-	public void startThread()  {     
+
+
+	public int getTileSize() {
+		return tileSize;
+	}
+
+	public void startThread()  {
 		thread = new Thread(this);  
 		thread.start(); // Automatically call run()
+		labyrinth.afficheVersionTexte();
 	}
 	
 	public void run() {
@@ -59,16 +63,16 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	public void update() {
-		
-		
+
 	}
 
 	public void paintComponent(Graphics g) {
-	
+
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		
-		
+
+		Square[][] grid = labyrinth.getGrid(); // Assuming you have a reference to your Labyrinth
+		labyrinth.draw(g2);
 	}
 	
 	

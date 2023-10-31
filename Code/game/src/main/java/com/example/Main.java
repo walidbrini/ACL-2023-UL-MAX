@@ -1,4 +1,4 @@
-package com.example;
+package Code.game.src.main.java.com.example;
 
 
 import java.awt.GridBagConstraints;
@@ -18,9 +18,6 @@ public class Main
 	static GamePanel game =new GamePanel();
 	public static void main(String[] args) 
 	{
-		Labyrinth L = new Labyrinth(20,20,Level.CHICKEN);
-        L.afficheVersionTexte();
-		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);

@@ -1,5 +1,6 @@
 package Code.game.src.main.java.com.example;
 
+import java.awt.*;
 import java.util.Random;
 
 enum Level{
@@ -22,13 +23,15 @@ public class Labyrinth {
     private final Random random = new Random();
     private final Spawn spawn = new Spawn();
     private final Treasure treasure = new Treasure();
+    private GamePanel gamePanel;
 
 
-    public Labyrinth(int width, int height, Level level) {
+    public Labyrinth(int width, int height, Level level, GamePanel gamePanel) {
         this.width = width;
         this.height = height;
         this.level = level;
         this.grid = new Square[width][height];
+        this.gamePanel = gamePanel;
         generateRandomly();
     }
 
@@ -43,13 +46,22 @@ public class Labyrinth {
     }
 
     private void randomizeWalls(){
-        double wallProbability = switch (level) {
-            case CHICKEN -> 0.05; // 1% chance of a wall
-            case EASY -> 0.05;  // 2% chance of a wall
-            case MEDIUM -> 0.07;  // 6% chance of a wall
-            case HARD -> 0.09;  // 8% chance of a wall
-            case INSANE -> 0.2;  // 12% chance of a wall
-        };
+        double wallProbability = 0;
+
+        switch (level) {
+            case CHICKEN, EASY:
+                wallProbability = 0.05; // 1% chance of a wall
+                break;
+            case MEDIUM:
+                wallProbability = 0.07; // 6% chance of a wall
+                break;
+            case HARD:
+                wallProbability = 0.09; // 8% chance of a wall
+                break;
+            case INSANE:
+                wallProbability = 0.2; // 12% chance of a wall
+                break;
+        }
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
@@ -62,13 +74,26 @@ public class Labyrinth {
     }
 
     private void randomizeFire() {
-        double fireProbability = switch (level) {
-            case CHICKEN -> 0.0;  // No fire for CHICKEN level
-            case EASY -> 0.03;    // 2% chance of fire
-            case MEDIUM -> 0.07;  // 4% chance of fire
-            case HARD -> 0.1;    // 6% chance of fire
-            case INSANE -> 0.12;   // 10% chance of fire
-        };
+        double fireProbability = 0;
+
+        switch (level) {
+            case CHICKEN:
+                fireProbability = 0.0;  // No fire for CHICKEN level
+                break;
+            case EASY:
+                fireProbability = 0.03;  // 2% chance of fire
+                break;
+            case MEDIUM:
+                fireProbability = 0.07;  // 4% chance of fire
+                break;
+            case HARD:
+                fireProbability = 0.1;  // 6% chance of fire
+                break;
+            case INSANE:
+                fireProbability = 0.12;  // 10% chance of fire
+                break;
+        }
+
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
@@ -83,13 +108,22 @@ public class Labyrinth {
     }
 
     private void randomizeAid() {
-        double aidProbability = switch (level) {
-            case CHICKEN -> 0.05;  // 10% chance of first aid
-            case EASY -> 0.025;    // 8% chance of first aid
-            case MEDIUM -> 0.025;  // 6% chance of first aid
-            case HARD -> 0.012;    // 4% chance of first aid
-            case INSANE -> 0.005;  // 2% chance of first aid
-        };
+        double aidProbability = 0;
+        switch (level) {
+            case CHICKEN:
+                aidProbability = 0.05;  // 10% chance of first aid
+                break;
+            case EASY, MEDIUM:
+                aidProbability = 0.025; // 8% chance of first aid
+                break;
+            case HARD:
+                aidProbability = 0.012; // 4% chance of first aid
+                break;
+            case INSANE:
+                aidProbability = 0.005; // 2% chance of first aid
+                break;
+        }
+
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
@@ -117,22 +151,22 @@ public class Labyrinth {
         int maxDistanceToSpawn = 0;
 
         switch (level) {
-            case CHICKEN -> {
+            case CHICKEN:
                 minDistanceToSpawn = width / 4;
                 maxDistanceToSpawn = Math.min(width / 2, height / 2);
-            }
-            case MEDIUM, EASY -> {
+                break;
+            case EASY:
+            case MEDIUM:
                 minDistanceToSpawn = width / 2;
                 maxDistanceToSpawn = Math.min(3 * width / 4, 3 * height / 4);
-            }
-            case HARD, INSANE -> {
+                break;
+            case HARD:
+            case INSANE:
                 minDistanceToSpawn = 50 * width / 100;
                 maxDistanceToSpawn = Math.min(7 * width / 8, 7 * height / 8);
-            }
-
-            default -> {
+                break;
+            default:
                 // maxX and maxY are already initialized above
-            }
         }
 
         // Randomly place the finish point within the generated range
@@ -225,12 +259,44 @@ public class Labyrinth {
     public Square[][] getGrid() {
         return grid;
     }
+    
+    public void draw(Graphics graphics){
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                Square square = grid[x][y];
+                int tileSize = gamePanel.getTileSize();
+                int xPos = x * tileSize;
+                int yPos = y * tileSize;
+
+                // Check the square's content and draw it accordingly
+                if (square.getContent() == Object.WALL) {
+                    graphics.setColor(Color.GRAY);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                } else if (square.getContent() == Object.FIRE) {
+                    graphics.setColor(Color.RED);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                } else if (square.getContent() == Object.AID) {
+                    graphics.setColor(Color.GREEN);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                } else if (square.getContent() == Object.WALKWAY) {
+                    graphics.setColor(Color.WHITE);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                } else if (square.getContent() == Object.SPAWN) {
+                    graphics.setColor(Color.BLUE);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                } else if (square.getContent() == Object.TREASURE) {
+                    graphics.setColor(Color.YELLOW);
+                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                }
+            }
+        }
+    }
 
     // FOR TESTING
     public void afficheVersionTexte(){
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                System.out.print(grid[i][j] + " ");
+                System.out.print(grid[j][i] + " ");
             }
             System.out.println();
         }
