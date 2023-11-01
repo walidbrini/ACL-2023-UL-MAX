@@ -21,9 +21,10 @@ public class Labyrinth {
     private final Fire fire = new Fire();
     private final Aid firstAid = new Aid();
     private final Random random = new Random();
-    private final Spawn spawn = new Spawn();
+    public final Spawn spawn = new Spawn();
     private final Treasure treasure = new Treasure();
     private GamePanel gamePanel;
+
 
 
     public Labyrinth(int width, int height, Level level, GamePanel gamePanel) {

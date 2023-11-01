@@ -1,4 +1,4 @@
-package Code.game.src.main.java.com.example;
+package com.example;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
 	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.CHICKEN, this);
+	Personnage p1 = new Personnage(this,100,labyrinth.spawn.getPosition().getX()*tileSize,labyrinth.spawn.getPosition().getY()*tileSize); 
 
 	Thread thread;
 	Controller Control= new Controller();
@@ -63,16 +64,39 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	public void update() {
-
+		if (Control.up){
+			p1.deplacerHaut();
+			Control.up=false ; 
+			System.out.println(p1.positionY);
+		}
+		if (Control.down){
+			p1.deplacerBas();
+			Control.down = false ; 
+			System.out.println(p1.positionY);
+		}
+		if (Control.right){
+			p1.deplacerDroite();
+			Control.right=false ; 
+			System.out.println(p1.positionX);
+		}
+		if (Control.left){
+			p1.deplacerGauche();
+			Control.left= false ; 
+			System.out.println(p1.positionX);
+		}
+		
 	}
 
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-
-		Square[][] grid = labyrinth.getGrid(); // Assuming you have a reference to your Labyrinth
 		labyrinth.draw(g2);
+
+		g2.setColor(Color.BLACK);
+		g2.fillRect(p1.positionX, p1.positionY, tileSize, tileSize);
+
+
 	}
 	
 	
