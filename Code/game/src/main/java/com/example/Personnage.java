@@ -1,12 +1,12 @@
 package com.example;
 
 
-import java.awt.Graphics2D;
+import java.awt.Graphics2D; 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+ 
 
 public  class Personnage
 {
@@ -73,4 +73,24 @@ public  class Personnage
 	//setter a ajouter dans la classe case
 
 
+	 public void winGame() {
+	        System.out.println("Slaaaay!!!");
+	        
+	    }
+
+	    public void takeDamage(int damage) {
+	        pointsVie -= damage;
+	        if (pointsVie <= 0) {
+	            System.out.println("Game Over! Your character has run out of health.");
+	             
+	        }
+	    }
+
+	    public void heal(int healing) {
+	        pointsVie += healing;
+	        System.out.println("You have been healed for " + healing + " points.");
+	    }
+	    
+	    
+	    
 }
