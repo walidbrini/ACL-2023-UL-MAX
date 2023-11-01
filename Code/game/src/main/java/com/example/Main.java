@@ -40,6 +40,18 @@ public class Main
 		window.setVisible(true);
 		game.startThread();
 		
+		 
+	    Labyrinth labyrinth = new Labyrinth(10, 10, Level.EASY, game );
+	    Hero hero = new Hero(game , 100, 2, 2);  
+	    Monstre monstre = new Monstre(game , 50, 2, 2);  
+
+	     
+	    hero.checkEncounterWithMonster(monstre);
+
+	     
+	    System.out.println("Points de vie du héros : " + hero.getPointsVie());
+	}
+		
 	}
 	
-}
+

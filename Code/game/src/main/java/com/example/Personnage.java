@@ -91,6 +91,21 @@ public  class Personnage
 	        System.out.println("You have been healed for " + healing + " points.");
 	    }
 	    
+	    public void interactWithSquare(Square square) {
+	        Object squareContent = square.getContent();
+	        
+	        if (squareContent == Object.FIRE) {
+	            takeDamage(10);  
+	        } else if (squareContent == Object.AID) {
+	            heal(20);  
+	        }
+	    }
+	    
+	    public boolean areInSameSquare(Personnage otherPersonnage) {
+	        return this.positionX == otherPersonnage.positionX && this.positionY == otherPersonnage.positionY;
+	    }
+
+	    
 	    
 	    
 }
