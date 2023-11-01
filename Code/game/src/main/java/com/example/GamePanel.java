@@ -34,6 +34,10 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(Control); // Wait for key input
 		this.setFocusable(true);
+		System.out.println(labyrinth.spawn.getPosition().getX()) ;
+		System.out.println(labyrinth.spawn.getPosition().getY()) ;
+		System.out.println(p1.positionX) ;
+		System.out.println(p1.positionY) ;
 	}
 
 

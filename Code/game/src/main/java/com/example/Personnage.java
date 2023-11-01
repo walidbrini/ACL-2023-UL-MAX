@@ -30,7 +30,7 @@ public  class Personnage
 		this.gp=gp;
 		this.pointsVie = pointsVie;
 		this.positionX = positionX;
-		this.positionY = positionX;
+		this.positionY = positionY;
 	}
 
 
