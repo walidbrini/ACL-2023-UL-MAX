@@ -308,6 +308,13 @@ public class Labyrinth {
             System.out.println();
         }
     }
+    
+    public boolean isWall(int x, int y) {
+        return grid[x][y].getContent() == Object.WALL;
+    }
+
+    
+   
 
 
 }
