@@ -1,6 +1,6 @@
 package com.example;
-import example.Controller
-import example.GamePanel
+import com.example.GamePanel ;
+import com.example.Controller ;
         
 
 import javax.imageio.ImageIO;
@@ -11,9 +11,9 @@ import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gp;
-    KeyHandler keyH;
+    Controller keyH;
 
-    public Player( GamePanel gp, KeyHandler keyH){
+    public Player( GamePanel gp, Controller keyH){
         this.gp = gp;
         this.keyH = keyH;
 
@@ -47,20 +47,20 @@ public class Player extends Entity {
     }
     public void update(){
 
-        if (keyH.upPressed == true || keyH.downPressed==true || keyH.leftPressed==true || keyH.rightPressed==true){
-            if(keyH.upPressed){
+        if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
+            if(keyH.up){
                 direction = "up";
                 y -= speed;
             }
-            else if (keyH.downPressed){
+            else if (keyH.down){
                 direction = "down";
                 y += speed;
             }
-            else if (keyH.rightPressed){
+            else if (keyH.right){
                 direction ="right";
                 x += speed;
             }
-            else if (keyH.leftPressed){
+            else if (keyH.left){
                 direction = "left" ;
                 x -= speed;
             }
@@ -74,7 +74,7 @@ public class Player extends Entity {
                     spriteNum = 3;
                 }
                 else if (spriteNum==3){
-                    spriteNum = 1
+                    spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
