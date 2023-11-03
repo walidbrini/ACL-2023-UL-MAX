@@ -2,6 +2,7 @@ package com.example;
 
 import java.awt.Color;
 
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,10 +12,11 @@ import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
- 
+import com.example.Monstre;
 
 
 public class GamePanel extends JPanel implements Runnable{
+	private static Monstre monstre;  
 	public final static int originalTileSize = 16; 
 	public final int scale = 3 ; 
 	public final int tileSize = scale * originalTileSize ;  
@@ -26,10 +28,12 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenHeight = tileSize * maxScreenRow ;
 	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.CHICKEN, this);
 	Personnage p1 = new Personnage(this,100,labyrinth.spawn.getPosition().getX()*tileSize,labyrinth.spawn.getPosition().getY()*tileSize); 
-
+	 
 	Thread thread;
 	Controller Control= new Controller();
-
+    
+	 
+	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
@@ -41,6 +45,10 @@ public class GamePanel extends JPanel implements Runnable{
 		System.out.println(p1.positionX) ;
 		System.out.println(p1.positionY) ;
 	}
+	
+	public static void setMonstre(Monstre monstre) {
+        GamePanel.monstre = monstre;
+    }
 
 
 	public int getTileSize() {
@@ -90,6 +98,8 @@ public class GamePanel extends JPanel implements Runnable{
 			Control.left= false ; 
 			System.out.println(p1.positionX);
 		}
+		
+		monstre.moveRandomly();
 		 
 		
 	}
