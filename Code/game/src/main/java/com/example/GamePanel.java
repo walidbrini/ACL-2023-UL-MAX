@@ -1,6 +1,7 @@
 package com.example;
 
 import java.awt.Color;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+ 
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -88,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
 			Control.left= false ; 
 			System.out.println(p1.positionX);
 		}
+		 
 		
 	}
 

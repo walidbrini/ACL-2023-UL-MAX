@@ -41,15 +41,16 @@ public class Main
 		game.startThread();
 		
 		 
-	    Labyrinth labyrinth = new Labyrinth(10, 10, Level.EASY, game );
-	    Hero hero = new Hero(game , 100, 2, 2);  
-	    Monstre monstre = new Monstre(game , 50, 2, 2);  
+	    //Labyrinth labyrinth = new Labyrinth(10, 10, Level.EASY, game );
+	  //  Hero hero = new Hero(game , 100, 2, 2);  
+	  //  Monstre monstre = new Monstre(game , 50, 2, 2,hero,labyrinth);  
+
+		 
+	   // GamePanel.setMonstre(monstre); 
+	    //hero.checkEncounterWithMonster(monstre);
 
 	     
-	    hero.checkEncounterWithMonster(monstre);
-
-	     
-	    System.out.println("Points de vie du héros : " + hero.getPointsVie());
+	   // System.out.println("Points de vie du héros : " + hero.getPointsVie());
 	}
 		
 	}
