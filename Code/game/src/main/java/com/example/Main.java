@@ -6,7 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFrame; 
+import javax.swing.JFrame;
+import com.example.GamePanel ;
 
 
 
@@ -14,7 +15,7 @@ public class Main
 
 {
 	//static JButton jouer = new JButton("d�marrer la partie");
-	static GamePanel game =new GamePanel();
+	static com.example.GamePanel game =new GamePanel();
 	public static void main(String[] args) 
 	{
 		JFrame window = new JFrame();
@@ -40,6 +41,7 @@ public class Main
 		window.setVisible(true);
 		game.startThread();
 		
+ 
 		 
 	    //Labyrinth labyrinth = new Labyrinth(10, 10, Level.EASY, game );
 	  //  Hero hero = new Hero(game , 100, 2, 2);  
@@ -51,6 +53,9 @@ public class Main
 
 	     
 	   // System.out.println("Points de vie du héros : " + hero.getPointsVie());
+ 
+		 
+ 
 	}
 		
 	}
