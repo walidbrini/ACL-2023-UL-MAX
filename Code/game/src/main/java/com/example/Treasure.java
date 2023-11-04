@@ -19,7 +19,7 @@ public class Treasure extends Square {
     // FOR TESTING
     @Override
     public String toString() {
-        return "\uD83D\uDC8E";
+        return "T";
     }
 }
 

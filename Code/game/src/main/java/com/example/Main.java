@@ -1,6 +1,5 @@
 package com.example;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -9,13 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import com.example.GamePanel ;
 
-
-
 public class Main
 
 {
 	//static JButton jouer = new JButton("d�marrer la partie");
-	static com.example.GamePanel game =new GamePanel();
+	static GamePanel game =new GamePanel();
 	public static void main(String[] args) 
 	{
 		JFrame window = new JFrame();

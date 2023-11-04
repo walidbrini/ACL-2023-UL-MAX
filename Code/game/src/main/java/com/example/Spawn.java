@@ -19,6 +19,6 @@ public class Spawn extends Square {
     // FOR TESTING
     @Override
     public String toString() {
-        return "\uD83D\uDC23";
+        return "S";
     }
 }

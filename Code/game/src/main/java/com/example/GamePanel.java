@@ -98,8 +98,9 @@ public class GamePanel extends JPanel implements Runnable{
 			Control.left= false ; 
 			System.out.println(p1.positionX);
 		}
-		
-		monstre.moveRandomly();
+
+		// Commented it because it was causing a NullPointer Exception - Moemen
+		// monstre.moveRandomly();
 		 
 		
 	}
