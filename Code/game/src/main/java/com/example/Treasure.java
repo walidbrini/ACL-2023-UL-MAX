@@ -4,8 +4,7 @@ public class Treasure extends Square {
     private Coordinates position;
 
     public Treasure() {
-        super();
-        this.setContent(Object.TREASURE);
+        super(ObjectType.TREASURE, "/map/props/chest.png");
     }
 
     public void setPosition(Coordinates position) {

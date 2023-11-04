@@ -1,12 +1,9 @@
 package com.example;
 
 
-import java.awt.Graphics2D; 
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
- 
+
 
 public  class Personnage
 {
@@ -92,11 +89,11 @@ public  class Personnage
 	    }
 	    
 	    public void interactWithSquare(Square square) {
-	        Object squareContent = square.getContent();
+	        ObjectType squareContent = square.getContent();
 	        
-	        if (squareContent == Object.FIRE) {
+	        if (squareContent == ObjectType.FIRE) {
 	            takeDamage(10);  
-	        } else if (squareContent == Object.AID) {
+	        } else if (squareContent == ObjectType.AID) {
 	            heal(20);  
 	        }
 	    }

@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.CHICKEN, this);
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.MEDIUM, this);
 	Personnage p1 = new Personnage(this,100,labyrinth.spawn.getPosition().getX()*tileSize,labyrinth.spawn.getPosition().getY()*tileSize); 
 	 
 	Thread thread;

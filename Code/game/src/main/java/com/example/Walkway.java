@@ -2,8 +2,7 @@ package com.example;
 
 public class Walkway extends Square{
     public Walkway() {
-        super();
-        this.setContent(Object.WALKWAY);
+        super(ObjectType.WALKWAY, "/map/tiles/floor.png");
     }
 
 

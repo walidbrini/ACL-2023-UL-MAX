@@ -4,8 +4,7 @@ public class Spawn extends Square {
     private Coordinates position;
 
     public Spawn() {
-        super();
-        this.setContent(Object.SPAWN);
+        super(ObjectType.SPAWN, "/map/props/bed.png");
     }
 
     public void setPosition(Coordinates position) {

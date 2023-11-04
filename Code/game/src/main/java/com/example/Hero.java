@@ -10,8 +10,8 @@ public class Hero extends Personnage {
     }
         
         public void heroWon(Square square) {
-            Object squareContent = square.getContent();
-            if (squareContent == Object.TREASURE) {
+            ObjectType squareContent = square.getContent();
+            if (squareContent == ObjectType.TREASURE) {
             	 winGame();
          
        

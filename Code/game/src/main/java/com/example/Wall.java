@@ -2,9 +2,7 @@ package com.example;
 
 public class Wall extends Square{
     public Wall() {
-        super();
-        this.setContent(Object.WALL);
-        this.setBlocks(true);
+        super(ObjectType.WALL, true, "/map/tiles/brickwall.png");
     }
 
     // FOR TESTING

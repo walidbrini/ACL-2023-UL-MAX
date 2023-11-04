@@ -4,9 +4,7 @@ public class Fire extends Square{
     private static final int damage = 10;
 
     public Fire() {
-        super();
-        this.setContent(Object.FIRE);
-        this.setEffectOnHealthPoints(-damage);
+        super(ObjectType.FIRE, -damage, "/map/props/fire.png");
     }
 
 

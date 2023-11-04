@@ -1,6 +1,7 @@
 package com.example;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 enum Level{
@@ -23,7 +24,7 @@ public class Labyrinth {
     private final Random random = new Random();
     public final Spawn spawn = new Spawn();
     private final Treasure treasure = new Treasure();
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
 
 
@@ -69,7 +70,7 @@ public class Labyrinth {
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                if(grid[i][j].getContent() == null || grid[i][j].getContent() == Object.WALKWAY){
+                if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < wallProbability)
                         grid[i][j] = wall; // Place a wall based on the probability for the selected level
                 }
@@ -101,7 +102,7 @@ public class Labyrinth {
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                if(grid[i][j].getContent() == null || grid[i][j].getContent() == Object.WALKWAY){
+                if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < fireProbability) {
                         grid[i][j] = fire; // Place fire based on the probability for the selected level
                     }
@@ -134,7 +135,7 @@ public class Labyrinth {
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                if(grid[i][j].getContent() == null || grid[i][j].getContent() == Object.WALKWAY){
+                if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < aidProbability) {
                         grid[i][j] = firstAid; // Place first aid based on the probability for the selected level
                     }
@@ -266,8 +267,12 @@ public class Labyrinth {
     public Square[][] getGrid() {
         return grid;
     }
-    
-    public void draw(Graphics graphics){
+
+    public void draw(Graphics graphics) {
+
+        BufferedImage floorImage = walkway.getBufferedImage();
+        BufferedImage image = null;
+
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
                 Square square = grid[x][y];
@@ -275,29 +280,29 @@ public class Labyrinth {
                 int xPos = x * tileSize;
                 int yPos = y * tileSize;
 
-                // Check the square's content and draw it accordingly
-                if (square.getContent() == Object.WALL) {
-                    graphics.setColor(Color.GRAY);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
-                } else if (square.getContent() == Object.FIRE) {
-                    graphics.setColor(Color.RED);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
-                } else if (square.getContent() == Object.AID) {
-                    graphics.setColor(Color.GREEN);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
-                } else if (square.getContent() == Object.WALKWAY) {
-                    graphics.setColor(Color.WHITE);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
-                } else if (square.getContent() == Object.SPAWN) {
-                    graphics.setColor(Color.BLUE);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
-                } else if (square.getContent() == Object.TREASURE) {
-                    graphics.setColor(Color.YELLOW);
-                    graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                if(square.getContent() != ObjectType.WALL){
+                    if (floorImage != null) {
+                        graphics.drawImage(floorImage, xPos, yPos, tileSize, tileSize, null);
+                    } else {
+                        graphics.setColor(Color.GRAY);
+                        graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                    }
+                }
+
+
+                if(square.getContent() != ObjectType.WALKWAY){
+                    image = square.getBufferedImage();
+                    if (image != null) {
+                        graphics.drawImage(image, xPos, yPos, tileSize, tileSize, null);
+                    } else {
+                        graphics.setColor(Color.GRAY);
+                        graphics.fillRect(xPos, yPos, tileSize, tileSize);
+                    }
                 }
             }
         }
     }
+
 
     // FOR TESTING
     public void afficheVersionTexte(){
@@ -310,7 +315,7 @@ public class Labyrinth {
     }
     
     public boolean isWall(int x, int y) {
-        return grid[x][y].getContent() == Object.WALL;
+        return grid[x][y].getContent() == ObjectType.WALL;
     }
 
     
