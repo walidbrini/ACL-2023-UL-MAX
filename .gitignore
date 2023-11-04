@@ -1,5 +1,5 @@
 # Target folder
-Code/game/target/
+Code/game/target/*
 
 # IntelliJ IDEA
 */.idea/
