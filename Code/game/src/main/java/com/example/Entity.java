@@ -1,7 +1,7 @@
 package com.example;
 
 import java.awt.image.BufferedImage;
-
+import java.awt.Rectangle;
 
 public class Entity {
     public int x,y;
@@ -10,6 +10,9 @@ public class Entity {
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
+
+    public Rectangle solidArea;
+    public boolean collisionOn = false ;
 
     public Entity(int x, int y, int speed) {
         this.x = x;
