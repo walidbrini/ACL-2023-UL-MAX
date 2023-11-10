@@ -7,8 +7,6 @@ Entity <|--Monster
 Entity <|--Npc
 Monster <|--Fantome
 
-class labyrinthe{
-}
 abstract class Entity {
 int x,y
 int speed
@@ -39,5 +37,46 @@ setAction():void
 class Npc{
 setAction():void
 }
+
+    class Labyrinth {
+        - width: int
+        - height: int
+        - grid: Square[][]
+        - level: Level
+        - walkway: Walkway
+        - wall: Wall
+        - fire: Fire
+        - firstAid: Aid
+        - random: Random
+        - spawn: Spawn
+        - treasure: Treasure
+        - gamePanel: GamePanel
+
+        + Labyrinth(width: int, height: int, level: Level, gamePanel: GamePanel)
+        + fillBordersWithWalls(): void
+        + randomizeWalls(): void
+        + randomizeFire(): void
+        + randomizeAid(): void
+        + randomizeStartAndFinishPoints(): void
+        + isTooCloseToSpawn(spawnPosition: Coordinates, treasurePosition: Coordinates, minDistance: int, maxDistance: int): boolean
+        + getRandomCoordinates(minX: int, minY: int, maxX: int, maxY: int): Coordinates
+        + isReachable(pointA: Coordinates, pointB: Coordinates): boolean
+        + isReachableDFS(x: int, y: int, endX: int, endY: int, visited: boolean[][]): boolean
+        + generateRandomly(): void
+        + draw(graphics: Graphics): void
+        + afficheVersionTexte(): void
+        + isWall(x: int, y: int): boolean
+    }
+
+    enum Level {
+        CHICKEN
+        EASY
+        MEDIUM
+        HARD
+        INSANE
+    }
+
+@enduml
+
 
 @enduml
