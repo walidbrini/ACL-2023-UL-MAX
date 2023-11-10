@@ -87,7 +87,7 @@ public class Monstre extends Personnage {
 	    if (x < 0 || x >= gp.maxScreenCol || y < 0 || y >= gp.maxScreenRow) {
 	        return false;
 	    }
-         ObjectType content = gp.getGrid()[x][y].getContent();
+         ObjectType content = gp.labyrinth.getGrid()[x][y].getContent();
 
 	     return content != ObjectType.WALL &&  content!= ObjectType.FIRE;
 	}
