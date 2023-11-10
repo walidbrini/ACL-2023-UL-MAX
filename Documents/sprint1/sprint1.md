@@ -5,8 +5,8 @@
 - [X]  Conception du diagramme de classe 
 - [X]  Création du Workspace java
 - [X]  Développer les classes et ses fonctionnalités
-- [ ]  Développer la première Version du jeu 
-- [ ]  Générer le fichier build  
+- [X]  Développer la première Version du jeu 
+- [X]  Générer le fichier build  
 
 ## Retrospective
 
