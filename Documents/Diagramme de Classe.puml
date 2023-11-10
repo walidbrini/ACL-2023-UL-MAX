@@ -6,6 +6,8 @@ Entity <|--Hero
 Entity <|--Monster
 Entity <|--Npc
 Monster <|--Fantome
+GamePanel "1" -- "1" Player
+Entity <|-- Player
 
 class labyrinthe{
 }
@@ -21,6 +23,31 @@ int spriteNum
 GamePanel gp
 setAction():void
 
+}
+
+class GamePanel {
+        - monstre: Monstre
+        - originalTileSize: int
+        - scale: int
+        - tileSize: int
+        - maxScreenCol: int
+        - maxScreenRow: int
+        - screenWidth: int
+        - screenHeight: int
+        - labyrinth: Labyrinth
+        - p1: Personnage 
+        - thread: Thread
+        - control: Controller
+        - player: Player
+        - checker: Collision
+
+        + GamePanel()
+        + setMonstre(monstre: Monstre): void
+        + getTileSize(): int
+        + startThread(): void
+        + run(): void
+        + update(): void
+        + paintComponent(g: Graphics): void
 }
 
 class Hero {
@@ -39,5 +66,20 @@ setAction():void
 class Npc{
 setAction():void
 }
+
+
+class Controller {
+    - up: boolean
+    - left: boolean
+    - down: boolean
+    - right: boolean
+    - attaque: boolean
+
+    + keyTyped(e: KeyEvent): void
+    + keyPressed(e: KeyEvent): void
+    + keyReleased(e: KeyEvent): void
+}
+
+
 
 @enduml

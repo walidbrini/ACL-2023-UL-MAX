@@ -2,17 +2,15 @@ package com.example;
 
 
  
-
-public class Monstre extends Personnage {
-	private Hero hero;
+// change to entity 
+public class Monstre extends Entity {
 	private Labyrinth labyrinth;
     
     
-	public Monstre(GamePanel gp, int pointsVie, int positionX, int positionY,Hero hero,Labyrinth labyrinth) {
+	/*public Monstre(GamePanel gp, int pointsVie, int positionX, int positionY,Hero hero,Labyrinth labyrinth) {
         super(gp, pointsVie, positionX, positionY);
-        this.hero = hero;
         this.labyrinth = labyrinth;
-}
+}*/
 	
 	/*public void moveRandomly() {
         
@@ -41,19 +39,19 @@ public class Monstre extends Personnage {
     */
 	public void moveRandomly() {
 	     
-	    int currentX = positionX / gp.tileSize;
-	    int currentY = positionY / gp.tileSize;
+	    //int currentX = positionX / gp.tileSize;
+	    //int currentY = positionY / gp.tileSize;
 
 	     
-	    int heroX = hero.positionX / gp.tileSize;
-	    int heroY = hero.positionY / gp.tileSize;
+	    //int heroX = hero.positionX / gp.tileSize;
+	    //int heroY = hero.positionY / gp.tileSize;
 
 	     
-	    int diffX = heroX - currentX;
-	    int diffY = heroY - currentY;
+	    //int diffX = heroX - currentX;
+	    //int diffY = heroY - currentY;
 
 	    
-	    if (Math.abs(diffX) > Math.abs(diffY)) {
+	    /*if (Math.abs(diffX) > Math.abs(diffY)) {
 	         
 	        if (diffX > 0) {
 	              
@@ -93,8 +91,9 @@ public class Monstre extends Personnage {
 	}
 
 
+	*/
 	
-	
+}
 }
 
  
