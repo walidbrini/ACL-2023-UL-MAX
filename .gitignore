@@ -8,6 +8,8 @@ Code/game/target/*
 # Eclipse
 */.classpath
 */.project
+.project
+code/game/.project
 */.settings/
 
 # Visual Studio Code
