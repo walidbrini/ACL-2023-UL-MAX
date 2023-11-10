@@ -1,6 +1,7 @@
 package com.example;
 import com.example.GamePanel ;
 import com.example.Controller ;
+import com.example.Entity ;
         
 
 import javax.imageio.ImageIO;
@@ -66,7 +67,6 @@ public class Player extends Entity {
             }
             spriteCounter++;
             if (spriteCounter > 10){
-                // the player image changes in every 10 frames
                 if (spriteNum==1){
                     spriteNum=2;
                 }
