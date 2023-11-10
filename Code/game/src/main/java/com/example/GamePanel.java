@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	Thread thread;
 	Controller control= new Controller();
-	Player player = new Player(this,control); // oth
+	Player player = new Player(this,control,labyrinth); // oth
 	 
 	
 	public GamePanel() {

@@ -198,6 +198,7 @@ public class Labyrinth {
 
         return distance < minDistance || distance > maxDistance;
     }
+    // Role ?
 
     private Coordinates getRandomCoordinates(int minX, int minY, int maxX, int maxY) {
         Random random = new Random();
@@ -289,7 +290,7 @@ public class Labyrinth {
                     }
                 }
 
-
+                // Utilité de cette condition par rapport à la précedente ?
                 if(square.getContent() != ObjectType.WALKWAY){
                     image = square.getBufferedImage();
                     if (image != null) {

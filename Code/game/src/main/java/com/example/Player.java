@@ -2,7 +2,7 @@ package com.example;
 import com.example.GamePanel ;
 import com.example.Controller ;
 import com.example.Entity ;
-        
+import com.example.Labyrinth;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,19 +13,29 @@ import java.util.Objects;
 public class Player extends Entity {
     GamePanel gp;
     Controller keyH;
+    Labyrinth labyrinth;
 
-    public Player( GamePanel gp, Controller keyH){
+    public Player( GamePanel gp, Controller keyH,Labyrinth labyrinth){
         this.gp = gp;
         this.keyH = keyH;
-
-        setDefaultValues();
+        this.labyrinth = labyrinth;
+        
+        solidArea = new Rectangle();
+        solidArea.x=8;
+        solidArea.y=16;
+        solidArea.width=32;
+        solidArea.height=32;
+        
+        setDefaultValues(labyrinth);
         getPlayerImage();
     }
 
-    public void setDefaultValues(){
-        x = 100 ;
-        y = 100 ;
-        speed = 4 ;
+    public void setDefaultValues(Labyrinth labyrinth){
+        //Labyrinth labyrinth = new Labyrinth(gp.maxScreenCol,gp.maxScreenRow,Level.MEDIUM, gp);
+        //Labyrinth labyrinth;
+        x = labyrinth.spawn.getPosition().getX()*48;
+        y = labyrinth.spawn.getPosition().getY()*48;
+        speed = 4;
         direction = "down";
     }
     public void getPlayerImage(){
@@ -51,19 +61,28 @@ public class Player extends Entity {
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
                 direction = "up";
-                y -= speed;
             }
             else if (keyH.down){
                 direction = "down";
-                y += speed;
             }
             else if (keyH.right){
                 direction ="right";
-                x += speed;
             }
             else if (keyH.left){
                 direction = "left" ;
-                x -= speed;
+            }
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            
+
+            //IF COLLISION IS FALSE , PLAYER CAN MOVE
+            if(collisionOn == false){
+                switch(direction){
+                    case "up":  y -= speed; break;
+                    case "down":  y += speed; break;
+                    case "left":  x -= speed; break;
+                    case "right":  x += speed; break;
+                }
             }
             spriteCounter++;
             if (spriteCounter > 10){

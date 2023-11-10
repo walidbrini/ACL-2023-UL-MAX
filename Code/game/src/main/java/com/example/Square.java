@@ -20,6 +20,7 @@ public abstract class Square {
     private int effectOnHealthPoints;
     private String imagePath;
     private BufferedImage bufferedImage;
+    public boolean collision = false; // oth
 
     Square(ObjectType content, boolean blocking, int effectOnHealthPoints, String imagePath) {
         this.content = content;
