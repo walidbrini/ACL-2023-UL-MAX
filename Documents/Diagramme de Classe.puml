@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+Entity <|--Hero
+Entity <|--Monster
+Entity <|--Npc
+Monster <|--Fantome
+
+class labyrinthe{
+}
+abstract class Entity {
+int x,y
+int speed
+int Hp
+BufferedImage up1,up2, down1,down2,
+left1,left2,right1,right2
+String direction
+int spriteCounter
+int spriteNum
+GamePanel gp
+setAction():void
+
+}
+
+class Hero {
+Controller keyH
+setAction():void
+}
+
+class Monster {
+String power
+setAction():void
+}
+
+class Fantome {
+setAction():void
+}
+class Npc{
+setAction():void
+}
+
+@enduml

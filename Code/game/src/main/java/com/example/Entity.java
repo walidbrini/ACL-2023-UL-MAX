@@ -13,6 +13,7 @@ public class Entity {
 
     public Rectangle solidArea;
     public boolean collisionOn = false ;
+    public int solidAreaDefaultX,solidAreaDefaultY;
 
     public Entity(int x, int y, int speed) {
         this.x = x;

@@ -65,4 +65,20 @@ public class Collision{
         }
 
     }
+    public int checkObject(Entity entity , boolean player){
+
+        int index = 999;
+        switch(entity.direction){
+            case "up":
+                break;
+            case "down":
+                break;
+            case "left":
+                break;
+            case "right":
+                break;
+        }
+        return index ;
+
+    }
 }

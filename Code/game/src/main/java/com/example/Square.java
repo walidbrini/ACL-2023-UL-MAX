@@ -3,6 +3,8 @@ package com.example;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.Rectangle;
+
 
 enum ObjectType {
     NONE,
@@ -21,6 +23,9 @@ public  class Square {
     private String imagePath;
     private BufferedImage bufferedImage;
     public boolean collision ; // oth
+    public Rectangle solidArea = new Rectangle(0,0,48,48); // oth
+    public int solidAreaDefaultX =0;
+    public int solidAreaDefaultY =0;
 
     Square(ObjectType content, boolean blocking, int effectOnHealthPoints, String imagePath) {
         this.content = content;

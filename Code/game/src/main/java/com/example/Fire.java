@@ -8,6 +8,7 @@ public class Fire extends Square{
         super(ObjectType.FIRE, -damage, "/map/props/fire.png");
         collision=false; // à modifier (ajouter une action )
     }
+    
 
 
     // FOR TESTING
