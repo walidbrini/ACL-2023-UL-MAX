@@ -14,18 +14,19 @@ enum ObjectType {
     TREASURE
 }
 
-public abstract class Square {
+public  class Square {
     private ObjectType content;
     private boolean blocking;
     private int effectOnHealthPoints;
     private String imagePath;
     private BufferedImage bufferedImage;
-    public boolean collision = false; // oth
+    public boolean collision ; // oth
 
     Square(ObjectType content, boolean blocking, int effectOnHealthPoints, String imagePath) {
         this.content = content;
         this.blocking = blocking;
         this.effectOnHealthPoints = effectOnHealthPoints;
+        this.collision = false;
         try {
             this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
         } catch (IOException e) {
@@ -37,6 +38,7 @@ public abstract class Square {
         this.content = content;
         this.blocking = false;
         this.effectOnHealthPoints = 0;
+        this.collision = false;
         try {
             this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
         } catch (IOException e) {
@@ -48,6 +50,7 @@ public abstract class Square {
         this.content = content;
         this.blocking = false;
         this.effectOnHealthPoints = effectOnHealthPoints;
+        this.collision = false;
         try {
             this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
         } catch (IOException e) {
@@ -59,6 +62,7 @@ public abstract class Square {
         this.content = content;
         this.blocking = blocking;
         this.effectOnHealthPoints = 0;
+        this.collision = false;
         try {
             this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
         } catch (IOException e) {
@@ -70,6 +74,7 @@ public abstract class Square {
         this.content = ObjectType.NONE;
         this.blocking = false;
         this.effectOnHealthPoints = 0;
+        this.collision = false;
         try {
             this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(""));
         } catch (IOException e) {

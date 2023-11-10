@@ -73,6 +73,7 @@ public class Player extends Entity {
             }
             // CHECK TILE COLLISION
             collisionOn = false;
+            gp.checker.checkSquare(this);
             
 
             //IF COLLISION IS FALSE , PLAYER CAN MOVE

@@ -5,6 +5,7 @@ public class Aid extends Square{
 
     public Aid() {
         super(ObjectType.AID, healthPoints, "/map/props/potion.png");
+        collision=false; // à modifier (ajouter une action )
     }
 
 
