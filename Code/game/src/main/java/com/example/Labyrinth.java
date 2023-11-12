@@ -8,7 +8,6 @@ public class Labyrinth {
     private final int width;
     private final int height;
     private final Square[][] grid;
-    private Difficulty difficulty;
     private final Walkway walkway = new Walkway();
     private final Wall wall = new Wall();
     private final Fire fire = new Fire();
@@ -17,8 +16,7 @@ public class Labyrinth {
     public final Spawn spawn = new Spawn();
     private final Treasure treasure = new Treasure();
     private final GamePanel gamePanel;
-
-
+    private Difficulty difficulty;
 
     public Labyrinth(int width, int height, Difficulty difficulty, GamePanel gamePanel) {
         this.width = width;
@@ -26,7 +24,7 @@ public class Labyrinth {
         this.difficulty = difficulty;
         this.grid = new Square[width][height];
         this.gamePanel = gamePanel;
-        generateRandomly();
+        generateRandomly(null);
     }
 
     private void fillBordersWithWalls(){
@@ -137,14 +135,20 @@ public class Labyrinth {
         }
     }
 
-    private void randomizeStartAndFinishPoints() {
+    private Coordinates randomizeSpawn(int minX, int minY, int maxX, int maxY){
+        // Place the starting point randomly within the labyrinth
+        return getRandomCoordinates(minX, minY, maxX, maxY);
+    }
+
+    private void randomizeTreasure(Coordinates spawnPosition) {
         int minX = 1;
         int minY = 1;
         int maxX = width - 2; // Initialize maxX outside the switch statement
         int maxY = height - 2; // Initialize maxY outside the switch statement
 
-        // Place the starting point randomly within the labyrinth
-        Coordinates spawnPosition = getRandomCoordinates(minX, minY, maxX, maxY);
+        if (spawnPosition == null){
+            spawnPosition = randomizeSpawn(minX, minY, maxX, maxY);
+        }
 
         // Adjust the range for placing the finish point based on the difficulty
         int minDistanceToSpawn = 0;
@@ -162,7 +166,7 @@ public class Labyrinth {
                 break;
             case HARD:
             case INSANE:
-                minDistanceToSpawn = 80 * width / 100;
+                minDistanceToSpawn = 70 * width / 100;
                 maxDistanceToSpawn = Math.max(width, height);
                 break;
             default:
@@ -182,7 +186,6 @@ public class Labyrinth {
         treasure.setPosition(treasurePosition);
     }
 
-
     private boolean isTooCloseToSpawn(Coordinates spawnPosition, Coordinates treasurePosition, int minDistance, int maxDistance) {
         int dx = spawnPosition.getX() - treasurePosition.getX();
         int dy = spawnPosition.getY() - treasurePosition.getY();
@@ -190,7 +193,6 @@ public class Labyrinth {
 
         return distance < minDistance || distance > maxDistance;
     }
-    // Role ?
 
     private Coordinates getRandomCoordinates(int minX, int minY, int maxX, int maxY) {
         Random random = new Random();
@@ -233,18 +235,26 @@ public class Labyrinth {
                 isReachableDFS(x, y + 1, endX, endY, visited);
     }
 
-    public void generateRandomly(){
+    public void generateRandomly(Coordinates spawnPosition){
         boolean isReachable;
 
         do{
             this.fillBordersWithWalls(); // And fill the inside with walkways
             this.randomizeWalls();
-            randomizeStartAndFinishPoints();
+            randomizeTreasure(spawnPosition);
             this.randomizeFire();
             isReachable = isReachable(spawn.getPosition(),treasure.getPosition());
             System.out.println(isReachable);
         } while(!isReachable);
         randomizeAid();
+    }
+
+    public void levelTransition(){
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                        grid[i][j] = walkway;
+            }
+        }
     }
 
     /* TODO
@@ -257,14 +267,10 @@ public class Labyrinth {
     }
     */
 
-    public Square[][] getGrid() {
-        return grid;
-    }
-
     public void draw(Graphics graphics) {
 
         BufferedImage floorImage = walkway.getBufferedImage();
-        BufferedImage image = null;
+        BufferedImage image;
 
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
@@ -313,6 +319,10 @@ public class Labyrinth {
 
     public boolean isFree(int x, int y){
         return grid[x][y].getContent() != ObjectType.WALL;
+    }
+
+    public Square[][] getGrid() {
+        return grid;
     }
 
     public Treasure getTreasure() {

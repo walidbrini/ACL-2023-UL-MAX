@@ -4,24 +4,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.Rectangle;
-
-
-enum ObjectType {
-    NONE,
-    WALKWAY,
-    WALL,
-    FIRE,
-    AID,
-    SPAWN,
-    TREASURE
-}
+import java.util.Objects;
 
 public  class Square {
     private ObjectType content;
     private boolean blocking;
     private int effectOnHealthPoints;
     private String imagePath;
-    private BufferedImage bufferedImage;
+    private final BufferedImage bufferedImage;
     public boolean collision ; // oth
     public Rectangle solidArea = new Rectangle(0,0,48,48); // oth
     public int solidAreaDefaultX =0;
@@ -33,7 +23,7 @@ public  class Square {
         this.effectOnHealthPoints = effectOnHealthPoints;
         this.collision = false;
         try {
-            this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            this.bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +35,7 @@ public  class Square {
         this.effectOnHealthPoints = 0;
         this.collision = false;
         try {
-            this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            this.bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +47,7 @@ public  class Square {
         this.effectOnHealthPoints = effectOnHealthPoints;
         this.collision = false;
         try {
-            this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            this.bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +59,7 @@ public  class Square {
         this.effectOnHealthPoints = 0;
         this.collision = false;
         try {
-            this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            this.bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,7 +71,7 @@ public  class Square {
         this.effectOnHealthPoints = 0;
         this.collision = false;
         try {
-            this.bufferedImage = ImageIO.read(getClass().getResourceAsStream(""));
+            this.bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,6 @@
 package com.example;
 
-enum Difficulty {
+public enum Difficulty {
     CHICKEN,
     EASY,
     MEDIUM,

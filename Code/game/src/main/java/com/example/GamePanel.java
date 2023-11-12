@@ -1,20 +1,13 @@
 package com.example;
 
 import java.awt.Color;
-
-
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import com.example.Monstre;
-import com.example.Controller;
-import com.example.Player;
+import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -30,25 +23,25 @@ public class GamePanel extends JPanel implements Runnable{
 	Thread thread;
 	Controller control= new Controller();
 
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.INSANE, this);
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.CHICKEN, this);
 
 	Player player = new Player(this,control); // oth
 	public Collision checker = new Collision(this,labyrinth);
-	 
-	
+
 	public GamePanel() {
+
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
-		System.out.println(labyrinth.getSpawn().getPosition().getX()) ;
-		System.out.println(labyrinth.getSpawn().getPosition().getY()) ;
+
+		// Print player position
 		System.out.println(player.x) ;
 		System.out.println(player.y) ;
 
-		player.x = labyrinth.getSpawn().getPosition().getX() * this.tileSize;
-		player.y = labyrinth.getSpawn().getPosition().getY() * this.tileSize;
+		player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize,
+				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
 	}
 
 	public void startThread()  {
@@ -75,23 +68,29 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public void update() {
-
 		if (checker.checkTreasure(player)){
-			//labyrinth.setDifficulty(Difficulty.CHICKEN);
-			labyrinth.generateRandomly();
-			player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize, labyrinth.getSpawn().getPosition().getY() * this.tileSize);
+			labyrinth.levelTransition();
+			repaint();
+			try{
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            //labyrinth.setDifficulty(Difficulty.CHICKEN);
+			labyrinth.generateRandomly(labyrinth.getTreasure().getPosition());
 		}
 
 		player.update();
-		// Commented it because it was causing a NullPointer Exception - Moemen
-		// monstre.moveRandomly();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+
 		labyrinth.draw(g2);
 		player.draw(g2);
+
 		g2.dispose();
 	}
 
