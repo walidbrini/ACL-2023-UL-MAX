@@ -20,6 +20,11 @@ public class Entity {
         this.y = y;
         this.speed = speed;
     }
+
     public Entity(){}
 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }

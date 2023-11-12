@@ -1,15 +1,11 @@
 package com.example;
 
-import com.example.Entity;
-import com.example.Labyrinth;
-import com.example.Square;
-
 public class Collision{
 
     GamePanel gp;
-    Labyrinth l;
-    public Collision(GamePanel gp ,Labyrinth l){
-        this.l=l;
+    Labyrinth labyrinth;
+    public Collision(GamePanel gp ,Labyrinth labyrinth){
+        this.labyrinth= labyrinth;
         this.gp=gp;
     }
     public void checkSquare(Entity entity){
@@ -31,32 +27,32 @@ public class Collision{
         switch(entity.direction){
             case "up":
                 entityTopRow = (entityTopy-entity.speed)/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityTopRow];
-                corner2 = l.getGrid()[entityRightCol][entityTopRow];
+                corner1 = labyrinth.getGrid()[entityLeftCol][entityTopRow];
+                corner2 = labyrinth.getGrid()[entityRightCol][entityTopRow];
                 if(corner1.collision  || corner2.collision  ){
                     entity.collisionOn=true;
                 }
                 break;
             case "down":
                 entityBottomRow = (entityBottomy+entity.speed)/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityBottomRow];
-                corner2 = l.getGrid()[entityRightCol][entityBottomRow];
+                corner1 = labyrinth.getGrid()[entityLeftCol][entityBottomRow];
+                corner2 = labyrinth.getGrid()[entityRightCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
                     entity.collisionOn=true;
                 }
                 break;
             case "left":
                 entityLeftCol = (entityLeftx-entity.speed)/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityTopRow];
-                corner2 = l.getGrid()[entityLeftCol][entityBottomRow];
+                corner1 = labyrinth.getGrid()[entityLeftCol][entityTopRow];
+                corner2 = labyrinth.getGrid()[entityLeftCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
                     entity.collisionOn=true;
                 }
                 break;
             case "right":
                 entityRightCol = (entityRightx+entity.speed)/gp.tileSize;
-                corner1 = l.getGrid()[entityRightCol][entityTopRow];
-                corner2 = l.getGrid()[entityRightCol][entityBottomRow];
+                corner1 = labyrinth.getGrid()[entityRightCol][entityTopRow];
+                corner2 = labyrinth.getGrid()[entityRightCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
                     entity.collisionOn=true;
                 }
@@ -80,5 +76,10 @@ public class Collision{
         }
         return index ;
 
+    }
+
+    public boolean checkTreasure(Entity entity){
+        // Check if the player has reached the treasure
+        return ((entity.x + entity.solidArea.height)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getX() && (entity.y+entity.solidArea.width)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getY());
     }
 }

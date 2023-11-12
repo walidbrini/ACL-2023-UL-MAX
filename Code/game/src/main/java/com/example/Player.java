@@ -1,24 +1,18 @@
 package com.example;
-import com.example.GamePanel ;
-import com.example.Controller ;
-import com.example.Entity ;
-import com.example.Labyrinth;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gp;
     Controller keyH;
     Labyrinth labyrinth;
 
-    public Player( GamePanel gp, Controller keyH,Labyrinth labyrinth){
+    public Player(GamePanel gp, Controller keyH){
         this.gp = gp;
         this.keyH = keyH;
-        this.labyrinth = labyrinth;
         
         solidArea = new Rectangle();
         solidArea.x=8;
@@ -28,19 +22,16 @@ public class Player extends Entity {
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultX =solidArea.y ;
-        
-        setDefaultValues(labyrinth);
+
+        setDefaultValues();
         getPlayerImage();
     }
 
-    public void setDefaultValues(Labyrinth labyrinth){
-        //Labyrinth labyrinth = new Labyrinth(gp.maxScreenCol,gp.maxScreenRow,Level.MEDIUM, gp);
-        //Labyrinth labyrinth;
-        x = labyrinth.spawn.getPosition().getX()*48;
-        y = labyrinth.spawn.getPosition().getY()*48;
+    public void setDefaultValues(){
         speed = 4;
         direction = "down";
     }
+
     public void getPlayerImage(){
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
@@ -59,6 +50,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
+
     public void update(){
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
@@ -74,6 +66,7 @@ public class Player extends Entity {
             else if (keyH.left){
                 direction = "left" ;
             }
+
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this);
@@ -104,6 +97,7 @@ public class Player extends Entity {
         }
 
     }
+
     public void draw(Graphics2D g2){
 
         // g2.setColor(Color.white);

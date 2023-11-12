@@ -19,23 +19,20 @@ import com.example.Player;
 
 public class GamePanel extends JPanel implements Runnable{
 	private static Monstre monstre;  
-	public final static int originalTileSize = 16; 
-	public final int scale = 3 ; 
-	public final int tileSize = scale * originalTileSize ;  
-
-	public static int maxScreenCol = 20;
-	public static int maxScreenRow = 20;
-
+	public final static int originalTileSize = 16;
+	public final int scale = 3;
+	public final int tileSize = scale * originalTileSize ;
+	public static int maxScreenCol = 16;
+	public static int maxScreenRow = 16;
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
 
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Level.MEDIUM, this);
-	Personnage p1 = new Personnage(this,100,labyrinth.spawn.getPosition().getX()*tileSize,labyrinth.spawn.getPosition().getY()*tileSize);
-
-
 	Thread thread;
 	Controller control= new Controller();
-	Player player = new Player(this,control,labyrinth); // oth
+
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.INSANE, this);
+
+	Player player = new Player(this,control); // oth
 	public Collision checker = new Collision(this,labyrinth);
 	 
 	
@@ -45,21 +42,13 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
-		System.out.println(labyrinth.spawn.getPosition().getX()) ;
-		System.out.println(labyrinth.spawn.getPosition().getY()) ;
-		//System.out.println(p1.positionX) ;
-		//System.out.println(p1.positionY) ;
+		System.out.println(labyrinth.getSpawn().getPosition().getX()) ;
+		System.out.println(labyrinth.getSpawn().getPosition().getY()) ;
 		System.out.println(player.x) ;
 		System.out.println(player.y) ;
-	}
-	
-	public static void setMonstre(Monstre monstre) {
-        GamePanel.monstre = monstre;
-    }
 
-
-	public int getTileSize() {
-		return tileSize;
+		player.x = labyrinth.getSpawn().getPosition().getX() * this.tileSize;
+		player.y = labyrinth.getSpawn().getPosition().getY() * this.tileSize;
 	}
 
 	public void startThread()  {
@@ -84,51 +73,42 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		}
 	}
+
 	public void update() {
 
-		/*
-		if (Control.up){
-			p1.deplacerHaut();
-			Control.up=false ; 
-			System.out.println(p1.positionY);
+		if (checker.checkTreasure(player)){
+			//labyrinth.setDifficulty(Difficulty.CHICKEN);
+			labyrinth.generateRandomly();
+			player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize, labyrinth.getSpawn().getPosition().getY() * this.tileSize);
 		}
-		if (Control.down){
-			p1.deplacerBas();
-			Control.down = false ; 
-			System.out.println(p1.positionY);
-		}
-		if (Control.right){
-			p1.deplacerDroite();
-			Control.right=false ; 
-			System.out.println(p1.positionX);
-		}
-		if (Control.left){
-			p1.deplacerGauche();
-			Control.left= false ; 
-			System.out.println(p1.positionX);
-		}
-		*/
+
 		player.update();
 		// Commented it because it was causing a NullPointer Exception - Moemen
 		// monstre.moveRandomly();
-		 
-		
 	}
 
 	public void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		labyrinth.draw(g2);
-
-		//g2.setColor(Color.BLACK);
-		//g2.fillRect(p1.positionX, p1.positionY, tileSize, tileSize);
 		player.draw(g2);
 		g2.dispose();
-
-
 	}
-	
-	
-	
+
+	public int getTileSize() {
+		return tileSize;
+	}
+
+	public static int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public static int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
+	public static void setMonstre(Monstre monstre) {
+		GamePanel.monstre = monstre;
+	}
+
 }

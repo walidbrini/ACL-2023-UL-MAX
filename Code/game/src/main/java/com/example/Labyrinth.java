@@ -4,19 +4,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-enum Level{
-    CHICKEN,
-    EASY,
-    MEDIUM,
-    HARD,
-    INSANE
-}
-
 public class Labyrinth {
     private final int width;
     private final int height;
     private final Square[][] grid;
-    private final Level level;
+    private Difficulty difficulty;
     private final Walkway walkway = new Walkway();
     private final Wall wall = new Wall();
     private final Fire fire = new Fire();
@@ -28,10 +20,10 @@ public class Labyrinth {
 
 
 
-    public Labyrinth(int width, int height, Level level, GamePanel gamePanel) {
+    public Labyrinth(int width, int height, Difficulty difficulty, GamePanel gamePanel) {
         this.width = width;
         this.height = height;
-        this.level = level;
+        this.difficulty = difficulty;
         this.grid = new Square[width][height];
         this.gamePanel = gamePanel;
         generateRandomly();
@@ -50,7 +42,7 @@ public class Labyrinth {
     private void randomizeWalls(){
         double wallProbability = 0;
 
-        switch (level) {
+        switch (difficulty) {
             case CHICKEN:
                 wallProbability = 0.05;
                 break;
@@ -72,7 +64,7 @@ public class Labyrinth {
             for (int j = 1; j < height - 1; j++) {
                 if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < wallProbability)
-                        grid[i][j] = wall; // Place a wall based on the probability for the selected level
+                        grid[i][j] = wall; // Place a wall based on the probability for the selected difficulty
                 }
             }
         }
@@ -81,9 +73,9 @@ public class Labyrinth {
     private void randomizeFire() {
         double fireProbability = 0;
 
-        switch (level) {
+        switch (difficulty) {
             case CHICKEN:
-                fireProbability = 0.0;  // No fire for CHICKEN level
+                fireProbability = 0.0;  // No fire for CHICKEN difficulty
                 break;
             case EASY:
                 fireProbability = 0.03;
@@ -104,7 +96,7 @@ public class Labyrinth {
             for (int j = 1; j < height - 1; j++) {
                 if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < fireProbability) {
-                        grid[i][j] = fire; // Place fire based on the probability for the selected level
+                        grid[i][j] = fire; // Place fire based on the probability for the selected difficulty
                     }
                 }
 
@@ -114,7 +106,7 @@ public class Labyrinth {
 
     private void randomizeAid() {
         double aidProbability = 0;
-        switch (level) {
+        switch (difficulty) {
             case CHICKEN:
                 aidProbability = 0.05;
                 break;
@@ -137,7 +129,7 @@ public class Labyrinth {
             for (int j = 1; j < height - 1; j++) {
                 if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < aidProbability) {
-                        grid[i][j] = firstAid; // Place first aid based on the probability for the selected level
+                        grid[i][j] = firstAid; // Place first aid based on the probability for the selected difficulty
                     }
                 }
 
@@ -154,11 +146,11 @@ public class Labyrinth {
         // Place the starting point randomly within the labyrinth
         Coordinates spawnPosition = getRandomCoordinates(minX, minY, maxX, maxY);
 
-        // Adjust the range for placing the finish point based on the level
+        // Adjust the range for placing the finish point based on the difficulty
         int minDistanceToSpawn = 0;
         int maxDistanceToSpawn = 0;
 
-        switch (level) {
+        switch (difficulty) {
             case CHICKEN:
                 minDistanceToSpawn = width / 4;
                 maxDistanceToSpawn = Math.min(width / 2, height / 2);
@@ -170,8 +162,8 @@ public class Labyrinth {
                 break;
             case HARD:
             case INSANE:
-                minDistanceToSpawn = 50 * width / 100;
-                maxDistanceToSpawn = Math.min(7 * width / 8, 7 * height / 8);
+                minDistanceToSpawn = 80 * width / 100;
+                maxDistanceToSpawn = Math.max(width, height);
                 break;
             default:
                 // maxX and maxY are already initialized above
@@ -241,7 +233,7 @@ public class Labyrinth {
                 isReachableDFS(x, y + 1, endX, endY, visited);
     }
 
-    private void generateRandomly(){
+    public void generateRandomly(){
         boolean isReachable;
 
         do{
@@ -319,8 +311,19 @@ public class Labyrinth {
         return grid[x][y].getContent() == ObjectType.WALL;
     }
 
-    
-   
+    public boolean isFree(int x, int y){
+        return grid[x][y].getContent() != ObjectType.WALL;
+    }
 
+    public Treasure getTreasure() {
+        return treasure;
+    }
 
+    public Spawn getSpawn() {
+        return spawn;
+    }
+
+    public void setDifficulty(Difficulty difficulty){
+        this.difficulty = difficulty;
+    }
 }
