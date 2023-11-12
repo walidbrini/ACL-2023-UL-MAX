@@ -1,13 +1,12 @@
 package com.example;
 
 public class Aid extends Square{
-    private static final int healthPoints = 20;
+    public static final int healthPoints = 4;
 
     public Aid() {
         super(ObjectType.AID, healthPoints, "/map/props/potion.png");
-        collision=false; // à modifier (ajouter une action )
+        collision = false; // à modifier (ajouter une action )
     }
-
 
     // FOR TESTING
     @Override

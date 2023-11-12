@@ -87,6 +87,8 @@ public class Player extends Entity {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this,labyrinth);
+            // CHECK Fire Collision
+            gp.checker.checkObject(this ,labyrinth ,true);
             
 
             //IF COLLISION IS FALSE , PLAYER CAN MOVE

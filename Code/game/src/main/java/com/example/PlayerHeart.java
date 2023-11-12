@@ -32,6 +32,4 @@ public class PlayerHeart {
             e.printStackTrace();
         }
     }
-
-
 }
