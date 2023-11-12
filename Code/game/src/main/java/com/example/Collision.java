@@ -7,12 +7,10 @@ import com.example.Square;
 public class Collision{
 
     GamePanel gp;
-    Labyrinth l;
-    public Collision(GamePanel gp ,Labyrinth l){
-        this.l=l;
+    public Collision(GamePanel gp) {
         this.gp=gp;
     }
-    public void checkSquare(Entity entity){
+    public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
         int entityRightx = entity.x + entity.solidArea.x + entity.solidArea.width;

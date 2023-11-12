@@ -23,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int scale = 3 ; 
 	public final int tileSize = scale * originalTileSize ;  
 
-	public static int maxScreenCol = 20;
-	public static int maxScreenRow = 20;
+	public static int maxScreenCol = 16;
+	public static int maxScreenRow = 16;
 
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Thread thread;
 	Controller control= new Controller();
 	Player player = new Player(this,control,labyrinth); // oth
-	public Collision checker = new Collision(this,labyrinth);
+	public Collision checker = new Collision(this);
 	 
 	
 	public GamePanel() {
@@ -124,6 +124,7 @@ public class GamePanel extends JPanel implements Runnable{
 		//g2.setColor(Color.BLACK);
 		//g2.fillRect(p1.positionX, p1.positionY, tileSize, tileSize);
 		player.draw(g2);
+		//player.drawPlayerLife(g2);
 		g2.dispose();
 
 
