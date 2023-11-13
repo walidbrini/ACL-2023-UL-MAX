@@ -1,9 +1,4 @@
 package com.example;
-import com.example.GamePanel ;
-import com.example.Controller ;
-import com.example.Entity ;
-import com.example.Labyrinth;
-import com.example.PlayerHeart ;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,14 +9,11 @@ import java.util.Objects;
 public class Player extends Entity {
     GamePanel gp;
     Controller keyH;
-    Labyrinth labyrinth;
     PlayerHeart heart ;//= new PlayerHeart(gp);
 
-
-    public Player( GamePanel gp, Controller keyH,Labyrinth labyrinth){
+    public Player(GamePanel gp, Controller keyH){
         this.gp = gp;
         this.keyH = keyH;
-        this.labyrinth = labyrinth;
         
         solidArea = new Rectangle();
         solidArea.x=8;
@@ -33,16 +25,12 @@ public class Player extends Entity {
         solidAreaDefaultX =solidArea.y ;
 
         heart = new PlayerHeart(gp);
-        
-        setDefaultValues(labyrinth);
+
+        setDefaultValues();
         getPlayerImage();
     }
 
-    public void setDefaultValues(Labyrinth labyrinth){
-        //Labyrinth labyrinth = new Labyrinth(gp.maxScreenCol,gp.maxScreenRow,Level.MEDIUM, gp);
-        //Labyrinth labyrinth;
-        x = labyrinth.spawn.getPosition().getX()*48;
-        y = labyrinth.spawn.getPosition().getY()*48;
+    public void setDefaultValues(){
         speed = 4;
         direction = "down";
 
@@ -69,7 +57,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-    public void update(){
+    public void update(Labyrinth labyrinth){
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
@@ -118,9 +106,6 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D g2){
-
-        // g2.setColor(Color.white);
-        //g2.fillRect(x, y, gp.tileSize,gp.tileSize);
 
         BufferedImage image = null ;
 

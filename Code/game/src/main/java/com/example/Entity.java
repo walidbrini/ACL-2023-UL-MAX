@@ -15,9 +15,8 @@ public class Entity {
     public boolean collisionOn = false ;
     public int solidAreaDefaultX,solidAreaDefaultY;
 
-    //Entity Status
-    public int maxLife;
-    public int life;
+    int maxLife = 6;
+    int life = maxLife;
 
     public Entity(int x, int y, int speed) {
         this.x = x;
