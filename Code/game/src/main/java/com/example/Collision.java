@@ -94,7 +94,7 @@ public class Collision{
                     entity.life = entity.life + 1;
                 }
                 if (entity.life == 4 ){ // obj.healthPoints
-                    //obj.setContent(ObjectType.WALKWAY);
+                    obj =
                 }
             }
         }

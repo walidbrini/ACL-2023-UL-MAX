@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	Thread thread;
 	Controller control= new Controller();
-
+	Level level = new Level(this, Difficulty.MEDIUM);
 	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM, this);
 
 	Player player = new Player(this,control); // oth
@@ -68,19 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public void update() {
-		if (checker.checkTreasure(player,labyrinth)){
-			labyrinth.levelTransition();
-			repaint();
-			try{
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            //labyrinth.setDifficulty(Difficulty.CHICKEN);
-			labyrinth.generateRandomly(labyrinth.getTreasure().getPosition());
-		}
-
+		level.update();
 		player.update(labyrinth);
 	}
 
