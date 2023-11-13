@@ -62,26 +62,26 @@ public class Collision{
     }
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
 
-        int abs , ord , ord1 , abs1 ;
+        int abs , ord;
         Square obj = new Square();
-        abs1 = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
-        ord1 = ((entity.y +entity.solidArea.y + entity.solidArea.height/2))/gp.tileSize ;
+        abs = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
+        ord = ((entity.y +entity.solidArea.y + entity.solidArea.height/2))/gp.tileSize ;
         switch(entity.direction){
             case "up":
                 ord = (entity.y +entity.solidArea.y) / gp.tileSize ;
-                obj = l.getGrid()[abs1][ord];
+                obj = l.getGrid()[abs][ord];
                 break;
             case "down":
                 ord = (entity.y +entity.solidArea.y + entity.solidArea.height) / gp.tileSize ;
-                obj = l.getGrid()[abs1][ord];
+                obj = l.getGrid()[abs][ord];
                 break;
             case "left":
                 abs = (entity.x +entity.solidArea.x + entity.solidArea.width) / gp.tileSize ;
-                obj = l.getGrid()[abs][ord1];
+                obj = l.getGrid()[abs][ord];
                 break;
             case "right":
                 abs = (entity.x + entity.solidArea.x) / gp.tileSize ;
-                obj = l.getGrid()[abs][ord1];
+                obj = l.getGrid()[abs][ord];
                 break;
         }
         if(entity.solidArea.intersects(obj.solidArea)){
@@ -92,9 +92,10 @@ public class Collision{
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
                     entity.life = entity.life + 1;
+                    //l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
                 if (entity.life == 4 ){ // obj.healthPoints
-                    obj =
+                    l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
         }

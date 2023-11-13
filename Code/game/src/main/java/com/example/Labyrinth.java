@@ -336,4 +336,9 @@ public class Labyrinth {
     public void setDifficulty(Difficulty difficulty){
         this.difficulty = difficulty;
     }
+
+    public void setSquare(int x, int y, ObjectType objectType){
+        if(objectType == ObjectType.WALKWAY)
+            grid[x][y] = walkway;
+    }
 }
