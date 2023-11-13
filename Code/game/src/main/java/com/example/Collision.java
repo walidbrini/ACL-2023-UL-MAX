@@ -98,6 +98,7 @@ public class Collision{
                 }
             }
         }
+
     }
 
     public boolean checkTreasure(Entity entity,Labyrinth labyrinth){
