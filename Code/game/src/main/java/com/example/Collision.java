@@ -60,9 +60,7 @@ public class Collision{
         }
 
     }
-    int i=0;
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
-
         int abs , ord;
         Square obj = new Square();
         abs = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
@@ -88,28 +86,20 @@ public class Collision{
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
                 System.out.println(entity.direction + " collision !");
-                if (entity.life >0){
+                if (entity.life > 0)
                     entity.life--;
-                    System.out.print("player life  : ");
-                    System.out.println(entity.life);
-                }
             }
             else if (obj.getContent() == ObjectType.AID ){
-                if(entity.life < entity.maxLife) {
-                    entity.life = entity.life + 1;
-                    System.out.print("player life  : ");
-                    System.out.println(entity.life);
-                    i++;
-                    System.out.println(i);
-                    if (i == 4) {
-                        l.setSquare(abs, ord, ObjectType.WALKWAY);
-                        i=0;
-                    }
-
-                }
+                if(entity.life < entity.maxLife){
+                    if(entity.life == entity.maxLife - 1)
+                        entity.life = entity.life + 1;
+                    else
+                        entity.life = entity.life + 2;
+                    l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
         }
+    }
 
     public boolean checkTreasure(Entity entity,Labyrinth labyrinth){
         // Check if the player has reached the treasure
