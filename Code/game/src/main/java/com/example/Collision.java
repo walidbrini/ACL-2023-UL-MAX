@@ -87,30 +87,19 @@ public class Collision{
         }
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
-                System.out.println("Fire"+ entity.direction + " collision !");
-                if(entity.life>0){
-                    entity.life--;
-                }
-                System.out.println(entity.life);
+                System.out.println(entity.direction + " collision !");
+                entity.life--;
             }
             else if (obj.getContent() == ObjectType.AID ){
-
                 if(entity.life < entity.maxLife){
                     entity.life = entity.life + 1;
-                    i++;
-                    if (i == 4 ){ // obj.healthPoints
-                        l.setSquare(abs, ord,ObjectType.WALKWAY);
-                        i=0;
-                    }
-                    //TEST
-                    //System.out.println(entity.life);
-                    //System.out.println(i);
-                    //System.out.println("Aid"+ entity.direction + " collision !");
+                    //l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
-
+                if (entity.life == 4 ){ // obj.healthPoints
+                    l.setSquare(abs, ord,ObjectType.WALKWAY);
+                }
             }
         }
-
     }
 
     public boolean checkTreasure(Entity entity,Labyrinth labyrinth){
