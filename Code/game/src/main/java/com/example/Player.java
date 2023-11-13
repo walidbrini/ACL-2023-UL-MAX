@@ -4,10 +4,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gp;
     Controller keyH;
+    PlayerHeart heart ;//= new PlayerHeart(gp);
 
     public Player(GamePanel gp, Controller keyH){
         this.gp = gp;
@@ -22,6 +24,8 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultX =solidArea.y ;
 
+        heart = new PlayerHeart(gp);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -29,8 +33,12 @@ public class Player extends Entity {
     public void setDefaultValues(){
         speed = 4;
         direction = "down";
-    }
 
+        //Player Status
+        maxLife = 6;
+        life = maxLife ; //2 lives = 1 heart
+
+    }
     public void getPlayerImage(){
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
@@ -49,7 +57,6 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-
     public void update(){
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
@@ -65,10 +72,11 @@ public class Player extends Entity {
             else if (keyH.left){
                 direction = "left" ;
             }
-
             // CHECK TILE COLLISION
             collisionOn = false;
-            gp.checker.checkSquare(this);
+            gp.checker.checkSquare(this,labyrinth);
+            // CHECK Fire Collision
+            gp.checker.checkObject(this ,labyrinth ,true);
             
 
             //IF COLLISION IS FALSE , PLAYER CAN MOVE
@@ -149,7 +157,32 @@ public class Player extends Entity {
 
         }
         g2.drawImage(image , x ,y , gp.getTileSize() , gp.getTileSize(),null);
+        drawPlayerLife(g2);
         // draw an image on the screen
+    }
+    public void drawPlayerLife(Graphics2D g2){
+        int x = gp.tileSize / 2;
+        int y = gp.tileSize / 2;
+        int i = 0;
+        // DRAW EMPTY LIFE
+        while (i < maxLife / 2){
+            g2.drawImage(heart.heart_blank , x ,y ,gp.tileSize , gp.tileSize , null);
+            i++;
+            x += gp.tileSize;
+        }
+        x = gp.tileSize / 2;
+        y = gp.tileSize / 2;
+        i = 0;
+        // DRAW CURRENT LIFE
+        while(i < life){
+            g2.drawImage(heart.heart_half, x ,y ,gp.tileSize , gp.tileSize , null);
+            i++;
+            if (i < life){
+                g2.drawImage(heart.heart_full, x ,y ,gp.tileSize , gp.tileSize , null);
+            }
+            i++;
+            x += gp.tileSize ;
+        }
     }
 
     // to create sprites we can use paint photoshop gimp or PiSKEL (browse-base free software )
