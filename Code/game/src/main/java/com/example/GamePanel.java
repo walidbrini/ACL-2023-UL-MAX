@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class GamePanel extends JPanel implements Runnable{
-	private static Monstre monstre;  
 	public final static int originalTileSize = 16;
 	public final int scale = 3;
 	public final int tileSize = scale * originalTileSize ;
@@ -94,8 +93,5 @@ public class GamePanel extends JPanel implements Runnable{
 		return maxScreenRow;
 	}
 
-	public static void setMonstre(Monstre monstre) {
-		GamePanel.monstre = monstre;
-	}
-
+	
 }
