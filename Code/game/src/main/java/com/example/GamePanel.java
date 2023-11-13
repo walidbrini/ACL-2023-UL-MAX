@@ -81,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
 			labyrinth.generateRandomly(labyrinth.getTreasure().getPosition());
 		}
 
-		player.update(labyrinth);
+		player.update();
 	}
 
 	public void paintComponent(Graphics g) {
