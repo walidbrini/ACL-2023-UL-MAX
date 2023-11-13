@@ -88,19 +88,28 @@ public class Collision{
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
                 System.out.println(entity.direction + " collision !");
-                entity.life--;
+                if (entity.life >0){
+                    entity.life--;
+                    System.out.print("player life  : ");
+                    System.out.println(entity.life);
+                }
             }
             else if (obj.getContent() == ObjectType.AID ){
-                if(entity.life < entity.maxLife){
+                if(entity.life < entity.maxLife) {
                     entity.life = entity.life + 1;
-                    //l.setSquare(abs, ord,ObjectType.WALKWAY);
+                    System.out.print("player life  : ");
+                    System.out.println(entity.life);
+                    i++;
+                    System.out.println(i);
+                    if (i == 4) {
+                        l.setSquare(abs, ord, ObjectType.WALKWAY);
+                        i=0;
+                    }
+
                 }
-                if (entity.life == 4 ){ // obj.healthPoints
-                    l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
         }
-    }
 
     public boolean checkTreasure(Entity entity,Labyrinth labyrinth){
         // Check if the player has reached the treasure
