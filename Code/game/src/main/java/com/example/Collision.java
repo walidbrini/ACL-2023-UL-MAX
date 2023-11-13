@@ -61,7 +61,6 @@ public class Collision{
 
     }
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
-
         int abs , ord;
         Square obj = new Square();
         abs = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
@@ -87,14 +86,15 @@ public class Collision{
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
                 System.out.println(entity.direction + " collision !");
-                entity.life--;
+                if (entity.life > 0)
+                    entity.life--;
             }
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
-                    entity.life = entity.life + 1;
-                    //l.setSquare(abs, ord,ObjectType.WALKWAY);
-                }
-                if (entity.life == 4 ){ // obj.healthPoints
+                    if(entity.life == entity.maxLife - 1)
+                        entity.life = entity.life + 1;
+                    else
+                        entity.life = entity.life + 2;
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
