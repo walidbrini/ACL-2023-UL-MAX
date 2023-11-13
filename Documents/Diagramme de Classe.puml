@@ -2,41 +2,104 @@
 'https://plantuml.com/sequence-diagram
 
 
-Entity <|--Hero
-Entity <|--Monster
-Entity <|--Npc
-Monster <|--Fantome
+Entity <|--Monstre
+Monstre <|--Fantome
+GamePanel "1..1" -- "1..1" Player
+Entity <|-- Player
+GamePanel "1" -- "1..*" Labyrinth
+Level -- Labyrinth
+Player "1..1" -- "0..1" Controller
+GamePanel -- "0..1" Controller
+Labyrinth -- "1..*" Square
+Square <|-- Wall 
+Square <|-- Walkway
+Square <|-- Treasure
+Square <|-- Spawn
 
-abstract class Entity {
-int x,y
-int speed
-int Hp
-BufferedImage up1,up2, down1,down2,
-left1,left2,right1,right2
-String direction
-int spriteCounter
-int spriteNum
-GamePanel gp
-setAction():void
+class Entity {
+    int x,y
+    int speed
+    int Hp
+    BufferedImage up1,up2, down1,down2,
+    left1,left2,right1,right2
+    String direction
+    int spriteCounter
+    int spriteNum
+    GamePanel gp
+    setAction():void
 
 }
 
-class Hero {
-Controller keyH
-setAction():void
+class Player {
+        - gp: GamePanel
+        - keyH: Controller
+        - labyrinth: Labyrinth
+        - solidArea: Rectangle
+        - solidAreaDefaultX: int
+        - solidAreaDefaultY: int
+        - x: int
+        - y: int
+        - speed: int
+        - direction: String
+        - up1: BufferedImage
+        - up2: BufferedImage
+        - up3: BufferedImage
+        - down1: BufferedImage
+        - down2: BufferedImage
+        - down3: BufferedImage
+        - left1: BufferedImage
+        - left2: BufferedImage
+        - left3: BufferedImage
+        - right1: BufferedImage
+        - right2: BufferedImage
+        - right3: BufferedImage
+        - collisionOn: boolean
+        - spriteCounter: int
+        - spriteNum: int
+
+        + Player( GamePanel gp, Controller keyH,Labyrinth labyrinth)
+        + setDefaultValues(labyrinth: Labyrinth): void
+        + getPlayerImage(): void
+        + update(): void
+        + draw(g2: Graphics2D): void
+    }
+
+class GamePanel {
+        - monstre: Monstre
+        - originalTileSize: int
+        - scale: int
+        - tileSize: int
+        - maxScreenCol: int
+        - maxScreenRow: int
+        - screenWidth: int
+        - screenHeight: int
+        - labyrinth: Labyrinth
+        - p1: Personnage 
+        - thread: Thread
+        - control: Controller
+        - player: Player
+        - checker: Collision
+
+        + GamePanel()
+        + setMonstre(monstre: Monstre): void
+        + getTileSize(): int
+        + startThread(): void
+        + run(): void
+        + update(): void
+        + paintComponent(g: Graphics): void
 }
 
-class Monster {
-String power
-setAction():void
-}
+class Monstre {
+        - labyrinth: Labyrinth
+
+        + moveRandomly(): void
+        + isValidMove(x: int, y: int): boolean
+    }
 
 class Fantome {
 setAction():void
 }
-class Npc{
-setAction():void
-}
+
 
     class Labyrinth {
         - width: int
@@ -52,21 +115,34 @@ setAction():void
         - treasure: Treasure
         - gamePanel: GamePanel
 
-        + Labyrinth(width: int, height: int, level: Level, gamePanel: GamePanel)
+        + Labyrinth(int width, int height, Level level, GamePanel gamePanel)
         + fillBordersWithWalls(): void
         + randomizeWalls(): void
         + randomizeFire(): void
         + randomizeAid(): void
         + randomizeStartAndFinishPoints(): void
-        + isTooCloseToSpawn(spawnPosition: Coordinates, treasurePosition: Coordinates, minDistance: int, maxDistance: int): boolean
-        + getRandomCoordinates(minX: int, minY: int, maxX: int, maxY: int): Coordinates
-        + isReachable(pointA: Coordinates, pointB: Coordinates): boolean
-        + isReachableDFS(x: int, y: int, endX: int, endY: int, visited: boolean[][]): boolean
+        + isTooCloseToSpawn(spawnPosition: Coordinates): boolean
+        + getRandomCoordinates(minX: int, minY: int): Coordinates
+        + isReachable(pointA: Coordinates): boolean
+        + isReachableDFS(x: int, y: int): boolean
         + generateRandomly(): void
         + draw(graphics: Graphics): void
         + afficheVersionTexte(): void
         + isWall(x: int, y: int): boolean
     }
+
+    class Controller {
+        - up: boolean
+        - left: boolean
+        - down: boolean
+        - right: boolean
+        - attaque: boolean
+
+        + keyTyped(e: KeyEvent): void
+        + keyPressed(e: KeyEvent): void
+        + keyReleased(e: KeyEvent): void
+    }
+
 
     enum Level {
         CHICKEN

@@ -16,4 +16,4 @@ ISN 2N
 `mvn clean package`
 
 # Run 
-`java -cp target/game-1.0-SNAPSHOT.jar Code.game.src.main.java.com.example.Main`
+`java -cp target/game-1.0-SNAPSHOT.jar com.example.Main`
