@@ -7,10 +7,12 @@ import com.example.Square;
 public class Collision{
 
     GamePanel gp;
-    public Collision(GamePanel gp) {
+    Labyrinth l;
+    public Collision(GamePanel gp ,Labyrinth l){
+        this.l=l;
         this.gp=gp;
     }
-    public void checkSquare(Entity entity,Labyrinth l){
+    public void checkSquare(Entity entity){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
         int entityRightx = entity.x + entity.solidArea.x + entity.solidArea.width;
@@ -34,7 +36,6 @@ public class Collision{
                 if(corner1.collision  || corner2.collision  ){
                     entity.collisionOn=true;
                 }
-
                 break;
             case "down":
                 entityBottomRow = (entityBottomy+entity.speed)/gp.tileSize;
@@ -64,43 +65,20 @@ public class Collision{
         }
 
     }
-    public void checkObject(Entity entity , Labyrinth l ,boolean player){
+    public int checkObject(Entity entity , boolean player){
 
-        int abs , ord , ord1 , abs1 ;
-        Square obj = new Square();
-        abs1 = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
-        ord1 = ((entity.y +entity.solidArea.y + entity.solidArea.height/2))/gp.tileSize ;
+        int index = 999;
         switch(entity.direction){
             case "up":
-                ord = (entity.y +entity.solidArea.y) / gp.tileSize ;
-                obj = l.getGrid()[abs1][ord];
                 break;
             case "down":
-                ord = (entity.y +entity.solidArea.y + entity.solidArea.height) / gp.tileSize ;
-                obj = l.getGrid()[abs1][ord];
                 break;
             case "left":
-                abs = (entity.x +entity.solidArea.x + entity.solidArea.width) / gp.tileSize ;
-                obj = l.getGrid()[abs][ord1];
                 break;
             case "right":
-                abs = (entity.x + entity.solidArea.x) / gp.tileSize ;
-                obj = l.getGrid()[abs][ord1];
                 break;
         }
-        if(entity.solidArea.intersects(obj.solidArea)){
-            if (obj.getContent() == ObjectType.FIRE ){
-                System.out.println(entity.direction + " collision !");
-                entity.life--;
-            }
-            else if (obj.getContent() == ObjectType.AID ){
-                if(entity.life < entity.maxLife){
-                    entity.life = entity.life + 1;
-                }
-                if (entity.life == 4 ){ // obj.healthPoints
-                    //obj.setContent(ObjectType.WALKWAY);
-                }
-            }
-        }
+        return index ;
+
     }
 }
