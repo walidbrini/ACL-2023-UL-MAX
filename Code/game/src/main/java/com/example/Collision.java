@@ -60,6 +60,7 @@ public class Collision{
         }
 
     }
+    int i=0;
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
 
         int abs , ord;
@@ -86,17 +87,27 @@ public class Collision{
         }
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
-                System.out.println(entity.direction + " collision !");
-                entity.life--;
+                System.out.println("Fire"+ entity.direction + " collision !");
+                if(entity.life>0){
+                    entity.life--;
+                }
+                System.out.println(entity.life);
             }
             else if (obj.getContent() == ObjectType.AID ){
+
                 if(entity.life < entity.maxLife){
                     entity.life = entity.life + 1;
-                    //l.setSquare(abs, ord,ObjectType.WALKWAY);
+                    i++;
+                    if (i == 4 ){ // obj.healthPoints
+                        l.setSquare(abs, ord,ObjectType.WALKWAY);
+                        i=0;
+                    }
+                    //TEST
+                    //System.out.println(entity.life);
+                    //System.out.println(i);
+                    //System.out.println("Aid"+ entity.direction + " collision !");
                 }
-                if (entity.life == 4 ){ // obj.healthPoints
-                    l.setSquare(abs, ord,ObjectType.WALKWAY);
-                }
+
             }
         }
 
