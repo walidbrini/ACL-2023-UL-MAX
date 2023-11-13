@@ -57,7 +57,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-    public void update(Labyrinth labyrinth){
+    public void update(){
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
@@ -74,9 +74,9 @@ public class Player extends Entity {
             }
             // CHECK TILE COLLISION
             collisionOn = false;
-            gp.checker.checkSquare(this,labyrinth);
+            gp.checker.checkSquare(this,gp.labyrinth);
             // CHECK Fire Collision
-            gp.checker.checkObject(this ,labyrinth ,true);
+            gp.checker.checkObject(this ,gp.labyrinth ,true);
             
 
             //IF COLLISION IS FALSE , PLAYER CAN MOVE
