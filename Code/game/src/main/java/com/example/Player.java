@@ -57,7 +57,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-    public void update(){
+    public void update(Labyrinth labyrinth){
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){

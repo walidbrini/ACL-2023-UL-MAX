@@ -23,10 +23,10 @@ public class GamePanel extends JPanel implements Runnable{
 	Thread thread;
 	Controller control= new Controller();
 
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.CHICKEN, this);
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM, this);
 
 	Player player = new Player(this,control); // oth
-	public Collision checker = new Collision(this,labyrinth);
+	public Collision checker = new Collision(this);
 
 	public GamePanel() {
 
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public void update() {
-		if (checker.checkTreasure(player)){
+		if (checker.checkTreasure(player,labyrinth)){
 			labyrinth.levelTransition();
 			repaint();
 			try{
@@ -81,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
 			labyrinth.generateRandomly(labyrinth.getTreasure().getPosition());
 		}
 
-		player.update();
+		player.update(labyrinth);
 	}
 
 	public void paintComponent(Graphics g) {
