@@ -10,10 +10,18 @@ essayent d’attaquer le personnage
 | BRINI Walid |  BEN HAMAD Moemen |  CHAIB Khaoula | DEROUICH Othmene |
 ISN 2N
 
+
+<p align="center">
+  <img src="Game_img.png" alt="Image Description" width="50%">
+</p>
+
+
 # Build 
 `cd Code/game`
 
 `mvn clean package`
 
 # Run 
-`java -cp target/game-1.0-SNAPSHOT.jar com.example.Main`
+`java -jar target/game-1.0-SNAPSHOT.jar`
+
+
