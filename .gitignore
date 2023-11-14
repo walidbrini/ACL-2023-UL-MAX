@@ -2,8 +2,11 @@
 Code/game/target/*
 
 # IntelliJ IDEA
+../../.idea/
 */.idea/
 */*.iml
+../../ACL-2023-UL-MAX.iml
+ ../../game.iml
 
 # Eclipse
 */.classpath
