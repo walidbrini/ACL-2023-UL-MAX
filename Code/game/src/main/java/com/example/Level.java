@@ -29,7 +29,5 @@ public class Level {
             gp.labyrinth.generateRandomly(gp.labyrinth.getTreasure().getPosition());
         }
     }
-
-
 }
 

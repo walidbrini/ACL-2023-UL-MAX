@@ -3,6 +3,7 @@ package com.example;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.*;
 
 import com.example.GamePanel ;
@@ -12,8 +13,7 @@ public class Main
 {
 	//static JButton jouer = new JButton("d�marrer la partie");
 	static GamePanel game = new GamePanel();
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) throws IOException {
 		JFrame window = new JFrame();
 
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

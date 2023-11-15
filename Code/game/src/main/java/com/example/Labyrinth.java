@@ -2,7 +2,9 @@ package com.example;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.Random;
+
 
 public class Labyrinth {
     private final int width;
@@ -257,15 +259,55 @@ public class Labyrinth {
         }
     }
 
-    /* TODO
-    private void savetoFile(){
-
+    // TODO
+    public void saveToFile() throws IOException {
+        FileWriter fileWriter = new FileWriter("res/map/map01.txt");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                printWriter.print(grid[j][i] + " ");
+            }
+            printWriter.println();
+        }
+        printWriter.close();
     }
 
-    private void generateFromFile(){
+    public void loadFromFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fileReader);
 
+        for (int i = 0; i < height; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < width; j++) {
+                char symbol = line.charAt(j);
+                switch (symbol) {
+                    case '#':
+                        grid[i][j] = wall;
+                        break;
+                    case 'x':
+                        grid[j][i] = fire;
+                        break;
+                    case 'S':
+                        grid[j][i] = spawn;
+                        spawn.setPosition(new Coordinates(j, i));
+                        break;
+                    case 'T':
+                        grid[j][i] = treasure;
+                        treasure.setPosition(new Coordinates(j, i));
+                        break;
+                    case 'a':
+                        grid[j][i] = firstAid;
+                        break;
+                    default:
+                        grid[j][i] = walkway;
+                        break;
+                }
+            }
+        }
+
+        reader.close();
     }
-    */
 
     public void draw(Graphics graphics) {
 

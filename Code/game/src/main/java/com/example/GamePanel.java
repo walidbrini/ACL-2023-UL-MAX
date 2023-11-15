@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -46,10 +47,13 @@ public class GamePanel extends JPanel implements Runnable{
 				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
 	}
 
-	public void startThread()  {
+	public void startThread() throws IOException {
 		thread = new Thread(this);  
 		thread.start(); // Automatically call run()
 		labyrinth.afficheVersionTexte();
+
+		labyrinth.saveToFile();
+		//labyrinth.loadFromFile("res/map/map01.txt");
 	}
 	
 	public void run() {
