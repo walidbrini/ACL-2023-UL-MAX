@@ -6,6 +6,7 @@ public class Collision{
     public Collision(GamePanel gp) {
         this.gp=gp;
     }
+    
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
@@ -60,6 +61,7 @@ public class Collision{
         }
 
     }
+
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
         int abs , ord;
         Square obj = new Square();

@@ -9,7 +9,7 @@
 - [X]  Ajouter l'affichage des points de vie de l'héro 
 - [X]  Ajouter les interactions entre le héros et les différentes cases du labyrinthe. (Moemen)
 - [ ]  Ajouter la gestion des conflits entre l'héro et le monstre.(Khaoula)
-- [ ]  Implémenter le mouvement du monstre aléatoire. (Khaoula)
+- [X]  Implémenter le mouvement du monstre aléatoire. (Khaoula)
 
 ## Sprint 2 - Rétrospective
 
