@@ -1,43 +1,43 @@
 @startuml
-actor Game_Player as Gamer
-participant Gamepanel as Game_Panel
-participant Labyrinthe as Labyrinth
+actor       Game_Player       as Gamer
+participant Gamepanel as Gamepanel
+
+
+Gamer -> Gamepanel: Choisir le Niveau de difficulté (niveau)
+Gamepanel --> Gamer : Niveau Sélectionné()
+Gamer -> Gamepanel: Executer le Jeu
+Gamepanel -> Labyrinthe : Générer la labyrinthe
+Labyrinthe <- Labyrinthe : Labyrinthe générée
+loop posplayer == Obstacle 
+    Labyrinthe -> Player : Génerer la position initiale du Player
+end
+
+Player --> Labyrinthe : Position du joueur initialisé
+
+Labyrinthe --> Gamepanel : Jeu Initialisé
+
 participant Controller as Controller
 
-Gamer -> Game_Panel: Choisir le Niveau de difficulté (niveau)
-Game_Panel --> Gamer: Niveau Sélectionné()
-Gamer -> Game_Panel: Exécuter le Jeu
-Game_Panel -> Labyrinthe: Générer le labyrinthe
-Labyrinthe <- Labyrinthe: Labyrinthe généré
-
-loop posplayer == Obstacle
-    Labyrinthe -> Gamer: Générer la position initiale du Joueur
-end
-
-Gamer --> Labyrinthe: Position du joueur initialisée
-Labyrinthe --> Game_Panel: Jeu Initialisé
-
-loop point de vie > 100 || EtatJeu == 0
-    Gamer -> Controller: Appuyer sur une touche (key)
-    Controller -> Controller: Vérifier le type de case (key)
-    Controller --> Labyrinthe: Envoyer le type de mouvement
-
-    alt Mouvement admissible
-        Labyrinthe -> Labyrinthe: Mettre à jour le contenu des cases
-        Labyrinthe -> Gamer: Mise à jour des coordonnées du Joueur
+loop point de vie >100 || EtatJeu == 0 
+    Gamer-> Controller : Appuyer sur une touche (key)
+    Controller -> Controller : Verifier le type de case (key)
+    Controller --> Labyrinthe : Envoyer le type de mouvement
+    
+    alt  Mouvement addmissible
+    Labyrinthe -> Labyrinthe : Mettre a jour le contenu des cases
+    Labyrinthe -> Player : Mise a jour des coordonées du Joueur
     else Mouvement non admissible
-        Labyrinthe -> Labyrinthe: Tester la position actuelle du Joueur
+    Labyrinthe -> Labyrinthe : Tester la position actuel du Player
+
     end
 
-    Game_Panel -> Labyrinthe: Obtenir les coordonnées du trésor
-    Labyrinthe --> Game_Panel: Envoyer les coordonnées du trésor
-    Game_Panel -> Labyrinthe: Obtenir les coordonnées du joueur
-    Labyrinthe --> Game_Panel: Envoyer les coordonnées du joueur
-
-    Game_Panel -> Game_Panel: Comparer la position du joueur à la position du trésor
-    opt PosJoueur == PosTrésor
-        Game_Panel -> Game_Panel: Gagner le jeu (EtatJeu)
+    Labyrinthe -> Gamepanel : Enovyer la disposition des cases dans la labyrinthe
+    Gamepanel -> Gamepanel : Comparer la position du joueur a la position du trésor
+    opt  PosJoueur == PosTrésor 
+        Gamepanel -> Gamepanel : Gagner le jeur (EtatJeu)
     end
+
 end
+
 
 @enduml

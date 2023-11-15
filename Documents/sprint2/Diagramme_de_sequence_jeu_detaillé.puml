@@ -24,16 +24,15 @@ loop point de vie > 100 || EtatJeu == 0
 
     alt Mouvement admissible
         Labyrinthe -> Labyrinthe: Mettre à jour le contenu des cases
-        Labyrinthe -> Gamer: Mise à jour des coordonnées du Joueur
+        Labyrinthe -> Player : Mise à jour des coordonnées du Joueur
         alt Case de type "Potion de Vie"
-            Gamer -> Gamer: Ajouter des points de vie
+            Labyrinthe -> Player: Ajouter des points de vie
         else Case de type "Feu"
-            Gamer -> Gamer: Soustraire des points de vie
+            Labyrinthe -> Player: Soustraire des points de vie
         else Case de type "Trésor"
-            Game_Panel -> Game_Panel: Gagner le jeu (EtatJeu)
+            Labyrinthe -> Player: Gagner le jeu (EtatJeu)
         end
     else Mouvement non admissible
-        Labyrinthe -> Labyrinthe: Tester la position actuelle du Joueur
     end
 end
 
