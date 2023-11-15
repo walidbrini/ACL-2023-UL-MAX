@@ -99,11 +99,11 @@ public class Collision{
                     entity.life = entity.life + 1;
                     System.out.print("player life  : ");
                     System.out.println(entity.life);
-                    i++;
+                    //i++;
                     System.out.println(i);
-                    if (i == 4) {
+                    if (entity.life == 4) {
                         l.setSquare(abs, ord, ObjectType.WALKWAY);
-                        i=0;
+                        //i=0;
                     }
 
                 }
