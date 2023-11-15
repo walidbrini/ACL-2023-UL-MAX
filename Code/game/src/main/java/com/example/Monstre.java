@@ -1,22 +1,20 @@
 package com.example;
 
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-
-import javax.imageio.ImageIO;
+import java.util.Objects;
  
 // change to entity 
   public class Monstre extends Entity {
-    private Labyrinth labyrinth;
-    private GamePanel gp;
-
-
+    GamePanel gp;
+     
     public Monstre(GamePanel gp) {
         this.gp = gp;
         setDefaultValues();
         getMonstreImage();
+
     }
 
     public void setDefaultValues() {
@@ -24,7 +22,11 @@ import javax.imageio.ImageIO;
         y = 200;
         speed = 20;
         direction = "down";
+        collisionOn = false ; 
     }
+
+
+    
 
      public void getMonstreImage(){
         try {
@@ -49,6 +51,8 @@ import javax.imageio.ImageIO;
         private int movementCounter = 0;
     
         public void moveRandomly() {
+            //gp.checker.checkSquare(this,gp.labyrinth);
+
             // Check if it's time to perform the next movement
             if (movementCounter >= movementDelay) {
                 movementCounter = 0;
@@ -149,16 +153,7 @@ import javax.imageio.ImageIO;
 
         
     
-    public void run() {
-        while (true) {
-            moveRandomly();
-            try {
-                Thread.sleep(500);  
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+ 
 
 }
 
