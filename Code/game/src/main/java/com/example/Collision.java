@@ -1,7 +1,6 @@
 package com.example;
 
 public class Collision{
-
     GamePanel gp;
     public Collision(GamePanel gp) {
         this.gp=gp;

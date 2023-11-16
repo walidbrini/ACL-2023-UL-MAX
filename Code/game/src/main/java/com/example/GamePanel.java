@@ -26,7 +26,8 @@ public class GamePanel extends JPanel implements Runnable{
 	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM, this);
 
 	Player player = new Player(this,control); // oth
-	Monstre monstre = new Monstre(this); // oth
+
+	MonsterSpawner monsterSpawner;
 
 	public Collision checker = new Collision(this);
 
@@ -44,6 +45,10 @@ public class GamePanel extends JPanel implements Runnable{
 
 		player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize,
 				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
+
+		monsterSpawner = new MonsterSpawner(this);
+        monsterSpawner.spawnMonsters(10); 
+
 	}
 
 	public void startThread() throws IOException {
@@ -75,7 +80,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		level.update();
 		player.update();
-		monstre.moveRandomly();
+		for (Monstre monster : monsterSpawner.getMonsters()) {
+            monster.update();
+        }
 	}
 
 	public void paintComponent(Graphics g) {
@@ -84,7 +91,9 @@ public class GamePanel extends JPanel implements Runnable{
 
 		labyrinth.draw(g2);
 		player.draw(g2);
-		monstre.draw(g2);
+		for (Monstre monster : monsterSpawner.getMonsters()) {
+            monster.draw(g2);
+        }
 		g2.dispose();
 	}
 

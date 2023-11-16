@@ -7,28 +7,45 @@ import java.io.IOException;
 import java.util.Objects;
  
 // change to entity 
-  public class Monstre extends Entity {
+public class Monstre extends Entity  {
     GamePanel gp;
-     
+
     public Monstre(GamePanel gp) {
         this.gp = gp;
         setDefaultValues();
         getMonstreImage();
 
+        solidArea = new Rectangle();
+        solidArea.x=8;
+        solidArea.y=16;
+        solidArea.width=32;
+        solidArea.height=32;
+
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultX =solidArea.y ;
+
+        
     }
 
     public void setDefaultValues() {
-        x = 200;
-        y = 200;
-        speed = 20;
+        // Spawn Coordinates
+        int spawnCol;
+        int spawnRow;
+    
+        // Ensure the monster doesn't spawn on the borders
+        do {
+            spawnCol = (int) (Math.random() * (GamePanel.getMaxScreenCol() - 2)) + 1;
+            spawnRow = (int) (Math.random() * (GamePanel.getMaxScreenRow() - 2)) + 1;
+        } while (spawnCol <= 1 || spawnRow <= 1);
+    
+        x = spawnCol * gp.getTileSize();
+        y = spawnRow * gp.getTileSize();
+        speed = 1;
         direction = "down";
-        collisionOn = false ; 
     }
 
 
-    
-
-     public void getMonstreImage(){
+    public void getMonstreImage(){
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/monster/up1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/monster/up2.png"));
@@ -41,61 +58,97 @@ import java.util.Objects;
             left3 = ImageIO.read(getClass().getResourceAsStream("/monster/left3.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/monster/right1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/monster/right2.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/monster/right3.png"));
+            right3 = ImageIO.read(getClass().getResourceAsStream("/monster/right3.png"));
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
-        private int movementDelay = 100;  // Adjust this value based on your preference
-        private int movementCounter = 0;
-    
-        public void moveRandomly() {
-            //gp.checker.checkSquare(this,gp.labyrinth);
+    private int directionStayingCounter = 0;
+    private int maxDirectionStayCount = 60;  
 
-            // Check if it's time to perform the next movement
-            if (movementCounter >= movementDelay) {
-                movementCounter = 0;
-    
-                int randomDirection = (int) (Math.random() * 4);
-    
-                switch (randomDirection) {
-                    case 0:
-                        // Move up
-                        if (y > 0) {
-                            direction = "up";
-                            y -= speed;
-                        }
-                        break;
-                    case 1:
-                        // Move down
-                        if (y < (gp.maxScreenCol - 1) * gp.getTileSize()) {
-                            direction = "down";
-                            y += speed;
-                        }
-                        break;
-                    case 2:
-                        // Move left
-                        if (x > 0) {
-                            direction = "left";
-                            x -= speed;
-                        }
-                        break;
-                    case 3:
-                        // Move right
-                        if (x < (gp.maxScreenRow - 1) * gp.getTileSize()) {
-                            direction = "right";
-                            x += speed;
-                        }
-                        break;
-                }
-            } else {
-                // Increment the movement counter if it's not time for a movement
-                movementCounter++;
+    public void update() {
+        spriteCounter++;
+        if (spriteCounter > 10){
+            if (spriteNum==1){
+                spriteNum=2;
             }
+            else if (spriteNum==2){
+                spriteNum = 3;
+            }
+            else if (spriteNum==3){
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
         }
 
+        if (directionStayingCounter > 0) {
+            directionStayingCounter--;
 
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.checker.checkSquare(this, gp.labyrinth);
+            // CHECK Fire Collision
+            gp.checker.checkObject(this, gp.labyrinth, true);
+
+            if (collisionOn == false) {
+                moveInDirection();
+            } else {
+                directionStayingCounter = 0;
+            }
+        } else {
+            
+            // Choose a new random direction
+            int randomDirection = (int) (Math.random() * 4);
+            switch (randomDirection) {
+                case 0:
+                    direction = "up";
+                    break;
+                case 1:
+                    direction = "down";
+                    break;
+                case 2:
+                    direction = "left";
+                    break;
+                case 3:
+                    direction = "right";
+                    break;
+            }
+
+            directionStayingCounter = (int) (Math.random() * maxDirectionStayCount);
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.checker.checkSquare(this, gp.labyrinth);
+            // CHECK Fire Collision
+            gp.checker.checkObject(this, gp.labyrinth, true);
+
+            if (collisionOn == false) {
+                moveInDirection();
+            } else {
+                directionStayingCounter = 0;
+            }
+        }
+    }
+
+    private void moveInDirection() {
+        switch (direction) {
+            case "up":
+                y -= speed;
+                break;
+            case "down":
+                y += speed;
+                break;
+            case "left":
+                x -= speed;
+                break;
+            case "right":
+                x += speed;
+                break;
+        }
+}
+
+        
     public void draw(Graphics2D g2){
 
         BufferedImage image = null ;
