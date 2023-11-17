@@ -2,10 +2,37 @@ package com.example;
 
 public class Collision{
     GamePanel gp;
+
+    private long lastCollisionTime;
+    private long collisionCooldown = 2000; // 2000 milliseconds 
+    
     public Collision(GamePanel gp) {
         this.gp=gp;
     }
+
+    public void checkMonstre(Entity entity, MonsterSpawner monsterSpawner) {
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - lastCollisionTime >= collisionCooldown) {
+            int collisionRange = gp.getTileSize();
+
+            for (Monstre monster : monsterSpawner.getMonsters()) {
+                if (Math.abs(entity.x - monster.x) <= collisionRange &&
+                    Math.abs(entity.y - monster.y) <= collisionRange) {
+                    System.out.println("Player-Monster : DAMAGEEEE");
+                    if (entity.life > 0) {
+                        entity.life--;
+                    }
+
+                    // Update the last collision time
+                    lastCollisionTime = currentTime;
+                }
+            }
+        }
+    }
     
+    
+
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;

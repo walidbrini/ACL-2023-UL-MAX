@@ -86,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		level.update();
 		player.update();
+		
 		for (Monstre monster : monsterSpawner.getMonsters()) {
             monster.update();
         }

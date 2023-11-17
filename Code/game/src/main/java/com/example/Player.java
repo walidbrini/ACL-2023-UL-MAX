@@ -10,6 +10,10 @@ public class Player extends Entity {
     GamePanel gp;
     Controller keyH;
     PlayerHeart heart ;//= new PlayerHeart(gp);
+    int minX = 100; // Replace with your desired values
+    int minY = 100;
+    int maxX = 200;
+    int maxY = 200;
 
     public Player(GamePanel gp, Controller keyH){
         this.gp = gp;
@@ -22,7 +26,7 @@ public class Player extends Entity {
         solidArea.height=32;
 
         solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultX =solidArea.y ;
+        solidAreaDefaultX = solidArea.y ;
 
         heart = new PlayerHeart(gp);
 
@@ -58,6 +62,7 @@ public class Player extends Entity {
         }
     }
     public void update(){
+        gp.checker.checkMonstre(this, gp.monsterSpawner);
 
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
@@ -77,7 +82,7 @@ public class Player extends Entity {
             gp.checker.checkSquare(this,gp.labyrinth);
             // CHECK Fire Collision
             gp.checker.checkObject(this ,gp.labyrinth ,true);
-            
+
 
             //IF COLLISION IS FALSE , PLAYER CAN MOVE
             if(collisionOn == false){
