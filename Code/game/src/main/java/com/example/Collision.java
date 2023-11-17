@@ -86,7 +86,7 @@ public class Collision{
         }
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
-                System.out.println(entity.direction + " collision !");
+                //System.out.println(entity.direction + " collision !");
                 if (entity.life > 0)
                     entity.life--;
             }

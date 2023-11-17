@@ -12,7 +12,7 @@ public class Player extends Entity {
     PlayerHeart heart ;//= new PlayerHeart(gp);
 
     public Player(GamePanel gp, Controller keyH){
-        super(gp);
+        this.gp = gp;
         this.keyH = keyH;
         
         solidArea = new Rectangle();

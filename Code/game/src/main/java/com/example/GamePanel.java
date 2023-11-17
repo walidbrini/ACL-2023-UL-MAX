@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
+
+
 public class GamePanel extends JPanel implements Runnable{
 	public final static int originalTileSize = 16;
 	public final int scale = 3;
@@ -38,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
-		this.setupGame();
+		//setupGame();
 
 		// Print player position
 		System.out.println(player.x) ;
@@ -54,9 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void setupGame(){
 		playMusic(0);
 	}
-	public void startThread()  {
-
-	public void startThread() throws IOException {
+	public void startThread() throws IOException{
 		thread = new Thread(this);
 		thread.start(); // Automatically call run()
 		labyrinth.afficheVersionTexte();
