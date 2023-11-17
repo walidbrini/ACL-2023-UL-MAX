@@ -1,7 +1,6 @@
 @startuml
 actor Game_Player as Gamer
 participant Gamepanel as Game_Panel
-participant Labyrinthe as Labyrinth
 participant Controller as Controller
 
 Gamer -> Game_Panel: Choisir le Niveau de difficulté (niveau)

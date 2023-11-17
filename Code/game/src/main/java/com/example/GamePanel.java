@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -18,8 +19,6 @@ public class GamePanel extends JPanel implements Runnable{
 	public static int maxScreenRow = 16;
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
-	public final int gameOverState = 6;
-	public int gameState ;
 
 	Thread thread;
 	Controller control= new Controller();
@@ -28,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Sound sound = new Sound();
 	Player player = new Player(this,control); // oth
 
-	Monstre monstre = new Monstre(this); // oth
+	MonsterSpawner monsterSpawner;
 
 	public Collision checker = new Collision(this);
 
@@ -47,14 +46,23 @@ public class GamePanel extends JPanel implements Runnable{
 
 		player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize,
 				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
+
+		monsterSpawner = new MonsterSpawner(this);
+        monsterSpawner.spawnMonsters(10);
+
 	}
 	public void setupGame(){
 		playMusic(0);
 	}
 	public void startThread()  {
-		thread = new Thread(this);  
+
+	public void startThread() throws IOException {
+		thread = new Thread(this);
 		thread.start(); // Automatically call run()
 		labyrinth.afficheVersionTexte();
+
+		labyrinth.saveToFile();
+		//labyrinth.loadFromFile("res/map/map01.txt");
 	}
 	
 	public void run() {
@@ -77,7 +85,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		level.update();
 		player.update();
-		monstre.moveRandomly();
+		for (Monstre monster : monsterSpawner.getMonsters()) {
+            monster.update();
+        }
 	}
 
 	public void paintComponent(Graphics g) {
@@ -86,7 +96,9 @@ public class GamePanel extends JPanel implements Runnable{
 
 		labyrinth.draw(g2);
 		player.draw(g2);
-		monstre.draw(g2);
+		for (Monstre monster : monsterSpawner.getMonsters()) {
+            monster.draw(g2);
+        }
 		g2.dispose();
 	}
 	public void playMusic(int i){
