@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
-    GamePanel gp;
     Controller keyH;
     PlayerHeart heart ;//= new PlayerHeart(gp);
 
     public Player(GamePanel gp, Controller keyH){
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
         
         solidArea = new Rectangle();
@@ -41,18 +40,18 @@ public class Player extends Entity {
     }
     public void getPlayerImage(){
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/player/up3.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/player/down3.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/player/left3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right3.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/player2/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/player2/up2.png"));
+            up3 = ImageIO.read(getClass().getResourceAsStream("/player/player2/up3.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/player2/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/player2/down2.png"));
+            down3 = ImageIO.read(getClass().getResourceAsStream("/player/player2/down3.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/player2/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/player2/left2.png"));
+            left3 = ImageIO.read(getClass().getResourceAsStream("/player/player2/left3.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/player2/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player2/right2.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player2/right3.png"));
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -88,8 +87,12 @@ public class Player extends Entity {
                     case "right":  x += speed; break;
                 }
             }
+            // CHECK GAMEOVER
+            if (life <= 0){
+                gp.gameState = gp.gameOverState;
+            }
             spriteCounter++;
-            if (spriteCounter > 10){
+            if (spriteCounter > 12){
                 if (spriteNum==1){
                     spriteNum=2;
                 }

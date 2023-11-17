@@ -18,12 +18,14 @@ public class GamePanel extends JPanel implements Runnable{
 	public static int maxScreenRow = 16;
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
+	public final int gameOverState = 6;
+	public int gameState ;
 
 	Thread thread;
 	Controller control= new Controller();
 	Level level = new Level(this, Difficulty.MEDIUM);
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM, this);
-
+	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM,this);
+	Sound sound = new Sound();
 	Player player = new Player(this,control); // oth
 
 	Monstre monstre = new Monstre(this); // oth
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
+		this.setupGame();
 
 		// Print player position
 		System.out.println(player.x) ;
@@ -45,7 +48,9 @@ public class GamePanel extends JPanel implements Runnable{
 		player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize,
 				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
 	}
-
+	public void setupGame(){
+		playMusic(0);
+	}
 	public void startThread()  {
 		thread = new Thread(this);  
 		thread.start(); // Automatically call run()
@@ -83,6 +88,18 @@ public class GamePanel extends JPanel implements Runnable{
 		player.draw(g2);
 		monstre.draw(g2);
 		g2.dispose();
+	}
+	public void playMusic(int i){
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
+	}
+	public void stopMusic(){
+		sound.stop();
+	}
+	public void playSE(int i){
+		sound.setFile(i);
+		sound.play();
 	}
 
 	public int getTileSize() {
