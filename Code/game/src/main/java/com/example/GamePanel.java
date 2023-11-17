@@ -40,7 +40,8 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
-		//setupGame();
+
+		setupGame();
 
 		// Print player position
 		System.out.println(player.x) ;
