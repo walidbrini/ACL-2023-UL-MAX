@@ -92,14 +92,12 @@ public class GamePanel extends JPanel implements Runnable{
 		if (gameState == GameState.PLAYSTATE){
 			level.update();
 			player.update();
-
 			for (Monstre monster : monsterSpawner.getMonsters()) {
 				monster.update();
 			}
 		}else if (gameState == GameState.PAUSESTATE){
 			// nothing
 		}
-
 	}
 
 	public void paintComponent(Graphics g) {
