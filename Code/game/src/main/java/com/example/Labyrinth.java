@@ -263,7 +263,7 @@ public class Labyrinth {
         PrintWriter printWriter = new PrintWriter(fileWriter);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                printWriter.print(grid[j][i] + " ");
+                printWriter.print(grid[j][i]);
             }
             printWriter.println();
         }
@@ -282,24 +282,24 @@ public class Labyrinth {
                 char symbol = line.charAt(j);
                 switch (symbol) {
                     case '#':
-                        grid[i][j] = wall;
+                        grid[j][i] = wall;
                         break;
                     case 'x':
-                        grid[i][j] = fire;
+                        grid[j][i] = fire;
                         break;
                     case 'S':
-                        grid[i][j] = spawn;
+                        grid[j][i] = spawn;
                         spawn.setPosition(new Coordinates(j, i));
                         break;
                     case 'T':
-                        grid[i][j] = treasure;
+                        grid[j][i] = treasure;
                         treasure.setPosition(new Coordinates(j, i));
                         break;
                     case 'a':
-                        grid[i][j] = firstAid;
+                        grid[j][i] = firstAid;
                         break;
-                    default:
-                        grid[i][j] = walkway;
+                    case ' ':
+                        grid[j][i] = walkway;
                         break;
                 }
             }
