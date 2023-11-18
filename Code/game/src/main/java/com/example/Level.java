@@ -7,6 +7,7 @@ public class Level {
     private final GamePanel gp;
     private int levelNumber;
     private final int levelDifficultyStep = 2;
+    private final int finalLevel = 12;
 
     public Level(GamePanel gp) {
         this.gp = gp;
@@ -17,6 +18,10 @@ public class Level {
 
     public void update(){
         if (gp.checker.checkTreasure(gp.player,gp.labyrinth)){
+            if(levelNumber == finalLevel){
+                //TODO
+                // win
+            }
             gp.labyrinth.levelTransition();
             gp.repaint();
             try{
@@ -39,7 +44,7 @@ public class Level {
         switch (gp.labyrinth.getDifficulty()) {
             case CHICKEN:
                 min = 1;
-                max = 1;
+                max = 2;
                 break;
             case EASY:
                 min = 3;
