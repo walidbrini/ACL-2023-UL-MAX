@@ -116,13 +116,21 @@ public class Collision{
                 //System.out.println(entity.direction + " collision !");
                 if (entity.life > 0)
                     entity.life--;
+                    //gp.playSE(1,1.0f);
+                    System.out.println("Damage taken");
             }
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
-                    if(entity.life == entity.maxLife - 1)
+                    if(entity.life == entity.maxLife - 1){
                         entity.life = entity.life + 1;
-                    else
+                        gp.playSE(2,1.0f);
+                        System.out.println("potion taken");
+                    }
+                    else {
                         entity.life = entity.life + 2;
+                        gp.playSE(2, 1.0f);
+                        System.out.println("potion taken");
+                    }
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
