@@ -55,7 +55,6 @@ public class GamePanel extends JPanel implements Runnable{
 				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
 
 		monsterSpawner = new MonsterSpawner(this);
-        monsterSpawner.spawnMonsters(10);
 
 	}
 	public void setupGame(float volume){
