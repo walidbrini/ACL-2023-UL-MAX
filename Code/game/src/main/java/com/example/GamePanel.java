@@ -23,15 +23,19 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenHeight = tileSize * maxScreenRow ;
 
 	Thread thread;
-	Controller control= new Controller();
+	Controller control= new Controller(this);
 	Labyrinth labyrinth;
 	Level level = new Level(this);
 	Sound sound = new Sound();
+	UserInterface ui = new UserInterface(this);
 	Player player = new Player(this,control); // oth
 
 	MonsterSpawner monsterSpawner;
 
 	public Collision checker = new Collision(this);
+
+	// GAME STATE
+	GameState gameState ;
 
 	public GamePanel() {
 
@@ -56,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	public void setupGame(float volume){
 		playMusic(3,volume);
+		gameState = GameState.PLAYSTATE;
 
 	}
 	public void startThread() throws IOException{
@@ -85,12 +90,17 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public void update() {
-		level.update();
-		player.update();
-		
-		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.update();
-        }
+		if (gameState == GameState.PLAYSTATE){
+			level.update();
+			player.update();
+
+			for (Monstre monster : monsterSpawner.getMonsters()) {
+				monster.update();
+			}
+		}else if (gameState == GameState.PAUSESTATE){
+			// nothing
+		}
+
 	}
 
 	public void paintComponent(Graphics g) {
@@ -102,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable{
 		for (Monstre monster : monsterSpawner.getMonsters()) {
             monster.draw(g2);
         }
+		ui.draw(g2);
 		g2.dispose();
 	}
 	public void playMusic(int i,float volume){

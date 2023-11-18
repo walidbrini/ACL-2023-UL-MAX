@@ -116,7 +116,7 @@ public class Collision{
                 //System.out.println(entity.direction + " collision !");
                 if (entity.life > 0)
                     entity.life--;
-                    //gp.playSE(1,1.0f);
+                    gp.playSE(1,1.0f);
                     System.out.println("Damage taken");
             }
             else if (obj.getContent() == ObjectType.AID ){
