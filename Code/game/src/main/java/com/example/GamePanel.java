@@ -24,8 +24,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 	Thread thread;
 	Controller control= new Controller();
-	Level level = new Level(this, Difficulty.MEDIUM);
-	Labyrinth labyrinth = new Labyrinth(maxScreenCol,maxScreenRow,Difficulty.MEDIUM,this);
+	Labyrinth labyrinth;
+	Level level = new Level(this);
 	Sound sound = new Sound();
 	Player player = new Player(this,control); // oth
 

@@ -4,16 +4,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Level {
     GamePanel gp;
-    Difficulty difficulty;
+    int levelNumber;
 
-    public Level(GamePanel gp, Difficulty difficulty) {
+    public Level(GamePanel gp) {
         this.gp = gp;
-        this.difficulty = difficulty;
+        gp.labyrinth = new Labyrinth(GamePanel.getMaxScreenCol(), GamePanel.getMaxScreenRow(),gp);
+        gp.labyrinth.generate(null);
+        levelNumber = 1;
     }
-
-    //public void intializeLevel(difficulty, gp){
-    //    labyrinth = new Labyrinth(gp.getMaxScreenCol(),gp.getMaxScreenRow(),difficulty, gp);
-    //}
 
     public void update(){
         if (gp.checker.checkTreasure(gp.player,gp.labyrinth)){
@@ -25,8 +23,13 @@ public class Level {
                 throw new RuntimeException(e);
             }
 
-            //labyrinth.setDifficulty(Difficulty.CHICKEN);
-            gp.labyrinth.generateRandomly(gp.labyrinth.getTreasure().getPosition());
+            if ( levelNumber++ % 3 == 0 ){
+                gp.labyrinth.setDifficulty(gp.labyrinth.getDifficulty().next());
+            }
+            gp.labyrinth.generate(gp.labyrinth.getTreasure().getPosition());
+
+            // TODO
+            // Monster spawning depeding on the difficulty
         }
     }
 }
