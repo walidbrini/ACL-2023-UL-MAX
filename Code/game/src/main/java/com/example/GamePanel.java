@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 		thread.start(); // Automatically call run()
 		labyrinth.afficheVersionTexte();
 
-		labyrinth.saveToFile();
+		//labyrinth.saveToFile();
 		labyrinth.loadFromFile("res/map/map01.txt");
 	}
 

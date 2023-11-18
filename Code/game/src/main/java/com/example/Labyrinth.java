@@ -249,7 +249,6 @@ public class Labyrinth {
             randomizeTreasure(spawnPosition);
             this.randomizeFire();
             isReachable = isReachable(spawn.getPosition(),treasure.getPosition());
-            System.out.println(isReachable);
         } while(!isReachable);
         randomizeAid();
     }
@@ -298,7 +297,7 @@ public class Labyrinth {
                     case 'a':
                         grid[j][i] = firstAid;
                         break;
-                    case ' ':
+                    default:
                         grid[j][i] = walkway;
                         break;
                 }
