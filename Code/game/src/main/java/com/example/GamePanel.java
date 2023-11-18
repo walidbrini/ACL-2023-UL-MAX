@@ -86,9 +86,11 @@ public class GamePanel extends JPanel implements Runnable{
 		level.update();
 		player.update();
 		
-		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.update();
-        }
+		// Clear All monsters
+		//monsterSpawner.clearMonsters();
+		
+		monsterSpawner.update();
+
 	}
 
 	public void paintComponent(Graphics g) {
@@ -97,11 +99,12 @@ public class GamePanel extends JPanel implements Runnable{
 
 		labyrinth.draw(g2);
 		player.draw(g2);
-		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.draw(g2);
-        }
+		
+		monsterSpawner.drawMonsters(g2);
+
 		g2.dispose();
 	}
+
 	public void playMusic(int i){
 		sound.setFile(i);
 		sound.play();
