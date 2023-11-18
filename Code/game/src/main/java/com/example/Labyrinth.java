@@ -20,15 +20,18 @@ public class Labyrinth {
     private final GamePanel gamePanel;
     private Difficulty difficulty;
 
-    public Labyrinth(int width, int height, Difficulty difficulty, GamePanel gamePanel) {
+    public Labyrinth(int width, int height, GamePanel gamePanel) {
         this.width = width;
         this.height = height;
-        this.difficulty = difficulty;
+        this.difficulty = Difficulty.CHICKEN;
         this.grid = new Square[width][height];
         this.gamePanel = gamePanel;
-        generateRandomly(null);
     }
 
+
+    /* ----------------------------------------------------------
+                            MAP GENERATION
+    ------------------------------------------------------------ */
     private void fillBordersWithWalls(){
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -237,7 +240,7 @@ public class Labyrinth {
                 isReachableDFS(x, y + 1, endX, endY, visited);
     }
 
-    public void generateRandomly(Coordinates spawnPosition){
+    public void generate(Coordinates spawnPosition){
         boolean isReachable;
 
         do{
@@ -251,15 +254,10 @@ public class Labyrinth {
         randomizeAid();
     }
 
-    public void levelTransition(){
-        for (int i = 1; i < width - 1; i++) {
-            for (int j = 1; j < height - 1; j++) {
-                        grid[i][j] = walkway;
-            }
-        }
-    }
 
-    // TODO
+    /* ----------------------------------------------------------
+                          SAVE AND LOAD MAP
+    ------------------------------------------------------------ */
     public void saveToFile() throws IOException {
         FileWriter fileWriter = new FileWriter("res/map/map01.txt");
         PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -272,6 +270,7 @@ public class Labyrinth {
         printWriter.close();
     }
 
+    // TODO
     public void loadFromFile(String filePath) throws IOException {
         File file = new File(filePath);
         FileReader fileReader = new FileReader(file);
@@ -309,6 +308,10 @@ public class Labyrinth {
         reader.close();
     }
 
+
+    /* ----------------------------------------------------------
+                             DISPLAY
+    ------------------------------------------------------------ */
     public void draw(Graphics graphics) {
 
         BufferedImage floorImage = walkway.getBufferedImage();
@@ -344,8 +347,6 @@ public class Labyrinth {
         }
     }
 
-
-    // FOR TESTING
     public void afficheVersionTexte(){
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -354,7 +355,20 @@ public class Labyrinth {
             System.out.println();
         }
     }
-    
+
+    public void levelTransition(){
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                grid[i][j] = walkway;
+            }
+        }
+    }
+
+
+    /* ----------------------------------------------------------
+                        PROPERTY CHEKING
+    ------------------------------------------------------------ */
+
     public boolean isWall(int x, int y) {
         return grid[x][y].getContent() == ObjectType.WALL;
     }
@@ -362,6 +376,11 @@ public class Labyrinth {
     public boolean isFree(int x, int y){
         return grid[x][y].getContent() != ObjectType.WALL;
     }
+
+
+    /* ----------------------------------------------------------
+                        GETTERS AND SETTERS
+     ------------------------------------------------------------ */
 
     public Square[][] getGrid() {
         return grid;
@@ -379,8 +398,20 @@ public class Labyrinth {
         this.difficulty = difficulty;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
     public void setSquare(int x, int y, ObjectType objectType){
         if(objectType == ObjectType.WALKWAY)
             grid[x][y] = walkway;
+        else if(objectType == ObjectType.WALL)
+            grid[x][y] = wall;
+        else if(objectType == ObjectType.FIRE)
+            grid[x][y] = fire;
+        else if(objectType == ObjectType.AID)
+            grid[x][y] = firstAid;
+        else
+            grid[x][y] = new Square();
     }
 }

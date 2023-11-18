@@ -5,5 +5,14 @@ public enum Difficulty {
     EASY,
     MEDIUM,
     HARD,
-    INSANE
+    INSANE {
+        @Override
+        public Difficulty next() {
+            return this;
+        };
+    };
+
+    public Difficulty next() {
+        return values()[ordinal() + 1];
+    }
 }
