@@ -4,7 +4,7 @@ public class Collision{
     GamePanel gp;
 
     private long lastCollisionTime;
-    private long collisionCooldown = 2000; // 2000 milliseconds 
+    private long collisionCooldown = 500; // 500 milliseconds 
     
     public Collision(GamePanel gp) {
         this.gp=gp;

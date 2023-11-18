@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); 
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
-		setupGame();
+		//setupGame();
 
 		// Print player position
 		System.out.println(player.x) ;
@@ -61,17 +61,17 @@ public class GamePanel extends JPanel implements Runnable{
 		thread.start(); // Automatically call run()
 		labyrinth.afficheVersionTexte();
 
-		//labyrinth.saveToFile();
-		labyrinth.loadFromFile("res/map/map01.txt");
+		labyrinth.saveToFile();
+		//labyrinth.loadFromFile("res/map/map01.txt");
 	}
-
+	
 	public void run() {
 		long interval=1000/60; // FPS
 		long passTime =0;
 		long oldTime = System.currentTimeMillis();
 		long currentTime;
-
-		while (thread != null){
+		
+		while (thread != null){	
 			currentTime = System.currentTimeMillis();
 			passTime = currentTime - oldTime;
 			if (passTime > interval ) {  //><
@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		level.update();
 		player.update();
-
+		
 		for (Monstre monster : monsterSpawner.getMonsters()) {
             monster.update();
         }
