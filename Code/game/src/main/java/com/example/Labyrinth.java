@@ -285,21 +285,21 @@ public class Labyrinth {
                         grid[i][j] = wall;
                         break;
                     case 'x':
-                        grid[j][i] = fire;
+                        grid[i][j] = fire;
                         break;
                     case 'S':
-                        grid[j][i] = spawn;
+                        grid[i][j] = spawn;
                         spawn.setPosition(new Coordinates(j, i));
                         break;
                     case 'T':
-                        grid[j][i] = treasure;
+                        grid[i][j] = treasure;
                         treasure.setPosition(new Coordinates(j, i));
                         break;
                     case 'a':
-                        grid[j][i] = firstAid;
+                        grid[i][j] = firstAid;
                         break;
                     default:
-                        grid[j][i] = walkway;
+                        grid[i][j] = walkway;
                         break;
                 }
             }
