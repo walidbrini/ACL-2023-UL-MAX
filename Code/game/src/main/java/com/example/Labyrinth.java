@@ -269,7 +269,6 @@ public class Labyrinth {
         printWriter.close();
     }
 
-    // TODO
     public void loadFromFile(String filePath) throws IOException {
         File file = new File(filePath);
         FileReader fileReader = new FileReader(file);

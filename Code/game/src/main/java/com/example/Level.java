@@ -1,10 +1,12 @@
 package com.example;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Level {
-    GamePanel gp;
-    int levelNumber;
+    private final GamePanel gp;
+    private int levelNumber;
+    private final int levelDifficultyStep = 2;
 
     public Level(GamePanel gp) {
         this.gp = gp;
@@ -23,14 +25,46 @@ public class Level {
                 throw new RuntimeException(e);
             }
 
-            if ( levelNumber++ % 3 == 0 ){
+            if ( levelNumber++ % levelDifficultyStep == 0 ){
                 gp.labyrinth.setDifficulty(gp.labyrinth.getDifficulty().next());
             }
             gp.labyrinth.generate(gp.labyrinth.getTreasure().getPosition());
-
-            // TODO
-            // Monster spawning depeding on the difficulty
+            spawnNewMonsters();
         }
+    }
+    
+    private void spawnNewMonsters(){
+        int min = 0, max = 0;
+
+        switch (gp.labyrinth.getDifficulty()) {
+            case CHICKEN:
+                min = 1;
+                max = 1;
+                break;
+            case EASY:
+                min = 3;
+                max = 5;
+                break;
+            case MEDIUM:
+                min = 5;
+                max = 8;
+                break;
+            case HARD:
+                min = 10;
+                max = 12;
+                break;
+            case INSANE:
+                min = 13;
+                max = 16;
+                break;
+        }
+
+        Random r = new Random();
+
+        int numberOfMonsters = r.nextInt(max-min) + min;
+
+        gp.monsterSpawner.clearMonsters();
+        gp.monsterSpawner.spawnMonsters(numberOfMonsters);
     }
 }
 
