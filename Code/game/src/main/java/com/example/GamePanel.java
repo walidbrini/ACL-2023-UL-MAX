@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame(0.3f);
+		setupGame(0.5f);
 
 		// Print player position
 		System.out.println(player.x) ;
@@ -55,8 +55,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 	}
 	public void setupGame(float volume){
-		playMusic(3);
-		sound.setVolume(volume);
+		playMusic(3,volume);
+
 	}
 	public void startThread() throws IOException{
 		thread = new Thread(this);
@@ -104,17 +104,19 @@ public class GamePanel extends JPanel implements Runnable{
         }
 		g2.dispose();
 	}
-	public void playMusic(int i){
+	public void playMusic(int i,float volume){
 		sound.setFile(i);
 		sound.play();
 		sound.loop();
+		sound.setVolume(volume);
 	}
 	public void stopMusic(){
 		sound.stop();
 	}
-	public void playSE(int i){
+	public void playSE(int i,float volume){
 		sound.setFile(i);
 		sound.play();
+		sound.setVolume(volume);
 	}
 
 	public int getTileSize() {
