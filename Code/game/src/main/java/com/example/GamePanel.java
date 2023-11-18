@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame();
+		setupGame(0.3f);
 
 		// Print player position
 		System.out.println(player.x) ;
@@ -54,8 +54,9 @@ public class GamePanel extends JPanel implements Runnable{
         monsterSpawner.spawnMonsters(10);
 
 	}
-	public void setupGame(){
-		playMusic(0);
+	public void setupGame(float volume){
+		playMusic(3);
+		sound.setVolume(volume);
 	}
 	public void startThread() throws IOException{
 		thread = new Thread(this);
