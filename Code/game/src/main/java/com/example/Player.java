@@ -107,6 +107,9 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        if(life <= 0){
+            gp.gameState = GameState.GAMEOVER;
+        }
 
     }
 

@@ -27,7 +27,27 @@ public class UserInterface {
 
         }else if(gp.gameState == GameState.PAUSESTATE){
             drawPauseScreen();
+        }else if (gp.gameState== GameState.GAMEOVER){
+            drawGameOverScreen();
         }
+    }
+    public void drawGameOverScreen(){
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
+        text = "Game Over";
+        // Shadow text
+        g2.setColor(Color.black);
+        x = getXforCenteredText(text);
+        y = gp.screenHeight/2;
+        g2.drawString(text,x,y);
+        // main text
+        g2.setColor(Color.white);
+        g2.drawString(text,x-4,y-4);
     }
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
