@@ -65,9 +65,7 @@ public class Level {
         }
 
         Random r = new Random();
-
         int numberOfMonsters = r.nextInt(max-min) + min;
-
         gp.monsterSpawner.clearMonsters();
         gp.monsterSpawner.spawnMonsters(numberOfMonsters);
     }
