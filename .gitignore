@@ -3,12 +3,12 @@ Code/game/target/*
 
 # IntelliJ IDEA
 ../../.idea/
-*/.idea/
-*/*.iml
+**/.idea/
+*.iml
 ../../ACL-2023-UL-MAX.iml
 ../../game.iml
 
-
+*.txt
 
 # Eclipse
 */.classpath
