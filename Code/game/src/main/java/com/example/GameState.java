@@ -4,5 +4,6 @@ public enum GameState {
     NONE,
     PLAYSTATE,
     PAUSESTATE,
-    GAMEOVER
+    GAMEOVER,
+    WIN
 }

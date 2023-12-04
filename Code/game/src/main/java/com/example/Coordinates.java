@@ -1,7 +1,7 @@
 package com.example;
 
 public class Coordinates {
-    private int x;
+    private int x;git
     private int y;
 
     public Coordinates(int x, int y) {

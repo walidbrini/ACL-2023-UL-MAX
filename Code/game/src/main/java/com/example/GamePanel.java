@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	}
 	public void setupGame(float volume){
-		playMusic(3,volume);
+		playMusic(0,volume);
 		gameState = GameState.PLAYSTATE;
 
 	}
