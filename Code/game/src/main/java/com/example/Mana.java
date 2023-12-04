@@ -2,7 +2,7 @@ package com.example;
 
 public class Mana extends Square{
     public Mana() {
-        super(ObjectType.MANA, 0,"/map/props/mana.png");
+        super(ObjectType.MANA, 0,"/items/manacrystal_full.png");
         collision = false;
     }
 

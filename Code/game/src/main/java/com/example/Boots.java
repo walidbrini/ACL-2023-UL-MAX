@@ -2,7 +2,7 @@ package com.example;
 
 public class Boots extends Square{
     public Boots() {
-        super(ObjectType.BOOTS,"/map/props/boots.png");
+        super(ObjectType.BOOTS,"/items/boots.png");
         collision = false;
     }
 
