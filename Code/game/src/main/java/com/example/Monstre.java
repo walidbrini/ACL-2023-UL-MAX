@@ -89,7 +89,7 @@ public class Monstre extends Entity  {
             collisionOn = false;
             gp.checker.checkSquare(this, gp.labyrinth);
             // CHECK Fire Collision
-            gp.checker.checkObject(this, gp.labyrinth, true);
+            //gp.checker.checkObject(this, gp.labyrinth, true);
 
             if (collisionOn == false) {
                 moveInDirection();

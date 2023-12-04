@@ -7,5 +7,7 @@ public enum ObjectType {
     FIRE,
     AID,
     SPAWN,
-    TREASURE
+    TREASURE,
+    MANA,
+    BOOTS
 }
