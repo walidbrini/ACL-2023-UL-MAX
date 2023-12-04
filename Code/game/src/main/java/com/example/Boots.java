@@ -1,0 +1,16 @@
+package com.example;
+
+public class Boots extends Square{
+    public Boots() {
+        super(ObjectType.BOOTS,"/map/props/boots.png");
+        collision = false;
+    }
+
+
+
+    // FOR TESTING
+    @Override
+    public String toString() {
+        return "b";
+    }
+}

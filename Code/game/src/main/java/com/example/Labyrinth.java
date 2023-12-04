@@ -17,6 +17,8 @@ public class Labyrinth {
     private final Random random = new Random();
     public final Spawn spawn = new Spawn();
     private final Treasure treasure = new Treasure();
+    private final Mana mana = new Mana();
+    private final Boots boots = new Boots();
     private final GamePanel gamePanel;
     private Difficulty difficulty;
 
@@ -140,6 +142,72 @@ public class Labyrinth {
         }
     }
 
+    private void randomizeMana() {
+        double manaProbability = 0.01;
+        /*switch (difficulty) {
+            case CHICKEN:
+                manaProbability = 0.01;
+                break;
+            case EASY:
+                manaProbability = 0.01;
+                break;
+            case MEDIUM:
+                manaProbability = 0.01;
+                break;
+            case HARD:
+                manaProbability = 0.01;
+                break;
+            case INSANE:
+                manaProbability = 0.01;
+                break;
+        }*/
+
+
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
+                    if (random.nextDouble() < manaProbability) {
+                        grid[i][j] = mana; // Place first aid based on the probability for the selected difficulty
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void randomizeBoots() {
+        double bootsProbability = 0.009;
+        /*switch (difficulty) {
+            case CHICKEN:
+                bootsProbability = 0.009;
+                break;
+            case EASY:
+                bootsProbability = 0.008;
+                break;
+            case MEDIUM:
+                bootsProbability = 0.020;
+                break;
+            case HARD:
+                bootsProbability = 0.012;
+                break;
+            case INSANE:
+                bootsProbability = 0.005;
+                break;
+        }*/
+
+
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
+                    if (random.nextDouble() < bootsProbability) {
+                        grid[i][j] = boots; // Place first aid based on the probability for the selected difficulty
+                    }
+                }
+
+            }
+        }
+    }
+
     private Coordinates randomizeSpawn(int minX, int minY, int maxX, int maxY){
         // Place the starting point randomly within the labyrinth
         return getRandomCoordinates(minX, minY, maxX, maxY);
@@ -251,6 +319,8 @@ public class Labyrinth {
             isReachable = isReachable(spawn.getPosition(),treasure.getPosition());
         } while(!isReachable);
         randomizeAid();
+        randomizeMana();
+        randomizeBoots();
     }
 
 
