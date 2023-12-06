@@ -6,35 +6,48 @@ import java.util.concurrent.TimeUnit;
 public class Level {
     private final GamePanel gp;
     private int levelNumber;
-    private final int levelDifficultyStep = 2;
-    private final int finalLevel = 12;
+    private final int levelDifficultyStep = 1;
+    private final int finalLevel = 2;
 
     public Level(GamePanel gp) {
         this.gp = gp;
+    }
+
+    public void start(){
         gp.labyrinth = new Labyrinth(GamePanel.getMaxScreenCol(), GamePanel.getMaxScreenRow(),gp);
         gp.labyrinth.generate(null);
         levelNumber = 1;
+        gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
+                              gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
+    }
+
+    public void restart(){
+        gp.monsterSpawner.clearMonsters();
+        gp.player.replenishLife();
+        this.start();
     }
 
     public void update(){
         if (gp.checker.checkTreasure(gp.player,gp.labyrinth)){
             if(levelNumber == finalLevel){
-                //TODO
-                // win
+                gp.setGameState(GameState.WIN);
             }
-            gp.labyrinth.levelTransition();
-            gp.repaint();
-            try{
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            else{
+                gp.labyrinth.levelTransition();
+                gp.repaint();
+                try{
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if ( levelNumber++ % levelDifficultyStep == 0 ){
+                    gp.labyrinth.setDifficulty(gp.labyrinth.getDifficulty().next());
+                }
+                gp.labyrinth.generate(gp.labyrinth.getTreasure().getPosition());
+                spawnNewMonsters();
             }
 
-            if ( levelNumber++ % levelDifficultyStep == 0 ){
-                gp.labyrinth.setDifficulty(gp.labyrinth.getDifficulty().next());
-            }
-            gp.labyrinth.generate(gp.labyrinth.getTreasure().getPosition());
-            spawnNewMonsters();
         }
     }
     

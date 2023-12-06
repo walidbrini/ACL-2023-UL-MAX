@@ -10,7 +10,7 @@ public class Labyrinth {
     private int width;
     private int height;
     private Square[][] grid;
-    private final String fileSaveLocation = "res/map/map01.txt";
+    private final String fileSaveLocation = "res/map/map.txt";
     private final Walkway walkway = new Walkway();
     private final Wall wall = new Wall();
     private final Fire fire = new Fire();
@@ -309,7 +309,7 @@ public class Labyrinth {
         printWriter.close();
     }
 
-    public void loadFromFile(String filePath) throws IOException, FileNotFoundException {
+    public void loadFromFile(String filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
         // Determine width and height
@@ -351,6 +351,12 @@ public class Labyrinth {
                         break;
                     case 'a':
                         grid[j][i] = firstAid;
+                        break;
+                    case 'm':
+                        grid[j][i] = mana;
+                        break;
+                    case 'b':
+                        grid[j][i] = boots;
                         break;
                     default:
                         grid[j][i] = walkway;

@@ -1,6 +1,8 @@
 package com.example;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UserInterface {
     GamePanel gp;
@@ -9,6 +11,7 @@ public class UserInterface {
     public String message ="";
     public boolean messageOn = false;
     int messageCounter = 0;
+    boolean buttonAdded = false;
 
     public UserInterface(GamePanel gp){
         this.gp=gp;
@@ -25,29 +28,96 @@ public class UserInterface {
         g2.setColor(Color.white);
         if (gp.gameState == GameState.PLAYSTATE){
 
-        }else if(gp.gameState == GameState.PAUSESTATE){
+        }
+        else if(gp.gameState == GameState.PAUSESTATE){
             drawPauseScreen();
-        }else if (gp.gameState== GameState.GAMEOVER){
+        }
+        else if (gp.gameState== GameState.GAMEOVER){
             drawGameOverScreen();
         }
+        else if (gp.gameState == GameState.WIN){
+            drawWinGameScreen();
+        }
     }
+
+    private void drawWinGameScreen() {
+        // Draw a semi-transparent overlay
+        g2.setColor(new Color(0, 0, 0, 150));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // Display "You Won!" message
+        String winMessage = "You Won!";
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
+        g2.setColor(Color.white);
+        int x = getXforCenteredText(winMessage);
+        int y = gp.screenHeight / 2 - 40;
+        g2.drawString(winMessage, x, y);
+
+        // Play Again button
+        Button playAgainButton = new Button("Play Again");
+        playAgainButton.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        playAgainButton.setBackground(Color.white);
+        int buttonWidth = 150;
+        int buttonHeight = 50;
+        int buttonX = (gp.screenWidth - buttonWidth) / 2;
+        int buttonY = y + 40;
+        playAgainButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        // Add the button to the GamePanel
+        if(!buttonAdded){
+            gp.add(playAgainButton);
+            buttonAdded = true;
+        }
+
+        // Add a MouseListener to the button for click events
+        playAgainButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gp.setGameState(GameState.RESTART);
+                gp.remove(playAgainButton);
+                buttonAdded = false;
+            }
+        });
+    }
+
     public void drawGameOverScreen(){
         g2.setColor(new Color(0,0,0,150));
         g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
 
-        int x;
-        int y;
-        String text;
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
-        text = "Game Over";
-        // Shadow text ; 
-        g2.setColor(Color.black);
-        x = getXforCenteredText(text);
-        y = gp.screenHeight/2;
-        g2.drawString(text,x,y);
-        // main text
+        // Display "Game Over" message
+        String gameOverMessage = "Game Over";
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
         g2.setColor(Color.white);
-        g2.drawString(text,x-4,y-4);
+        int x = getXforCenteredText(gameOverMessage);
+        int y = gp.screenHeight / 2 - 40;
+        g2.drawString(gameOverMessage, x, y);
+
+        // Retry button
+        Button retryButton = new Button("Restart Game");
+        retryButton.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        retryButton.setBackground(Color.white);
+        int buttonWidth = 150;
+        int buttonHeight = 50;
+        int buttonX = (gp.screenWidth - buttonWidth) / 2;
+        int buttonY = y + 40;
+        retryButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        // Add the button to the GamePanel
+        if(!buttonAdded){
+            gp.add(retryButton);
+            buttonAdded = true;
+        }
+
+        // Add a MouseListener to the button for click events
+        retryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gp.setGameState(GameState.RESTART);
+                gp.remove(retryButton);
+                buttonAdded = false;
+            }
+        });
+
     }
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));

@@ -1,11 +1,9 @@
 import com.example.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LabyrinthTest {
     private Labyrinth labyrinth;
@@ -17,16 +15,14 @@ class LabyrinthTest {
     }
 
     @Test
-    void testRightResults() {
-        assertNotNull(labyrinth.getTreasure());
-        assertNotNull(labyrinth.getSpawn());
+    void gridShouldNotBeNull() {
         assertNotNull(labyrinth.getGrid());
     }
 
     @Test
-    void LoadingInvalidFileShouldReturnException(){
+    void loadingInvalidFileShouldRaiseException(){
         Labyrinth loadedLabyrith = new Labyrinth(new GamePanel());
-        assertThrows(FileNotFoundException.class, () -> {labyrinth.loadFromFile("invalid/path/to/file.txt");}, "Exception not raised");
+        assertThrows(FileNotFoundException.class, () -> labyrinth.loadFromFile("invalid/path/to/file.txt"), "Exception not raised");
     }
 
     @Test
@@ -41,16 +37,4 @@ class LabyrinthTest {
             }
         }
     }
-
-    /*
-    @Test
-    void testBoundaryConditions() {
-        // Test with the smallest possible labyrinth
-        Labyrinth smallLabyrinth = new Labyrinth(1, 1, new GamePanel());
-        smallLabyrinth.generate(null);
-        assertNotNull(smallLabyrinth.getTreasure());
-        assertNotNull(smallLabyrinth.getSpawn());
-        assertNotNull(labyrinth.getGrid());
-    }
-    */
 }

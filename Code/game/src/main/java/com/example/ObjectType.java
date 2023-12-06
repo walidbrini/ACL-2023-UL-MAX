@@ -9,5 +9,6 @@ public enum ObjectType {
     SPAWN,
     TREASURE,
     MANA,
-    BOOTS
+    BOOTS,
+    DOOR
 }

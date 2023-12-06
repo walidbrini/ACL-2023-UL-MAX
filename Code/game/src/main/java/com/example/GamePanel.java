@@ -49,28 +49,22 @@ public class GamePanel extends JPanel implements Runnable{
 
 		setupGame(0.5f);
 
-		// Print player position
-		System.out.println(player.x) ;
-		System.out.println(player.y) ;
-
-		player.setPosition(labyrinth.getSpawn().getPosition().getX() * this.tileSize,
-				           labyrinth.getSpawn().getPosition().getY() * this.tileSize);
-
 		monsterSpawner = new MonsterSpawner(this);
 
 	}
 	public void setupGame(float volume){
 		playMusic(0,volume);
+		level.start();
 		gameState = GameState.PLAYSTATE;
 
 	}
 	public void startThread() throws IOException{
 		thread = new Thread(this);
 		thread.start(); // Automatically call run()
-		labyrinth.afficheVersionTexte();
 
-		labyrinth.saveToFile();
-		//labyrinth.loadFromFile("res/map/map01.txt");
+		//labyrinth.afficheVersionTexte();
+		//labyrinth.saveToFile();
+		//labyrinth.loadFromFile("res/map/saved_map.txt");
 	}
 	
 	public void run() {
@@ -97,8 +91,13 @@ public class GamePanel extends JPanel implements Runnable{
 			for (Monstre monster : monsterSpawner.getMonsters()) {
 				monster.update();
 			}
-		}else if (gameState == GameState.PAUSESTATE){
+		}
+		else if (gameState == GameState.PAUSESTATE){
 			// nothing
+		}
+		else if(gameState == GameState.RESTART){
+			level.restart();
+			gameState = GameState.PLAYSTATE;
 		}
 		for (int i =0;i < projectileList.size();i++){
 			if(projectileList.get(i) != null){
@@ -168,5 +167,7 @@ public class GamePanel extends JPanel implements Runnable{
 		return maxScreenRow;
 	}
 
-	
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
 }

@@ -143,7 +143,8 @@ public class Player extends Entity {
             x += gp.tileSize ;
         }
     }
-    // to create sprites we can use paint photoshop gimp or PiSKEL (browse-base free software )
 
-
+    public void replenishLife() {
+        this.life = maxLife;
+    }
 }
