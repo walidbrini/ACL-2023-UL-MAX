@@ -1,0 +1,43 @@
+@startuml
+actor       Game_Player       as Gamer
+participant Gamepanel as Gamepanel
+
+
+Gamer -> Gamepanel: Choisir le Niveau de difficulté (niveau)
+Gamepanel --> Gamer : Niveau Sélectionné()
+Gamer -> Gamepanel: Executer le Jeu
+Gamepanel -> Labyrinthe : Générer la labyrinthe
+Labyrinthe <- Labyrinthe : Labyrinthe générée
+loop posplayer == Obstacle 
+    Labyrinthe -> Player : Génerer la position initiale du Player
+end
+
+Player --> Labyrinthe : Position du joueur initialisé
+
+Labyrinthe --> Gamepanel : Jeu Initialisé
+
+participant Controller as Controller
+
+loop point de vie >100 || EtatJeu == 0 
+    Gamer-> Controller : Appuyer sur une touche (key)
+    Controller -> Controller : Verifier le type de case (key)
+    Controller --> Labyrinthe : Envoyer le type de mouvement
+    
+    alt  Mouvement addmissible
+    Labyrinthe -> Labyrinthe : Mettre a jour le contenu des cases
+    Labyrinthe -> Player : Mise a jour des coordonées du Joueur
+    else Mouvement non admissible
+    Labyrinthe -> Labyrinthe : Tester la position actuel du Player
+
+    end
+
+    Labyrinthe -> Gamepanel : Enovyer la disposition des cases dans la labyrinthe
+    Gamepanel -> Gamepanel : Comparer la position du joueur a la position du trésor
+    opt  PosJoueur == PosTrésor 
+        Gamepanel -> Gamepanel : Gagner le jeur (EtatJeu)
+    end
+
+end
+
+
+@enduml

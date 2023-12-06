@@ -7,9 +7,10 @@ import java.util.Random;
 
 
 public class Labyrinth {
-    private final int width;
-    private final int height;
-    private final Square[][] grid;
+    private int width;
+    private int height;
+    private Square[][] grid;
+    private final String fileSaveLocation = "res/map/map01.txt";
     private final Walkway walkway = new Walkway();
     private final Wall wall = new Wall();
     private final Fire fire = new Fire();
@@ -27,6 +28,11 @@ public class Labyrinth {
         this.height = height;
         this.difficulty = Difficulty.CHICKEN;
         this.grid = new Square[width][height];
+        this.gamePanel = gamePanel;
+    }
+
+    public Labyrinth(GamePanel gamePanel) {
+        this.difficulty = Difficulty.CHICKEN;
         this.gamePanel = gamePanel;
     }
 
@@ -144,30 +150,12 @@ public class Labyrinth {
 
     private void randomizeMana() {
         double manaProbability = 0.01;
-        /*switch (difficulty) {
-            case CHICKEN:
-                manaProbability = 0.01;
-                break;
-            case EASY:
-                manaProbability = 0.01;
-                break;
-            case MEDIUM:
-                manaProbability = 0.01;
-                break;
-            case HARD:
-                manaProbability = 0.01;
-                break;
-            case INSANE:
-                manaProbability = 0.01;
-                break;
-        }*/
-
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
                 if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < manaProbability) {
-                        grid[i][j] = mana; // Place first aid based on the probability for the selected difficulty
+                        grid[i][j] = mana;
                     }
                 }
 
@@ -177,30 +165,12 @@ public class Labyrinth {
 
     private void randomizeBoots() {
         double bootsProbability = 0.009;
-        /*switch (difficulty) {
-            case CHICKEN:
-                bootsProbability = 0.009;
-                break;
-            case EASY:
-                bootsProbability = 0.008;
-                break;
-            case MEDIUM:
-                bootsProbability = 0.020;
-                break;
-            case HARD:
-                bootsProbability = 0.012;
-                break;
-            case INSANE:
-                bootsProbability = 0.005;
-                break;
-        }*/
-
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
                 if(grid[i][j].getContent() == null || grid[i][j].getContent() == ObjectType.WALKWAY){
                     if (random.nextDouble() < bootsProbability) {
-                        grid[i][j] = boots; // Place first aid based on the probability for the selected difficulty
+                        grid[i][j] = boots;
                     }
                 }
 
@@ -328,7 +298,7 @@ public class Labyrinth {
                           SAVE AND LOAD MAP
     ------------------------------------------------------------ */
     public void saveToFile() throws IOException {
-        FileWriter fileWriter = new FileWriter("res/map/map01.txt");
+        FileWriter fileWriter = new FileWriter(fileSaveLocation);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -339,13 +309,29 @@ public class Labyrinth {
         printWriter.close();
     }
 
-    public void loadFromFile(String filePath) throws IOException {
-        File file = new File(filePath);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader reader = new BufferedReader(fileReader);
+    public void loadFromFile(String filePath) throws IOException, FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
+        // Determine width and height
+        String line = reader.readLine();
+        int width = line.length();
+        int height = 1;
+
+        while ((line = reader.readLine()) != null) {
+            height++;
+        }
+
+        // Initialize the grid
+        this.width = width;
+        this.height = height;
+        this.grid = new Square[width][height];
+
+        // Reset the reader to the beginning of the file
+        reader.close();
+
+        reader = new BufferedReader(new FileReader(filePath));
         for (int i = 0; i < height; i++) {
-            String line = reader.readLine();
+            line = reader.readLine();
             for (int j = 0; j < width; j++) {
                 char symbol = line.charAt(j);
                 switch (symbol) {
@@ -481,5 +467,17 @@ public class Labyrinth {
             grid[x][y] = firstAid;
         else
             grid[x][y] = new Square();
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public String getFileSaveLocation() {
+        return fileSaveLocation;
     }
 }
