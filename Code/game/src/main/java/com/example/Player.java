@@ -32,10 +32,13 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+
+
     }
 
     public void setDefaultValues(){
         speed = 4;
+
         direction = "down";
         //Player Status
         maxLife = 6;
@@ -59,7 +62,6 @@ public class Player extends Entity {
     }
     public void update(){
         gp.checker.checkMonstre(this, gp.monsterSpawner);
-
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
                 direction = "up";
@@ -78,8 +80,6 @@ public class Player extends Entity {
             gp.checker.checkSquare(this,gp.labyrinth);
             // CHECK Fire Collision
             gp.checker.checkObject(this ,gp.labyrinth ,true);
-
-
             //IF COLLISION IS FALSE , PLAYER CAN MOVE
             if(collisionOn == false){
                 switch(direction){

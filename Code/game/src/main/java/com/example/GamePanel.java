@@ -33,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 	ArrayList<Projectile> projectileList = new ArrayList<>();
 	MonsterSpawner monsterSpawner;
+	public long speedBoostStartTime ;
+	public long currentTime ;
 
 	public Collision checker = new Collision(this);
 
@@ -94,6 +96,8 @@ public class GamePanel extends JPanel implements Runnable{
 		if (gameState == GameState.PLAYSTATE){
 			level.update();
 			player.update();
+			currentTime = System.currentTimeMillis();
+			checker.checkboostSpeedForDuration(player,5);
 			for (Monstre monster : monsterSpawner.getMonsters()) {
 				monster.update();
 			}
