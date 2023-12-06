@@ -7,16 +7,16 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
-    GamePanel gp;
     Controller keyH;
     PlayerHeart heart ;//= new PlayerHeart(gp);
     int minX = 100; // Replace with your desired values
     int minY = 100;
     int maxX = 200;
     int maxY = 200;
+    public Projectile projectile ;
 
-    public Player(GamePanel gp, Controller keyH){
-        this.gp = gp;
+    public Player(GamePanel gp ,Controller keyH){
+        super(gp);
         this.keyH = keyH;
         
         solidArea = new Rectangle();
@@ -37,29 +37,25 @@ public class Player extends Entity {
     public void setDefaultValues(){
         speed = 4;
         direction = "down";
-
         //Player Status
         maxLife = 6;
         life = maxLife ; //2 lives = 1 heart
+        projectile = new Fireball(gp);
 
     }
     public void getPlayerImage(){
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/player/up3.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/player/down3.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/player/left3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-            right3 = ImageIO.read(getClass().getResourceAsStream("/player/right3.png"));
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            up1 = setupImage("/player/up1.png");
+            up2 = setupImage("/player/up2.png");
+            up3 = setupImage("/player/up3.png");
+            down1 = setupImage("/player/down1.png");
+            down2 = setupImage("/player/down2.png");
+            down3 = setupImage("/player/down3.png");
+            left1 = setupImage("/player/left1.png");
+            left2 = setupImage("/player/left2.png");
+            left3 = setupImage("/player/left3.png");
+            right1 = setupImage("/player/right1.png");
+            right2 = setupImage("/player/right2.png");
+            right3 = setupImage("/player/right3.png");
     }
     public void update(){
         gp.checker.checkMonstre(this, gp.monsterSpawner);
@@ -94,7 +90,7 @@ public class Player extends Entity {
                 }
             }
             spriteCounter++;
-            if (spriteCounter > 10){
+            if (spriteCounter > 12){
                 if (spriteNum==1){
                     spriteNum=2;
                 }
@@ -107,64 +103,19 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        if (gp.control.shoot == true && projectile.alive == false ){
+            projectile.set(x,y,direction,true,this);
+            gp.projectileList.add(projectile);
+        }
         if(life <= 0){
             gp.gameState = GameState.GAMEOVER;
         }
 
     }
 
-    public void draw(Graphics2D g2){
+    public void drawPlayer(Graphics2D g2,GamePanel gp){
 
-        BufferedImage image = null ;
-
-        switch (direction) {
-            case "up":
-                if (spriteNum==1){
-                    image = up1;
-                }
-                if (spriteNum==2){
-                    image = up2;
-                }
-                if (spriteNum==3) {
-                    image = up3;
-                }
-                break;
-            case "down" :
-                if (spriteNum==1){
-                    image = down1;
-                }
-                if (spriteNum==2){
-                    image = down2;
-                }
-                if (spriteNum==3){
-                    image = down3;
-                }
-                break;
-            case "left" :
-                if (spriteNum==1){
-                    image = left1;
-                }
-                if (spriteNum==2){
-                    image = left2;
-                }
-                if (spriteNum==3){
-                    image = left3;
-                }
-                break;
-            case "right" :
-                if (spriteNum==1){
-                    image = right1;
-                }
-                if (spriteNum==2){
-                    image = right2;
-                }
-                if (spriteNum==3){
-                    image = right3;
-                }
-                break;
-
-        }
-        g2.drawImage(image , x ,y , gp.getTileSize() , gp.getTileSize(),null);
+        draw(g2,gp);
         drawPlayerLife(g2);
         // draw an image on the screen
     }
@@ -193,4 +144,6 @@ public class Player extends Entity {
         }
     }
     // to create sprites we can use paint photoshop gimp or PiSKEL (browse-base free software )
+
+
 }

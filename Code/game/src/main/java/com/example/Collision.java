@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.ArrayList;
+
 public class Collision{
     GamePanel gp;
 
@@ -30,9 +32,20 @@ public class Collision{
             }
         }
     }
-    
-    
 
+    public void checkProjectile(Projectile projectile) {
+        for (int j = 0; j < gp.monsterSpawner.getMonsters().size(); j++) {
+            if (gp.monsterSpawner.getMonsters().get(j).solidArea.intersects(projectile.solidArea)) {
+                if (gp.monsterSpawner.getMonsters().get(j).life >= 0) {
+                    gp.monsterSpawner.getMonsters().get(j).life = 0;
+                }
+                if (gp.monsterSpawner.getMonsters().get(j).life == 0) {
+                    // monster die
+                    gp.monsterSpawner.getMonsters().get(j).alive = false;
+                }
+            }
+        }
+    }
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
@@ -118,6 +131,13 @@ public class Collision{
                     entity.life--;
                     gp.playSE(1,1.0f);
                     System.out.println("Damage taken");
+            }
+            if (obj.getContent() == ObjectType.BOOTS ){
+                l.setSquare(abs, ord,ObjectType.WALKWAY);
+                // Boost the entity's speed to 8 for 10 seconds
+                entity.boostSpeedForDuration(10, 5000); // 10000 milliseconds = 10 seconds
+
+
             }
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
