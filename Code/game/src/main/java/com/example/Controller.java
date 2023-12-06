@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 
 public class Controller implements KeyListener {
 	GamePanel gp;
-	public boolean up,left,down,right,attaque;
+	public boolean up,left,down,right,attaque,shoot;
 
 	public Controller(GamePanel gp){
 		this.gp =gp;
@@ -30,6 +30,9 @@ public class Controller implements KeyListener {
 		}
 		if (input == KeyEvent.VK_SPACE) {
 			attaque=true;
+		}
+		if (input == KeyEvent.VK_F ){
+			shoot=true;
 		}
 		if (input == KeyEvent.VK_P) {
 			if (gp.gameState == GameState.PLAYSTATE){
@@ -58,6 +61,9 @@ public class Controller implements KeyListener {
 		}
 		if (input == KeyEvent.VK_SPACE) {
 			attaque=false;
+		}
+		if (input == KeyEvent.VK_F) {
+			shoot=false;
 		}
 	}
 		
