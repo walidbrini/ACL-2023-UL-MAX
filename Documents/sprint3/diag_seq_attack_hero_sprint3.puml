@@ -1,0 +1,24 @@
+@startuml
+hide footbox
+
+participant Hero
+participant Controller
+participant GamePanel
+participant Monster
+
+activate Hero
+Hero -> Controller: attackInput()
+activate Controller
+Controller -> Controller: handleAttackInput()
+Controller -> GamePanel: notifyAttack()
+activate GamePanel
+GamePanel -> GamePanel: processAttack()
+GamePanel -> Monster: receiveAttack()
+activate Monster
+Monster -> Monster: handleAttack()
+deactivate Monster
+deactivate GamePanel
+deactivate Controller
+deactivate Hero
+
+@enduml
