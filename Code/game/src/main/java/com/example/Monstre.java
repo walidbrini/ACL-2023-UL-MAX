@@ -83,9 +83,9 @@ public class Monstre extends Entity  {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this, gp.labyrinth);
-            for (int j=0 ; j<gp.projectileList.size();j++){
+            /*for (int j=0 ; j<gp.projectileList.size();j++){
                 gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
-             }
+             }*/
 
             // CHECK Fire Collision
             //gp.checker.checkObject(this, gp.labyrinth, true);
