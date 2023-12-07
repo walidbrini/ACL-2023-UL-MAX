@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.Iterator;
+
 public class Collision{
     GamePanel gp;
 
@@ -12,24 +14,39 @@ public class Collision{
 
     public void checkMonstre(Entity entity, MonsterSpawner monsterSpawner) {
         long currentTime = System.currentTimeMillis();
-
+    
         if (currentTime - lastCollisionTime >= collisionCooldown) {
             int collisionRange = gp.getTileSize();
-
-            for (Monstre monster : monsterSpawner.getMonsters()) {
+    
+            Iterator<Monstre> iterator = monsterSpawner.getMonsters().iterator();
+    
+            while (iterator.hasNext()) {
+                Monstre monster = iterator.next();
+    
                 if (Math.abs(entity.x - monster.x) <= collisionRange &&
                     Math.abs(entity.y - monster.y) <= collisionRange) {
                     System.out.println("Player-Monster : DAMAGEEEE");
-                    if (entity.life > 0) {
-                        entity.life--;
+    
+                    if (this.gp.player.keyH.attaque) {
+                        // delete monster if hit
+                        iterator.remove();
                     }
-
+    
+                    if (Math.abs(entity.x - monster.x) <= collisionRange / 2 &&
+                            Math.abs(entity.y - monster.y) <= collisionRange / 2) {
+                        if (entity.life > 0) {
+                            entity.life--;
+                        }
+                    }
+    
                     // Update the last collision time
                     lastCollisionTime = currentTime;
                 }
             }
         }
     }
+    
+
     
     
 

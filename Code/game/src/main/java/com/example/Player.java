@@ -14,6 +14,16 @@ public class Player extends Entity {
     int minY = 100;
     int maxX = 200;
     int maxY = 200;
+    
+    BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
+                    ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
+
+
+
+
+
+    int attack_counter = 0 ; 
+
 
     public Player(GamePanel gp, Controller keyH){
         this.gp = gp;
@@ -45,18 +55,38 @@ public class Player extends Entity {
     }
     public void getPlayerImage(){
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/player/up3.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/player/down3.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/player/left3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-            right3 = ImageIO.read(getClass().getResourceAsStream("/player/right3.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up2.png"));
+            up3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up3.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/down2.png"));
+            down3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/down3.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/left2.png"));
+            left3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/left3.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/right2.png"));
+            right3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/right3.png"));
+            
+            attack_right_1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/attack1.png"));
+            attack_right_2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/attack2.png"));
+            attack_right_3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/right/attack3.png"));
+            
+            attack_up_1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/attack1.png"));
+            attack_up_2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/attack2.png"));
+            attack_up_3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/attack3.png"));
+            
+            attack_down_1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/attack1.png"));
+            attack_down_2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/attack2.png"));
+            attack_down_3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/down/attack3.png"));
+            
+            attack_left_1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/attack1.png"));
+            attack_left_2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/attack2.png"));
+            attack_left_3 = ImageIO.read(getClass().getResourceAsStream("/player/player3/left/attack3.png"));
+            
+            
+
+
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -77,6 +107,7 @@ public class Player extends Entity {
             else if (keyH.left){
                 direction = "left" ;
             }
+            
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this,gp.labyrinth);
@@ -115,56 +146,97 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2){
 
-        BufferedImage image = null ;
+        BufferedImage image = null;
 
-        switch (direction) {
-            case "up":
-                if (spriteNum==1){
-                    image = up1;
-                }
-                if (spriteNum==2){
-                    image = up2;
-                }
-                if (spriteNum==3) {
-                    image = up3;
-                }
-                break;
-            case "down" :
-                if (spriteNum==1){
-                    image = down1;
-                }
-                if (spriteNum==2){
-                    image = down2;
-                }
-                if (spriteNum==3){
-                    image = down3;
-                }
-                break;
-            case "left" :
-                if (spriteNum==1){
-                    image = left1;
-                }
-                if (spriteNum==2){
-                    image = left2;
-                }
-                if (spriteNum==3){
-                    image = left3;
-                }
-                break;
-            case "right" :
-                if (spriteNum==1){
-                    image = right1;
-                }
-                if (spriteNum==2){
-                    image = right2;
-                }
-                if (spriteNum==3){
-                    image = right3;
-                }
-                break;
-
+        if (keyH.attaque) {
+            attack_counter++;
+            if (attack_counter > 10) {
+                // Reset the counter only after a certain threshold
+                attack_counter = 0;
+            }
+        
+            // Determine the attack image based on direction and attack_counter
+            switch (direction) {
+                case "up":
+                    if (attack_counter >= 1 && attack_counter <= 3) {
+                        image = attack_up_1;
+                    } else if (attack_counter >= 4 && attack_counter <= 6) {
+                        image = attack_up_2;
+                    } else if (attack_counter >= 7 && attack_counter <= 9) {
+                        image = attack_up_3;
+                    }
+                    break;
+                case "down":
+                    if (attack_counter >= 1 && attack_counter <= 3) {
+                        image = attack_down_1;
+                    } else if (attack_counter >= 4 && attack_counter <= 6) {
+                        image = attack_down_2;
+                    } else if (attack_counter >= 7 && attack_counter <= 9) {
+                        image = attack_down_3;
+                    }
+                    break;
+                case "left":
+                    if (attack_counter >= 1 && attack_counter <= 3) {
+                        image = attack_left_1;
+                    } else if (attack_counter >= 4 && attack_counter <= 6) {
+                        image = attack_left_2;
+                    } else if (attack_counter >= 7 && attack_counter <= 9) {
+                        image = attack_left_3;
+                    }
+                    break;
+                case "right":
+                    if (attack_counter >= 1 && attack_counter <= 3) {
+                        image = attack_right_1;
+                    } else if (attack_counter >= 4 && attack_counter <= 6) {
+                        image = attack_right_2;
+                    } else if (attack_counter >= 7 && attack_counter <= 9) {
+                        image = attack_right_3;
+                    }
+                    break;
+            }
+        } else {
+            attack_counter = 0;
+            switch (direction) {
+                case "up":
+                    if (spriteNum == 1) {
+                        image = up1;
+                    } else if (spriteNum == 2) {
+                        image = up2;
+                    } else if (spriteNum == 3) {
+                        image = up3;
+                    }
+                    break;
+                case "down":
+                    if (spriteNum == 1) {
+                        image = down1;
+                    } else if (spriteNum == 2) {
+                        image = down2;
+                    } else if (spriteNum == 3) {
+                        image = down3;
+                    }
+                    break;
+                case "left":
+                    if (spriteNum == 1) {
+                        image = left1;
+                    } else if (spriteNum == 2) {
+                        image = left2;
+                    } else if (spriteNum == 3) {
+                        image = left3;
+                    }
+                    break;
+                case "right":
+                    if (spriteNum == 1) {
+                        image = right1;
+                    } else if (spriteNum == 2) {
+                        image = right2;
+                    } else if (spriteNum == 3) {
+                        image = right3;
+                    }
+                    break;
+            }
         }
-        g2.drawImage(image , x ,y , gp.getTileSize() , gp.getTileSize(),null);
+        
+        g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
         drawPlayerLife(g2);
         // draw an image on the screen
     }
