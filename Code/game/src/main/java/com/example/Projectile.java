@@ -1,6 +1,7 @@
 package com.example;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class Projectile extends Entity {
     public int useCost ; // the cost to use the projectile
@@ -53,5 +54,7 @@ public class Projectile extends Entity {
             spriteCounter = 0;
         }
     }
+
+
 
 }

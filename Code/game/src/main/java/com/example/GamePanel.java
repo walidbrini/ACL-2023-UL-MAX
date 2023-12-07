@@ -33,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 	ArrayList<Projectile> projectileList = new ArrayList<>();
 	MonsterSpawner monsterSpawner;
+	public long speedBoostStartTime ;
+	public long currentTime ;
 
 	public Collision checker = new Collision(this);
 
@@ -88,6 +90,8 @@ public class GamePanel extends JPanel implements Runnable{
 		if (gameState == GameState.PLAYSTATE){
 			level.update();
 			player.update();
+			currentTime = System.currentTimeMillis();
+			checker.checkboostSpeedForDuration(player,5);
 			for (Monstre monster : monsterSpawner.getMonsters()) {
 				monster.update();
 			}
@@ -110,6 +114,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		}
 
+        /*
 		for (int j =0;j < monsterSpawner.getMonsters().size();j++){
 			if(monsterSpawner.getMonsters().get(j) != null){
 				if (monsterSpawner.getMonsters().get(j).alive == true){
@@ -120,6 +125,8 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 			}
 		}
+
+         */
 	}
 
 	public void paintComponent(Graphics g) {

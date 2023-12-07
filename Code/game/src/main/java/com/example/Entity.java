@@ -18,6 +18,9 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public boolean collisionOn = false;
     public int solidAreaDefaultX, solidAreaDefaultY;
+    public int originalSpeed =speed;
+    public boolean speedBoosted =false;
+    public int boostValue = 10;
 
     public int maxLife = 6;
     public int life = maxLife;
@@ -28,6 +31,7 @@ public class Entity {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.originalSpeed=speed;
     }
 
     public Entity() {
@@ -106,28 +110,13 @@ public class Entity {
         }
         g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
     }
-    private int originalSpeed;
-    private boolean speedBoosted = false;
-    private long speedBoostStartTime;
 
-    // ... (existing methods)
+/*
+    *************************************************
+    *                                               *
+    *                   Getters                     *
+    *                                               *
+    * ***********************************************
+ */
 
-    public void boostSpeedForDuration(int boostValue, long durationMillis) {
-        if (!speedBoosted) {
-            originalSpeed = speed; // Store the original speed
-            speed = boostValue; // Set the speed to the boosted value
-            speedBoosted = true; // Mark that speed has been boosted
-            speedBoostStartTime = System.currentTimeMillis(); // Store the time when the boost started
-        }
-        else {
-            // Speed is already boosted// Check if the boost duration has elapsed
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - speedBoostStartTime >= durationMillis) {
-                // Boost duration has elapsed, revert to original speed
-                speed = originalSpeed;
-                speedBoosted = false; // Reset speed boost flag
-            }
-        }
-
-    }
 }

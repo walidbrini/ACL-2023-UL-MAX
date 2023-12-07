@@ -1,51 +1,54 @@
 package com.example;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Collision{
     GamePanel gp;
 
     private long lastCollisionTime;
-    private long collisionCooldown = 500; // 500 milliseconds 
-    
+    private long collisionCooldown = 500; // 500 milliseconds
     public Collision(GamePanel gp) {
         this.gp=gp;
     }
 
     public void checkMonstre(Entity entity, MonsterSpawner monsterSpawner) {
         long currentTime = System.currentTimeMillis();
-
+    
         if (currentTime - lastCollisionTime >= collisionCooldown) {
             int collisionRange = gp.getTileSize();
-
-            for (Monstre monster : monsterSpawner.getMonsters()) {
+    
+            Iterator<Monstre> iterator = monsterSpawner.getMonsters().iterator();
+    
+            while (iterator.hasNext()) {
+                Monstre monster = iterator.next();
+    
                 if (Math.abs(entity.x - monster.x) <= collisionRange &&
                     Math.abs(entity.y - monster.y) <= collisionRange) {
                     System.out.println("Player-Monster : DAMAGEEEE");
-                    if (entity.life > 0) {
-                        entity.life--;
+    
+                    if (this.gp.player.keyH.attaque) {
+                        // delete monster if hit
+                        iterator.remove();
                     }
-
+    
+                    if (Math.abs(entity.x - monster.x) <= collisionRange / 2 &&
+                            Math.abs(entity.y - monster.y) <= collisionRange / 2) {
+                        if (entity.life > 0) {
+                            entity.life--;
+                        }
+                    }
+    
                     // Update the last collision time
                     lastCollisionTime = currentTime;
                 }
             }
         }
     }
+    
 
-    public void checkProjectile(Projectile projectile) {
-        for (int j = 0; j < gp.monsterSpawner.getMonsters().size(); j++) {
-            if (gp.monsterSpawner.getMonsters().get(j).solidArea.intersects(projectile.solidArea)) {
-                if (gp.monsterSpawner.getMonsters().get(j).life >= 0) {
-                    gp.monsterSpawner.getMonsters().get(j).life = 0;
-                }
-                if (gp.monsterSpawner.getMonsters().get(j).life == 0) {
-                    // monster die
-                    gp.monsterSpawner.getMonsters().get(j).alive = false;
-                }
-            }
-        }
-    }
+    
+    
+
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
@@ -100,7 +103,22 @@ public class Collision{
         }
 
     }
-
+    public void checkProjectile(Projectile projectile,MonsterSpawner m) {
+        if (projectile.alive) {
+            Iterator<Monstre> iterator = m.getMonsters().iterator();
+            while (iterator.hasNext()) {
+                Monstre monster = iterator.next();
+                if (monster.solidArea.intersects(projectile.solidArea)) {
+                    if (monster.life >= 0) {
+                        monster.life = 0;
+                        monster.alive = false;
+                        System.out.println("DEAD");// monster dies
+                        //iterator.remove();
+                    }
+                }
+            }
+        }
+    }
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
         int abs , ord;
         Square obj = new Square();
@@ -132,12 +150,12 @@ public class Collision{
                     gp.playSE(1,1.0f);
                     System.out.println("Damage taken");
             }
-            if (obj.getContent() == ObjectType.BOOTS ){
-                l.setSquare(abs, ord,ObjectType.WALKWAY);
-                // Boost the entity's speed to 8 for 10 seconds
-                entity.boostSpeedForDuration(10, 5000); // 10000 milliseconds = 10 seconds
-
-
+            if (obj.getContent() == ObjectType.BOOTS ) {
+                l.setSquare(abs, ord, ObjectType.WALKWAY);
+                entity.speedBoosted = true;
+                entity.originalSpeed = entity.speed;
+                entity.speed = entity.boostValue; // Set the speed to the boosted value
+                gp.speedBoostStartTime = System.currentTimeMillis();
             }
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
@@ -154,6 +172,7 @@ public class Collision{
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
+
         }
     }
 
@@ -161,4 +180,13 @@ public class Collision{
         // Check if the player has reached the treasure
         return ((entity.x + entity.solidArea.height)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getX() && (entity.y+entity.solidArea.width)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getY());
     }
+    public void checkboostSpeedForDuration(Entity entity,long durationMillis){
+        durationMillis = durationMillis * 1000;
+        if (gp.currentTime - gp.speedBoostStartTime >= durationMillis){
+            // Boost duration has elapsed, revert to original speed
+            entity.speed = 4;
+            entity.speedBoosted = false;// Reset speed boost flag
+        }
+    }
+
 }
