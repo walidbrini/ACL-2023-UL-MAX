@@ -40,7 +40,7 @@ public class UserInterface {
         String text;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
         text = "Game Over";
-        // Shadow text
+        // Shadow text ; 
         g2.setColor(Color.black);
         x = getXforCenteredText(text);
         y = gp.screenHeight/2;

@@ -36,7 +36,7 @@ public class MonsterSpawner {
     public void drawMonsters(Graphics2D g2) {
         if (monsters != null) {
             for (Monstre monster : monsters) {
-                monster.draw(g2);
+                monster.draw(g2,gamePanel);
             }
         }
     }
@@ -45,8 +45,9 @@ public class MonsterSpawner {
         if (monsters != null){
 			for (Monstre monster : monsters) {
 				monster.update();
+
+                // CHECK projectile collision
 			}
 		}
     }
-
 }

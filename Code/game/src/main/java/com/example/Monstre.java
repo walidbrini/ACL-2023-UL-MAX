@@ -15,16 +15,8 @@ public class Monstre extends Entity  {
         setDefaultValues();
         getMonstreImage();
 
-        solidArea = new Rectangle();
-        solidArea.x=8;
-        solidArea.y=16;
-        solidArea.width=32;
-        solidArea.height=32;
+        solidArea = new Rectangle(0,0,48,48);
 
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultX =solidArea.y ;
-
-        
     }
 
     public void setDefaultValues() {
@@ -42,6 +34,9 @@ public class Monstre extends Entity  {
         y = spawnRow * gp.getTileSize();
         speed = 1;
         direction = "down";
+        maxLife = 30;
+        life = maxLife;
+        alive = true;
     }
 
 
@@ -88,6 +83,10 @@ public class Monstre extends Entity  {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this, gp.labyrinth);
+            for (int j=0 ; j<gp.projectileList.size();j++){
+                gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
+             }
+
             // CHECK Fire Collision
             //gp.checker.checkObject(this, gp.labyrinth, true);
 
@@ -120,6 +119,7 @@ public class Monstre extends Entity  {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.checker.checkSquare(this, gp.labyrinth);
+
             // CHECK Fire Collision
             //gp.checker.checkObject(this, gp.labyrinth, true);
 
@@ -148,61 +148,6 @@ public class Monstre extends Entity  {
         }
 }
 
-        
-    public void draw(Graphics2D g2){
-
-        BufferedImage image = null ;
-
-        switch (direction) {
-            case "up":
-                if (spriteNum==1){
-                    image = up1;
-                }
-                if (spriteNum==2){
-                    image = up2;
-                }
-                if (spriteNum==3) {
-                    image = up3;
-                }
-                break;
-            case "down" :
-                if (spriteNum==1){
-                    image = down1;
-                }
-                if (spriteNum==2){
-                    image = down2;
-                }
-                if (spriteNum==3){
-                    image = down3;
-                }
-                break;
-            case "left" :
-                if (spriteNum==1){
-                    image = left1;
-                }
-                if (spriteNum==2){
-                    image = left2;
-                }
-                if (spriteNum==3){
-                    image = left3;
-                }
-                break;
-            case "right" :
-                if (spriteNum==1){
-                    image = right1;
-                }
-                if (spriteNum==2){
-                    image = right2;
-                }
-                if (spriteNum==3){
-                    image = right3;
-                }
-                break;
-
-        }
-        g2.drawImage(image , x ,y , gp.getTileSize() , gp.getTileSize(),null);
-        // draw an image on the screen
-    }
 
         
     

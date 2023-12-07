@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -24,13 +25,16 @@ public class GamePanel extends JPanel implements Runnable{
 
 	Thread thread;
 	Controller control= new Controller(this);
-	Labyrinth labyrinth;
+	Labyrinth labyrinth = new Labyrinth(100,100,this);
 	Level level = new Level(this);
 	Sound sound = new Sound();
 	UserInterface ui = new UserInterface(this);
 	Player player = new Player(this,control); // oth
 
+	ArrayList<Projectile> projectileList = new ArrayList<>();
 	MonsterSpawner monsterSpawner;
+	public long speedBoostStartTime ;
+	public long currentTime ;
 
 	public Collision checker = new Collision(this);
 
@@ -58,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	}
 	public void setupGame(float volume){
-		playMusic(3,volume);
+		playMusic(0,volume);
 		gameState = GameState.PLAYSTATE;
 
 	}
@@ -92,12 +96,38 @@ public class GamePanel extends JPanel implements Runnable{
 		if (gameState == GameState.PLAYSTATE){
 			level.update();
 			player.update();
+			currentTime = System.currentTimeMillis();
+			checker.checkboostSpeedForDuration(player,5);
 			for (Monstre monster : monsterSpawner.getMonsters()) {
 				monster.update();
 			}
 		}else if (gameState == GameState.PAUSESTATE){
 			// nothing
 		}
+		for (int i =0;i < projectileList.size();i++){
+			if(projectileList.get(i) != null){
+				if (projectileList.get(i).alive == true){
+					projectileList.get(i).update();
+				}
+				if(projectileList.get(i).alive == false){
+					projectileList.remove(i);
+				}
+			}
+		}
+
+        /*
+		for (int j =0;j < monsterSpawner.getMonsters().size();j++){
+			if(monsterSpawner.getMonsters().get(j) != null){
+				if (monsterSpawner.getMonsters().get(j).alive == true){
+					monsterSpawner.getMonsters().get(j).update();
+				}
+				if(monsterSpawner.getMonsters().get(j).alive == false){
+					monsterSpawner.getMonsters().remove(j);
+				}
+			}
+		}
+
+         */
 	}
 
 	public void paintComponent(Graphics g) {
@@ -105,11 +135,17 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D)g;
 
 		labyrinth.draw(g2);
-		player.draw(g2);
+		player.drawPlayer(g2,this);
 		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.draw(g2);
+            monster.draw(g2,this);
         }
 		ui.draw(g2);
+
+		for (int i = 0 ; i<projectileList.size() ; i++){
+			if(projectileList.get(i) != null){
+				projectileList.get(i).draw(g2,this);
+			}
+		}
 		g2.dispose();
 	}
 	public void playMusic(int i,float volume){

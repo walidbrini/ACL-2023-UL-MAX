@@ -6,8 +6,7 @@ public class Collision{
     GamePanel gp;
 
     private long lastCollisionTime;
-    private long collisionCooldown = 500; // 500 milliseconds 
-    
+    private long collisionCooldown = 500; // 500 milliseconds
     public Collision(GamePanel gp) {
         this.gp=gp;
     }
@@ -136,6 +135,13 @@ public class Collision{
                     gp.playSE(1,1.0f);
                     System.out.println("Damage taken");
             }
+            if (obj.getContent() == ObjectType.BOOTS ) {
+                l.setSquare(abs, ord, ObjectType.WALKWAY);
+                entity.speedBoosted = true;
+                entity.originalSpeed = entity.speed;
+                entity.speed = entity.boostValue; // Set the speed to the boosted value
+                gp.speedBoostStartTime = System.currentTimeMillis();
+            }
             else if (obj.getContent() == ObjectType.AID ){
                 if(entity.life < entity.maxLife){
                     if(entity.life == entity.maxLife - 1){
@@ -151,6 +157,7 @@ public class Collision{
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
+
         }
     }
 
@@ -158,4 +165,13 @@ public class Collision{
         // Check if the player has reached the treasure
         return ((entity.x + entity.solidArea.height)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getX() && (entity.y+entity.solidArea.width)/gp.getTileSize() == labyrinth.getTreasure().getPosition().getY());
     }
+    public void checkboostSpeedForDuration(Entity entity,long durationMillis){
+        durationMillis = durationMillis * 1000;
+        if (gp.currentTime - gp.speedBoostStartTime >= durationMillis){
+            // Boost duration has elapsed, revert to original speed
+            entity.speed = 4;
+            entity.speedBoosted = false;// Reset speed boost flag
+        }
+    }
+
 }

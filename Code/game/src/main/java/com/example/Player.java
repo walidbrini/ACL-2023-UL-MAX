@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
-    GamePanel gp;
     Controller keyH;
     PlayerHeart heart ;//= new PlayerHeart(gp);
     int minX = 100; // Replace with your desired values
     int minY = 100;
     int maxX = 200;
     int maxY = 200;
+<<<<<<< HEAD
     
     BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
                     ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
@@ -24,9 +24,12 @@ public class Player extends Entity {
 
     int attack_counter = 0 ; 
 
+=======
+    public Projectile projectile ;
+>>>>>>> a85ebed8dd3d67bc46c00a21031cac13c65d8276
 
-    public Player(GamePanel gp, Controller keyH){
-        this.gp = gp;
+    public Player(GamePanel gp ,Controller keyH){
+        super(gp);
         this.keyH = keyH;
         
         solidArea = new Rectangle();
@@ -42,18 +45,22 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+
+
     }
 
     public void setDefaultValues(){
         speed = 4;
-        direction = "down";
 
+        direction = "down";
         //Player Status
         maxLife = 6;
         life = maxLife ; //2 lives = 1 heart
+        projectile = new Fireball(gp);
 
     }
     public void getPlayerImage(){
+<<<<<<< HEAD
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up2.png"));
@@ -90,10 +97,23 @@ public class Player extends Entity {
         }catch(IOException e){
             e.printStackTrace();
         }
+=======
+            up1 = setupImage("/player/up1.png");
+            up2 = setupImage("/player/up2.png");
+            up3 = setupImage("/player/up3.png");
+            down1 = setupImage("/player/down1.png");
+            down2 = setupImage("/player/down2.png");
+            down3 = setupImage("/player/down3.png");
+            left1 = setupImage("/player/left1.png");
+            left2 = setupImage("/player/left2.png");
+            left3 = setupImage("/player/left3.png");
+            right1 = setupImage("/player/right1.png");
+            right2 = setupImage("/player/right2.png");
+            right3 = setupImage("/player/right3.png");
+>>>>>>> a85ebed8dd3d67bc46c00a21031cac13c65d8276
     }
     public void update(){
         gp.checker.checkMonstre(this, gp.monsterSpawner);
-
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
             if(keyH.up){
                 direction = "up";
@@ -113,8 +133,6 @@ public class Player extends Entity {
             gp.checker.checkSquare(this,gp.labyrinth);
             // CHECK Fire Collision
             gp.checker.checkObject(this ,gp.labyrinth ,true);
-
-
             //IF COLLISION IS FALSE , PLAYER CAN MOVE
             if(collisionOn == false){
                 switch(direction){
@@ -125,7 +143,7 @@ public class Player extends Entity {
                 }
             }
             spriteCounter++;
-            if (spriteCounter > 10){
+            if (spriteCounter > 12){
                 if (spriteNum==1){
                     spriteNum=2;
                 }
@@ -138,13 +156,17 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        if (gp.control.shoot == true && projectile.alive == false ){
+            projectile.set(x,y,direction,true,this);
+            gp.projectileList.add(projectile);
+        }
         if(life <= 0){
             gp.gameState = GameState.GAMEOVER;
         }
 
     }
 
-    public void draw(Graphics2D g2){
+    public void drawPlayer(Graphics2D g2,GamePanel gp){
 
         BufferedImage image = null;
 
@@ -265,4 +287,6 @@ public class Player extends Entity {
         }
     }
     // to create sprites we can use paint photoshop gimp or PiSKEL (browse-base free software )
+
+
 }
