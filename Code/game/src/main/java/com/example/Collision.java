@@ -103,7 +103,22 @@ public class Collision{
         }
 
     }
-
+    public void checkProjectile(Projectile projectile,MonsterSpawner m) {
+        if (projectile.alive) {
+            Iterator<Monstre> iterator = m.getMonsters().iterator();
+            while (iterator.hasNext()) {
+                Monstre monster = iterator.next();
+                if (monster.solidArea.intersects(projectile.solidArea)) {
+                    if (monster.life >= 0) {
+                        monster.life = 0;
+                        monster.alive = false;
+                        System.out.println("DEAD");// monster dies
+                        //iterator.remove();
+                    }
+                }
+            }
+        }
+    }
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
         int abs , ord;
         Square obj = new Square();
