@@ -1,0 +1,34 @@
+@startuml
+actor User as U
+participant "Player Character" as P
+participant Collision as C
+participant MonsterSpawner as M
+
+activate U
+
+U -> P: Presses 'F' key
+activate P
+P -> C: Launches fireball
+activate C
+
+C -> M: Checks for collision with projectile
+activate M
+loop for each Monster
+    C -> M: Check collision
+    alt Projectile hits Monster
+        M -> M: Dies
+        deactivate M
+        C -> C: Remove Monster from list
+        deactivate C
+        break
+    else Projectile doesn't hit Monster
+        C -> C: Continue checking next Monster
+    end
+end
+
+deactivate M
+deactivate C
+deactivate P
+U -> P: Continues gameplay
+
+@enduml

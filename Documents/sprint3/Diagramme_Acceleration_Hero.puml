@@ -1,0 +1,37 @@
+@startuml
+participant Player as P
+participant Collision as C
+participant Boots as B
+
+activate P
+
+P -> C: Check collision while moving
+activate C
+
+C -> B: Checks contact with Boots
+activate B
+
+alt Player contacts Boots
+    C -> P: Boosts Player's speed
+    P -> B: Consumes Boots
+    B -> B: Disappears
+    deactivate B
+
+    P -> P: Initializes speedBoostStartTime variable
+    loop until 10 seconds
+        alt 10 seconds elapsed
+            P -> P: Restores original speed
+            deactivate P
+            break
+        else Not yet 10 seconds
+            P -> P: Continues with boosted speed
+        end
+    end
+else No contact with Boots
+    C -> P: Continues movement
+end
+
+deactivate B
+deactivate C
+deactivate P
+@enduml
