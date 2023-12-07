@@ -13,6 +13,7 @@
 - Implémentation de l'attaque à distance (avec une hache).
 - Interaction entre le monstre et les attaques magiques.
 - Interaction entre le monstre et les attaques à distance.
+- Implémentation du pouvoir d'accélération en prenant les *Boots* pendant une durée limitée.
 
 ## Sprint 3 - Rétrospective
 
@@ -47,6 +48,8 @@ Au cours du Sprint 3, l'équipe a réussi à atteindre les jalons suivants :
 - [x] Implémentation de la classe *user interface* assurant les fonctionnalités : Retry, Play, Again, Pause.
 - [x] Implémentation de tests unitaires pour la classe Labyrinth.
 - [x] Implémentation de l'attaque à distance (avec une hache).
+- [x] Implémentation du pouvoir d'accélération en prenant les *Boots* pendant une durée limitée.
+
 
 Cependant, les jalons suivants n'ont pas été atteints et seront reportés au Sprint 4 :
 
