@@ -47,12 +47,7 @@ public class MonsterSpawner {
 				monster.update();
 
                 // CHECK projectile collision
-                for (int j=0 ; j<gamePanel.projectileList.size();j++){
-                    gamePanel.checker.checkProjectile(gamePanel.projectileList.get(j));
-                }
-
 			}
 		}
     }
-
 }

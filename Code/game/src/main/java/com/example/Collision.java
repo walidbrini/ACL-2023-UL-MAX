@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Collision{
     GamePanel gp;
@@ -31,20 +32,23 @@ public class Collision{
             }
         }
     }
-
-    public void checkProjectile(Projectile projectile) {
-        for (int j = 0; j < gp.monsterSpawner.getMonsters().size(); j++) {
-            if (gp.monsterSpawner.getMonsters().get(j).solidArea.intersects(projectile.solidArea)) {
-                if (gp.monsterSpawner.getMonsters().get(j).life >= 0) {
-                    gp.monsterSpawner.getMonsters().get(j).life = 0;
-                }
-                if (gp.monsterSpawner.getMonsters().get(j).life == 0) {
-                    // monster die
-                    gp.monsterSpawner.getMonsters().get(j).alive = false;
+    public void checkProjectile(Projectile projectile,MonsterSpawner m) {
+        if (projectile.alive) {
+            Iterator<Monstre> iterator = m.getMonsters().iterator();
+            while (iterator.hasNext()) {
+                Monstre monster = iterator.next();
+                if (monster.solidArea.intersects(projectile.solidArea)) {
+                    if (monster.life >= 0) {
+                        monster.life = 0;
+                        monster.alive = false;
+                        System.out.println("DEAD");// monster dies
+                        //iterator.remove();
+                    }
                 }
             }
         }
     }
+
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;

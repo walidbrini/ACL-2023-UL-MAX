@@ -115,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		}
 
+        /*
 		for (int j =0;j < monsterSpawner.getMonsters().size();j++){
 			if(monsterSpawner.getMonsters().get(j) != null){
 				if (monsterSpawner.getMonsters().get(j).alive == true){
@@ -125,6 +126,8 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 			}
 		}
+
+         */
 	}
 
 	public void paintComponent(Graphics g) {
