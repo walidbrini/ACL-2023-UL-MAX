@@ -13,20 +13,14 @@ public class Player extends Entity {
     int minY = 100;
     int maxX = 200;
     int maxY = 200;
-<<<<<<< HEAD
     
     BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
                     ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
 
 
-
-
-
     int attack_counter = 0 ; 
 
-=======
     public Projectile projectile ;
->>>>>>> a85ebed8dd3d67bc46c00a21031cac13c65d8276
 
     public Player(GamePanel gp ,Controller keyH){
         super(gp);
@@ -60,7 +54,6 @@ public class Player extends Entity {
 
     }
     public void getPlayerImage(){
-<<<<<<< HEAD
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/player/player3/up/up2.png"));
@@ -97,20 +90,7 @@ public class Player extends Entity {
         }catch(IOException e){
             e.printStackTrace();
         }
-=======
-            up1 = setupImage("/player/up1.png");
-            up2 = setupImage("/player/up2.png");
-            up3 = setupImage("/player/up3.png");
-            down1 = setupImage("/player/down1.png");
-            down2 = setupImage("/player/down2.png");
-            down3 = setupImage("/player/down3.png");
-            left1 = setupImage("/player/left1.png");
-            left2 = setupImage("/player/left2.png");
-            left3 = setupImage("/player/left3.png");
-            right1 = setupImage("/player/right1.png");
-            right2 = setupImage("/player/right2.png");
-            right3 = setupImage("/player/right3.png");
->>>>>>> a85ebed8dd3d67bc46c00a21031cac13c65d8276
+
     }
     public void update(){
         gp.checker.checkMonstre(this, gp.monsterSpawner);
