@@ -44,11 +44,6 @@ public class Collision{
             }
         }
     }
-    
-
-    
-    
-
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;

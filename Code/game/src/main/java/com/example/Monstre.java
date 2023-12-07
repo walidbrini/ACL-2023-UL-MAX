@@ -86,7 +86,6 @@ public class Monstre extends Entity  {
             for (int j=0 ; j<gp.projectileList.size();j++){
                 gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
              }
-
             // CHECK Fire Collision
             //gp.checker.checkObject(this, gp.labyrinth, true);
 

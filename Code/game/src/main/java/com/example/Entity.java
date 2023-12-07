@@ -47,7 +47,6 @@ public class Entity {
     }
 
     public BufferedImage setupImage(String path) {
-
         BufferedImage img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream(path));

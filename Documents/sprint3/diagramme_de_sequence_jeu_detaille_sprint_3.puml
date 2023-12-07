@@ -1,5 +1,5 @@
 @startuml
-actor Game_Player as Gamer
+actor Player as player
 participant Gamepanel as Game_Panel
 participant Controller as Controller
 
