@@ -1,36 +1,26 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
+    class Entity {
+        - x: int
+        - y: int
+        - speed: int
+        - Hp: int
+        - up1: BufferedImage
+        - up2: BufferedImage
+        - down1: BufferedImage
+        - down2: BufferedImage
+        - left1: BufferedImage
+        - left2: BufferedImage
+        - right1: BufferedImage
+        - right2: BufferedImage
+        - direction: String
+        - spriteCounter: int
+        - spriteNum: int
+        - gp: GamePanel
+        + setAction(): void
+    }
 
-Entity <|--Monstre
-Monstre <|--Fantome
-GamePanel "1..1" -- "1..1" Player
-Entity <|-- Player
-GamePanel "1" -- "1..*" Labyrinth
-Level -- Labyrinth
-Player "1..1" -- "0..1" Controller
-GamePanel -- "0..1" Controller
-Labyrinth -- "1..*" Square
-Square <|-- Wall 
-Square <|-- Walkway
-Square <|-- Treasure
-Square <|-- Spawn
-
-class Entity {
-    int x,y
-    int speed
-    int Hp
-    BufferedImage up1,up2, down1,down2,
-    left1,left2,right1,right2
-    String direction
-    int spriteCounter
-    int spriteNum
-    GamePanel gp
-    setAction():void
-
-}
-
-class Player {
+    class Player {
         - gp: GamePanel
         - keyH: Controller
         - labyrinth: Labyrinth
@@ -56,15 +46,36 @@ class Player {
         - collisionOn: boolean
         - spriteCounter: int
         - spriteNum: int
-
-        + Player( GamePanel gp, Controller keyH,Labyrinth labyrinth)
+        + Player(gp: GamePanel, keyH: Controller, labyrinth: Labyrinth)
         + setDefaultValues(labyrinth: Labyrinth): void
         + getPlayerImage(): void
         + update(): void
         + draw(g2: Graphics2D): void
     }
 
-class GamePanel {
+    class Monstre {
+        - labyrinth: Labyrinth
+        + moveRandomly(): void
+        + isValidMove(x: int, y: int): boolean
+    }
+
+    class Fantome {
+        + setAction(): void
+    }
+
+    class Level {
+        - gp: GamePanel
+        - levelNumber: int
+        - levelDifficultyStep: final int
+        - finalLevel: final int
+        + Level(gp: GamePanel)
+        + start(): void
+        + restart(): void
+        + update(): void
+        - spawnNewMonsters(): void
+    }
+
+    class GamePanel {
         - monstre: Monstre
         - originalTileSize: int
         - scale: int
@@ -74,12 +85,11 @@ class GamePanel {
         - screenWidth: int
         - screenHeight: int
         - labyrinth: Labyrinth
-        - p1: Personnage 
+        - p1: Personnage
         - thread: Thread
         - control: Controller
         - player: Player
         - checker: Collision
-
         + GamePanel()
         + setMonstre(monstre: Monstre): void
         + getTileSize(): int
@@ -87,19 +97,37 @@ class GamePanel {
         + run(): void
         + update(): void
         + paintComponent(g: Graphics): void
-}
-
-class Monstre {
-        - labyrinth: Labyrinth
-
-        + moveRandomly(): void
-        + isValidMove(x: int, y: int): boolean
     }
 
-class Fantome {
-setAction():void
-}
+    class MonsterSpawner {
+        - gamePanel: GamePanel
+        - monsters: List<Monstre>
+        + MonsterSpawner(gamePanel: GamePanel)
+        + spawnMonsters(numberOfMonsters: int): void
+        + getMonsters(): List<Monstre>
+        + clearMonsters(): void
+        + drawMonsters(g2: Graphics2D): void
+        + update(): void
+    }
 
+    class Controller {
+        - up: boolean
+        - left: boolean
+        - down: boolean
+        - right: boolean
+        - attaque: boolean
+        + keyTyped(e: KeyEvent): void
+        + keyPressed(e: KeyEvent): void
+        + keyReleased(e: KeyEvent): void
+    }
+
+    enum Level_enum {
+        CHICKEN
+        EASY
+        MEDIUM
+        HARD
+        INSANE
+    }
 
     class Labyrinth {
         - width: int
@@ -114,8 +142,7 @@ setAction():void
         - spawn: Spawn
         - treasure: Treasure
         - gamePanel: GamePanel
-
-        + Labyrinth(int width, int height, Level level, GamePanel gamePanel)
+        + Labyrinth(width: int, height: int, level: Level, gamePanel: GamePanel)
         + fillBordersWithWalls(): void
         + randomizeWalls(): void
         + randomizeFire(): void
@@ -131,28 +158,85 @@ setAction():void
         + isWall(x: int, y: int): boolean
     }
 
-    class Controller {
-        - up: boolean
-        - left: boolean
-        - down: boolean
-        - right: boolean
-        - attaque: boolean
+    class Square {
+        + -- Coordinates
+    }
 
-        + keyTyped(e: KeyEvent): void
-        + keyPressed(e: KeyEvent): void
-        + keyReleased(e: KeyEvent): void
+    class Wall {
+        + -- Coordinates
+    }
+
+    class Walkway {
+        + -- Coordinates
+    }
+
+    class Treasure {
+        + -- Coordinates
+    }
+
+    class Spawn {
+        + -- Coordinates
+    }
+
+    class Coordinates {
+        + x: int
+        + y: int
+    }
+
+    class Collision {
+        - gp: GamePanel
+        - lastCollisionTime: long
+        - collisionCooldown: long
+        + Collision(gp: GamePanel)
+        + checkMonstre(entity: Entity, monsterSpawner: MonsterSpawner): void
+        + checkSquare(entity: Entity, l: Labyrinth): void
+        + checkProjectile(projectile: Projectile, m: MonsterSpawner): void
+        + checkObject(entity: Entity, l: Labyrinth, player: boolean): void
+        + checkTreasure(entity: Entity, labyrinth: Labyrinth): boolean
+        + checkboostSpeedForDuration(entity: Entity, durationMillis: long): void
+    }
+
+class UserInterface {
+        - gp: GamePanel
+        - g2: Graphics2D
+        - arial_40: Font
+        - arial_80B: Font
+        - message: String
+        - messageOn: boolean
+        - messageCounter: int
+        - buttonAdded: boolean
+        + UserInterface(gp: GamePanel)
+        + showMessage(text: String): void
+        + draw(g2: Graphics2D): void
+        + drawWinGameScreen(): void
+        + drawGameOverScreen(): void
+        + drawPauseScreen(): void
+        + getXforCenteredText(text: String): int
     }
 
 
-    enum Level {
-        CHICKEN
-        EASY
-        MEDIUM
-        HARD
-        INSANE
-    }
+Entity <|-- Monstre
+Monstre <|-- Fantome
+GamePanel "1..1" -- "1..1" Player
+Entity <|-- Player
+GamePanel "1" -- "1..*" Labyrinth
+Level_enum -- Labyrinth
+Player "1..1" -- "0..1" Controller
+GamePanel -- "0..1" Controller
+Labyrinth -- "1..*" Square
+Square <|-- Wall 
+Square <|-- Walkway
+Square <|-- Treasure
+Square <|-- Spawn
+Level "1..1" -- "1..1" GamePanel
+MonsterSpawner  -- "1..*" Monstre
+GamePanel "1..1" -- "1..1" MonsterSpawner
+GamePanel "1..1" -- "1..1" UserInterface
 
-@enduml
+Coordinates "1..1" -- "1..1" Square
 
+Player "1..1" -- "1..1" Collision
+Collision "1..1" -- "1..1" Labyrinth
+Collision "1..1" -- "1..1" Monstre
 
 @enduml

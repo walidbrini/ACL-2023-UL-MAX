@@ -7,7 +7,7 @@ public class Level {
     private final GamePanel gp;
     private int levelNumber;
     private final int levelDifficultyStep = 1;
-    private final int finalLevel = 2;
+    private final int finalLevel = 4;
 
     public Level(GamePanel gp) {
         this.gp = gp;
