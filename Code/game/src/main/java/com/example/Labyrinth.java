@@ -119,7 +119,7 @@ public class Labyrinth {
         double aidProbability = 0;
         switch (difficulty) {
             case CHICKEN:
-                aidProbability = 0.05;
+                aidProbability = 0;
                 break;
             case EASY:
                 aidProbability = 0.025;
