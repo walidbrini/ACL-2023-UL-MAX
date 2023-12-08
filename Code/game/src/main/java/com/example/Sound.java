@@ -31,10 +31,7 @@ public class Sound{
     public void setVolume(float volume) {
         if (volumeControl != null) {
             float range = volumeControl.getMaximum() - volumeControl.getMinimum();
-            System.out.println(volumeControl.getMaximum());
-            System.out.println(volumeControl.getMinimum());
             float gain = (range * volume) + volumeControl.getMinimum();
-            System.out.println(gain);
             volumeControl.setValue(gain);
         }
     }

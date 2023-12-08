@@ -24,8 +24,6 @@ public class Collision{
     
                 if (Math.abs(entity.x - monster.x) <= collisionRange &&
                     Math.abs(entity.y - monster.y) <= collisionRange) {
-                    System.out.println("Player-Monster : DAMAGEEEE");
-    
                     if (this.gp.player.keyH.attaque) {
                         // delete monster if hit
                         iterator.remove();
@@ -114,7 +112,6 @@ public class Collision{
                     if (monster.life > 0) {
                         monster.life = 0;
                         monster.alive = false;
-                        System.out.println("Killed Monster");
                         iterator.remove(); // Use Iterator's remove method
                     }
                 }
@@ -149,11 +146,9 @@ public class Collision{
         }
         if(entity.solidArea.intersects(obj.solidArea)){
             if (obj.getContent() == ObjectType.FIRE ){
-                //System.out.println(entity.direction + " collision !");
                 if (entity.life > 0)
                     entity.life--;
-                    gp.playSE(1,1.0f);
-                    System.out.println("Damage taken");
+                gp.playSE(1,1.0f);
             }
             if (obj.getContent() == ObjectType.BOOTS ) {
                 l.setSquare(abs, ord, ObjectType.WALKWAY);
@@ -167,12 +162,10 @@ public class Collision{
                     if(entity.life == entity.maxLife - 1){
                         entity.life = entity.life + 1;
                         gp.playSE(2,1.0f);
-                        System.out.println("potion taken");
                     }
                     else {
                         entity.life = entity.life + 2;
                         gp.playSE(2, 1.0f);
-                        System.out.println("potion taken");
                     }
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
