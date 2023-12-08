@@ -57,8 +57,8 @@ public class UserInterface {
         Button playAgainButton = new Button("Play Again");
         playAgainButton.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
         playAgainButton.setBackground(Color.white);
-        int buttonWidth = 150;
-        int buttonHeight = 50;
+        int buttonWidth = 200;
+        int buttonHeight = 100;
         int buttonX = (gp.screenWidth - buttonWidth) / 2;
         int buttonY = y + 40;
         playAgainButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
