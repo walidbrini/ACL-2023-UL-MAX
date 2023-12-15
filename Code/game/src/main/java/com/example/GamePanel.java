@@ -1,15 +1,13 @@
 package com.example;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+
+import javax.swing.JPanel;
 
 
 
@@ -49,13 +47,13 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame(0.5f);
+		setupGame(1f);
 
 		monsterSpawner = new MonsterSpawner(this);
 
 	}
 	public void setupGame(float volume){
-		playMusic(0,volume);
+		playMusic(3,volume);
 		level.start();
 		gameState = GameState.PLAYSTATE;
 
@@ -66,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 		//labyrinth.afficheVersionTexte();
 		//labyrinth.saveToFile();
-		//labyrinth.loadFromFile("res/map/saved_map.txt");
+		//labyrinth.loadFromFile("/home/walid/ACL/ACL-2023-UL-MAX/Code/game/res/map/map01.txt");
 	}
 	
 	public void run() {
