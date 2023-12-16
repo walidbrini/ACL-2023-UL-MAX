@@ -110,7 +110,7 @@ public class UserInterface extends Utilities{
         g2.drawString(value,textX,textY);
         textY +=lineHeight;
 
-        value = String.valueOf(gp.player.kills);
+        value = String.valueOf(gp.player.getKills());
         textX = getXforAlignToRightText(value,edge);
         g2.drawString(value,textX,textY);
         textY +=lineHeight;

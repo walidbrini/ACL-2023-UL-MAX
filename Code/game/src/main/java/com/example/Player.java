@@ -7,22 +7,17 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
-    Controller keyH;
-    PlayerHeart heart ;//= new PlayerHeart(gp);*
-    ManaCrystal crystal ;
-    int minX = 100; // Replace with your desired values
-    int minY = 100;
-    int maxX = 200;
-    int maxY = 200;
-    
-    BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
+    private Controller keyH;
+    private PlayerHeart heart ;//= new PlayerHeart(gp);
+    private ManaCrystal crystal ;
+
+    private BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
                     ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
 
+    private int attack_counter = 0 ;
+    private int kills = 0;
 
-    int attack_counter = 0 ;
-    int kills = 0;
-
-    public Projectile projectile ;
+    private Projectile projectile ;
 
 
     public Player(GamePanel gp ,Controller keyH){
@@ -35,23 +30,18 @@ public class Player extends Entity {
         solidArea.width=32;
         solidArea.height=32;
 
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultX = solidArea.y ;
-
         heart = new PlayerHeart(gp);
         crystal = new ManaCrystal(gp);
 
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
-
-
     }
 
     public void setDefaultValues(){
         speed = 4;
-
         direction = "down";
+
         //Player Status
         maxLife = 6;
         life = maxLife ; //2 lives = 1 heart
@@ -73,8 +63,6 @@ public class Player extends Entity {
             right1 = setupImage("/player/player3/right/right1.png");
             right2 = setupImage("/player/player3/right/right2.png");
             right3 = setupImage("/player/player3/right/right3.png");
-            
-
 
     }
     public void getPlayerAttackImage(){
@@ -95,11 +83,46 @@ public class Player extends Entity {
         attack_left_3 = setupImage("/player/player3/left/attack3.png");
     }
     public void update(){
-        gp.checker.checkMonstre(this, gp.monsterSpawner);
-        for (int j=0 ; j<gp.projectileList.size();j++){
-            gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
-         }
-        if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true){
+        if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true) {
+            setDirection();
+            checkcollision();
+            //IF COLLISION IS FALSE , PLAYER CAN MOVE
+            movePlayer();
+        }
+        if (gp.control.shoot == true && projectile.alive == false && projectile.checkMana(this) == true){
+            projectile.set(x,y,direction,true,this);
+            projectile.reduceMana(this);
+            gp.projectileList.add(projectile);
+        }
+        if(life <= 0){
+            gp.gameState = GameState.GAMEOVER;
+        }
+    }
+    public void movePlayer(){
+        if(collisionOn == false){
+            switch(direction){
+                case "up":  y -= speed; break;
+                case "down":  y += speed; break;
+                case "left":  x -= speed; break;
+                case "right":  x += speed; break;
+            }
+        }
+        spriteCounter++;
+        if (spriteCounter > 12){
+            if (spriteNum==1){
+                spriteNum=2;
+            }
+            else if (spriteNum==2){
+                spriteNum = 3;
+            }
+            else if (spriteNum==3){
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+    }
+    public void setDirection(){
+
             if(keyH.up){
                 direction = "up";
             }
@@ -111,50 +134,24 @@ public class Player extends Entity {
             }
             else if (keyH.left){
                 direction = "left" ;
-            }
-            
-            // CHECK TILE COLLISION
-            collisionOn = false;
-            gp.checker.checkSquare(this,gp.labyrinth);
-            // CHECK Fire Collision
-            gp.checker.checkObject(this ,gp.labyrinth ,true);
-            //IF COLLISION IS FALSE , PLAYER CAN MOVE
-            if(collisionOn == false){
-                switch(direction){
-                    case "up":  y -= speed; break;
-                    case "down":  y += speed; break;
-                    case "left":  x -= speed; break;
-                    case "right":  x += speed; break;
-                }
-            }
-            spriteCounter++;
-            if (spriteCounter > 12){
-                if (spriteNum==1){
-                    spriteNum=2;
-                }
-                else if (spriteNum==2){
-                    spriteNum = 3;
-                }
-                else if (spriteNum==3){
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
         }
-        if (gp.control.shoot == true && projectile.alive == false && projectile.checkMana(this) == true){
-            projectile.set(x,y,direction,true,this);
-            projectile.reduceMana(this);
-            gp.projectileList.add(projectile);
+    }
+    public void checkcollision(){
+        // CHECK MONSTER COLLISION
+        gp.checker.checkMonstre(this, gp.monsterSpawner);
+        for (int j=0 ; j<gp.projectileList.size();j++){
+            gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
         }
-        if(life <= 0){
-            gp.gameState = GameState.GAMEOVER;
-        }
-
+        // CHECK TILE COLLISION
+        collisionOn = false;
+        gp.checker.checkSquare(this,gp.labyrinth);
+        // CHECK FIRE COLLISION
+        gp.checker.checkObject(this ,gp.labyrinth ,true);
     }
     public void restoreMana(){
         mana = maxMana;
     }
-
+    public void addKills(){kills++;}
     public void drawPlayer(Graphics2D g2,GamePanel gp){
 
         BufferedImage image = null;
@@ -249,6 +246,7 @@ public class Player extends Entity {
         
         g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
         drawPlayerLife(g2);
+        drawPlayerMana(g2);
         // draw an image on the screen
     }
     public void drawPlayerLife(Graphics2D g2){
@@ -274,14 +272,13 @@ public class Player extends Entity {
             i++;
             x += gp.tileSize ;
         }
-        ///////////////////////////// Draw mana
+    }
+    public void drawPlayerMana(Graphics2D g2){
         // DRAW MAX MANA
 
-        x = gp.tileSize / 2;
-        y = gp.tileSize * 2;
-        i = 0;
-        ///////////////////////////// Draw mana
-        // DRAW MAX MANA
+        int x = gp.tileSize / 2;
+        int y = gp.tileSize * 2;
+        int i = 0;
 
         x = gp.screenWidth - gp.tileSize * 4;
         y = gp.tileSize /2;
@@ -302,7 +299,37 @@ public class Player extends Entity {
         }
     }
 
-    public void replenishLife() {
-        this.life = maxLife;
+    public void replenishLife() {this.life = maxLife;
+    }
+    public void replenishMana() {this.mana = maxMana;}
+
+//******************************************************//
+//                                                      //
+//                 Getters and Setters                  //
+//                                                      //
+//******************************************************//
+
+    public Controller getKeyH() {
+        return keyH;
+    }
+
+    public PlayerHeart getHeart() {
+        return heart;
+    }
+
+    public ManaCrystal getCrystal() {
+        return crystal;
+    }
+
+    public int getAttack_counter() {
+        return attack_counter;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public Projectile getProjectile() {
+        return projectile;
     }
 }

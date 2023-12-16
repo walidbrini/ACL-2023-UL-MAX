@@ -27,7 +27,7 @@ public class Collision{
     
                 if (Math.abs(entity.x - monster.x) <= collisionRange &&
                     Math.abs(entity.y - monster.y) <= collisionRange) {
-                    if (this.gp.player.keyH.attaque) {
+                    if (this.gp.player.getKeyH().attaque) {
                         // delete monster if hit
                         iterator.remove();
                     }
@@ -118,7 +118,7 @@ public class Collision{
                         monster.life = 0;
                         monster.alive = false;
                         iterator.remove(); // Use Iterator's remove method
-                        gp.player.kills++;
+                        gp.player.addKills();
                     }
                 }
             }
