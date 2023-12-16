@@ -170,6 +170,13 @@ public class Collision{
                     l.setSquare(abs, ord,ObjectType.WALKWAY);
                 }
             }
+            else if (obj.getContent() == ObjectType.MANA ) {
+                if (entity.mana < entity.maxMana) {
+                    entity.mana ++;
+                    l.setSquare(abs, ord,ObjectType.WALKWAY);
+                }
+
+            }
 
         }
     }

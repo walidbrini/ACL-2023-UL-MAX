@@ -3,11 +3,9 @@ package com.example;
 import java.awt.*;
 import java.util.Iterator;
 
-public class Projectile extends Entity {
+public class Projectile extends Entity{
     public int useCost ; // the cost to use the projectile
     Entity user;
-    public int maxMana ;
-    public int mana = maxMana;
     public int attack;
     public String name ;
     public Projectile(GamePanel gp){
@@ -54,7 +52,11 @@ public class Projectile extends Entity {
             spriteCounter = 0;
         }
     }
-
-
+    public boolean checkMana(Entity user){
+        boolean resource = false;
+        return resource;
+    }
+    public void reduceMana(Entity user){
+    }
 
 }

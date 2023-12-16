@@ -26,6 +26,16 @@ public class Fireball extends Projectile {
         right2 = setupImage("/items/fireball/fireball_right_1.png");
         right3 = right2;
     }
+    public boolean checkMana(Entity user){
+        boolean resource = false;
+        if(user.mana >= useCost){
+            resource = true;
+        }
+        return resource;
+    }
+    public void reduceMana(Entity user){
+        user.mana -= useCost;
+    }
 
 
 

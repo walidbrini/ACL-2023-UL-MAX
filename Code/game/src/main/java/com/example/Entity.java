@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-public class Entity {
+public class Entity extends Utilities{
     GamePanel gp;
     public int x, y;
     public int speed;
@@ -25,6 +25,9 @@ public class Entity {
     public int maxLife = 6;
     public int life = maxLife;
     public boolean alive;
+    public int maxMana;
+    public int mana;
+
 
     public Entity(GamePanel gp, int x, int y, int speed) {
         this.gp = gp;
@@ -46,15 +49,7 @@ public class Entity {
         this.y = y;
     }
 
-    public BufferedImage setupImage(String path) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(getClass().getResourceAsStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return img;
-    }
+
 
     public void draw(Graphics2D g2, GamePanel gp) {
 

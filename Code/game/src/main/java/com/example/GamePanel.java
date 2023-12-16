@@ -99,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		else if(gameState == GameState.RESTART){
 			level.restart();
+			player.restoreMana();
 			gameState = GameState.PLAYSTATE;
 		}
 		for (int i =0;i < projectileList.size();i++){
