@@ -70,7 +70,7 @@ public class Monstre extends Entity  {
             updateSpriteNum();
             spriteCounter = 0;
         }
-    
+
         if (directionStayingCounter > 0) {
             handleDirectionStayCollision();
         } else {
@@ -78,35 +78,25 @@ public class Monstre extends Entity  {
             handleDirectionChangeCollision();
         }
     }
-    
+
     private void updateSpriteNum() {
-        switch (spriteNum) {
-            case 1:
-                spriteNum = 2;
-                break;
-            case 2:
-                spriteNum = 3;
-                break;
-            case 3:
-                spriteNum = 1;
-                break;
-        }
+        spriteNum = (spriteNum % 3) + 1;
     }
-    
+
     private void handleDirectionStayCollision() {
         directionStayingCounter--;
-    
+
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this, gp.labyrinth);
-    
+
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirectionAndMove();
+            changeDirection();
         }
     }
-    
+
     private void chooseNewDirection() {
         int randomDirection = (int) (Math.random() * 4);
         switch (randomDirection) {
@@ -123,49 +113,46 @@ public class Monstre extends Entity  {
                 direction = "right";
                 break;
         }
-    
-        directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + minDirectionStayCount;
+
+        directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
-    
+
     private void handleDirectionChangeCollision() {
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this, gp.labyrinth);
-    
+
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirectionAndMove();
+            changeDirection();
         }
     }
-    
-    private void changeDirectionAndMove() {
+
+    private void changeDirection() {
         // Change direction to a random direction
         chooseNewDirection();
-    
-        // Move a random number of steps in the new direction
-        int randomWalkSteps = (int) (Math.random() * maxRandomWalkSteps) + 1;  // Adjust maxRandomWalkSteps based on your needs
-    
-        for (int i = 0; i < randomWalkSteps; i++) {
-            moveInDirection();
-        }
+
+        // Reset the counter to allow staying in the new direction
+        directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
+
     private void moveInDirection() {
         switch (direction) {
             case "up":
-                y -= speed;
+                y -= 1; // Adjust the step size based on your needs
                 break;
             case "down":
-                y += speed;
+                y += 1;
                 break;
             case "left":
-                x -= speed;
+                x -= 1;
                 break;
             case "right":
-                x += speed;
+                x += 1;
                 break;
         }
-}
+    }
 
 
         
