@@ -97,7 +97,7 @@ public class Collision{
 
     }
 
-    public void checkProjectile(Projectile projectile, MonsterSpawner m) {
+    public void  checkProjectile(Projectile projectile, MonsterSpawner m) {
         int collisionRange = gp.getTileSize();
     
         if (projectile.alive) {
@@ -113,6 +113,7 @@ public class Collision{
                         monster.life = 0;
                         monster.alive = false;
                         iterator.remove(); // Use Iterator's remove method
+                        gp.player.kills++;
                     }
                 }
             }

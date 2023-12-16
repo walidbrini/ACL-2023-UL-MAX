@@ -15,34 +15,48 @@ public class Controller implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int input = e.getKeyCode();
-		
-		if (input == KeyEvent.VK_UP) {
-			up=true;
-		}
-		if (input == KeyEvent.VK_DOWN) {
-			down=true;
-		}
-		if (input == KeyEvent.VK_LEFT) {
-			left=true;
-		}
-		if (input == KeyEvent.VK_RIGHT) {
-			right=true;
-		}
-		if (input == KeyEvent.VK_SPACE) {
-			attaque=true;
-		}
-		if (input == KeyEvent.VK_F ){
-			shoot=true;
-		}
-		if (input == KeyEvent.VK_P) {
-			if (gp.gameState == GameState.PLAYSTATE){
+
+		// GAME STATE
+		if (gp.gameState == GameState.PLAYSTATE) {
+			if (input == KeyEvent.VK_UP) {
+				up = true;
+			}
+			if (input == KeyEvent.VK_DOWN) {
+				down = true;
+			}
+			if (input == KeyEvent.VK_LEFT) {
+				left = true;
+			}
+			if (input == KeyEvent.VK_RIGHT) {
+				right = true;
+			}
+			if (input == KeyEvent.VK_SPACE) {
+				attaque = true;
+			}
+			if (input == KeyEvent.VK_F) {
+				shoot = true;
+			}
+			if (input == KeyEvent.VK_P) {
 				gp.gameState = GameState.PAUSESTATE;
-			}else if(gp.gameState == GameState.PAUSESTATE){
+			}
+			if (input == KeyEvent.VK_C) {
+				gp.gameState = GameState.CHARACTER_STATUS;
+			}
+		}
+		// PAUSE STATE
+		else if (gp.gameState == GameState.PAUSESTATE) {
+			if (input == KeyEvent.VK_P) {
+				gp.gameState = GameState.PLAYSTATE;
+			}
+
+		}
+		// CHARACTER STATE
+		else if (gp.gameState == GameState.CHARACTER_STATUS) {
+			if (input == KeyEvent.VK_C) {
 				gp.gameState = GameState.PLAYSTATE;
 			}
 		}
 	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
         int input = e.getKeyCode();

@@ -19,7 +19,8 @@ public class Player extends Entity {
                     ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
 
 
-    int attack_counter = 0 ; 
+    int attack_counter = 0 ;
+    int kills = 0;
 
     public Projectile projectile ;
 
