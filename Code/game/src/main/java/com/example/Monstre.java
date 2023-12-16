@@ -9,26 +9,27 @@ import java.util.Objects;
 // change to entity 
 public class Monstre extends Entity  {
     GamePanel gp;
-
+    private int minDirectionStayCount = 10;  
+    private int maxRandomWalkSteps = 10;
     public Monstre(GamePanel gp) {
         this.gp = gp;
-        setDefaultValues();
+        setDefaultValues(gp.labyrinth);
         getMonstreImage();
 
         solidArea = new Rectangle(0,0,48,48);
 
     }
 
-    public void setDefaultValues() {
+    public void setDefaultValues(Labyrinth labyrinth) {
         // Spawn Coordinates
         int spawnCol;
         int spawnRow;
     
-        // Ensure the monster doesn't spawn on the borders
+        // Ensure the monster doesn't spawn on the borders or on a wall
         do {
             spawnCol = (int) (Math.random() * (GamePanel.getMaxScreenCol() - 2)) + 1;
             spawnRow = (int) (Math.random() * (GamePanel.getMaxScreenRow() - 2)) + 1;
-        } while (spawnCol <= 1 || spawnRow <= 1);
+        } while (spawnCol <= 1 || spawnRow <= 1 || !labyrinth.isFree(spawnCol, spawnRow));
     
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
@@ -38,6 +39,7 @@ public class Monstre extends Entity  {
         life = maxLife;
         alive = true;
     }
+    
 
 
     public void getMonstreImage(){
@@ -64,73 +66,90 @@ public class Monstre extends Entity  {
 
     public void update() {
         spriteCounter++;
-        if (spriteCounter > 10){
-            if (spriteNum==1){
-                spriteNum=2;
-            }
-            else if (spriteNum==2){
-                spriteNum = 3;
-            }
-            else if (spriteNum==3){
-                spriteNum = 1;
-            }
+        if (spriteCounter > 10) {
+            updateSpriteNum();
             spriteCounter = 0;
         }
-
+    
         if (directionStayingCounter > 0) {
-            directionStayingCounter--;
-
-            // CHECK TILE COLLISION
-            collisionOn = false;
-            gp.checker.checkSquare(this, gp.labyrinth);
-            /*for (int j=0 ; j<gp.projectileList.size();j++){
-                gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
-             }*/
-
-            // CHECK Fire Collision
-            //gp.checker.checkObject(this, gp.labyrinth, true);
-
-            if (collisionOn == false) {
-                moveInDirection();
-            } else {
-                directionStayingCounter = 0;
-            }
+            handleDirectionStayCollision();
         } else {
-            
-            // Choose a new random direction
-            int randomDirection = (int) (Math.random() * 4);
-            switch (randomDirection) {
-                case 0:
-                    direction = "up";
-                    break;
-                case 1:
-                    direction = "down";
-                    break;
-                case 2:
-                    direction = "left";
-                    break;
-                case 3:
-                    direction = "right";
-                    break;
-            }
-
-            directionStayingCounter = (int) (Math.random() * maxDirectionStayCount);
-
-            // CHECK TILE COLLISION
-            collisionOn = false;
-            gp.checker.checkSquare(this, gp.labyrinth);
-
-            // CHECK Fire Collision
-            //gp.checker.checkObject(this, gp.labyrinth, true);
-
-            if (collisionOn == false) {
-                moveInDirection();
-            } else {
-                directionStayingCounter = 0;
-            }
+            chooseNewDirection();
+            handleDirectionChangeCollision();
         }
     }
-
+    
+    private void updateSpriteNum() {
+        switch (spriteNum) {
+            case 1:
+                spriteNum = 2;
+                break;
+            case 2:
+                spriteNum = 3;
+                break;
+            case 3:
+                spriteNum = 1;
+                break;
+        }
+    }
+    
+    private void handleDirectionStayCollision() {
+        directionStayingCounter--;
+    
+        // CHECK TILE COLLISION
+        collisionOn = false;
+        gp.checker.checkSquare(this, gp.labyrinth);
+    
+        if (!collisionOn) {
+            moveInDirection();
+        } else {
+            changeDirectionAndMove();
+        }
+    }
+    
+    private void chooseNewDirection() {
+        int randomDirection = (int) (Math.random() * 4);
+        switch (randomDirection) {
+            case 0:
+                direction = "up";
+                break;
+            case 1:
+                direction = "down";
+                break;
+            case 2:
+                direction = "left";
+                break;
+            case 3:
+                direction = "right";
+                break;
+        }
+    
+        directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + minDirectionStayCount;
+    }
+    
+    private void handleDirectionChangeCollision() {
+        // CHECK TILE COLLISION
+        collisionOn = false;
+        gp.checker.checkSquare(this, gp.labyrinth);
+    
+        if (!collisionOn) {
+            moveInDirection();
+        } else {
+            changeDirectionAndMove();
+        }
+    }
+    
+    private void changeDirectionAndMove() {
+        // Change direction to a random direction
+        chooseNewDirection();
+    
+        // Move a random number of steps in the new direction
+        int randomWalkSteps = (int) (Math.random() * maxRandomWalkSteps) + 1;  // Adjust maxRandomWalkSteps based on your needs
+    
+        for (int i = 0; i < randomWalkSteps; i++) {
+            moveInDirection();
+        }
+    }
     private void moveInDirection() {
         switch (direction) {
             case "up":
