@@ -7,6 +7,9 @@ public class Collision{
 
     private long lastCollisionTime;
     private long collisionCooldown = 500; // 500 milliseconds
+    private int fireCooldown = 500 ; 
+    private long lastFireDamageTime = 0;
+
     public Collision(GamePanel gp) {
         this.gp=gp;
     }
@@ -57,7 +60,9 @@ public class Collision{
 
         Square corner1 = new Square();
         Square corner2 = new Square();
-        
+       
+
+
         switch(entity.direction){
             case "up":
                 entityTopRow = (entityTopy-entity.speed)/gp.tileSize;
@@ -123,6 +128,8 @@ public class Collision{
 
     public void checkObject(Entity entity , Labyrinth l ,boolean player){
         int abs , ord;
+
+        
         Square obj = new Square();
         abs = ((entity.x + entity.solidArea.x + entity.solidArea.width/2))/gp.tileSize ;
         ord = ((entity.y +entity.solidArea.y + entity.solidArea.height/2))/gp.tileSize ;
@@ -144,30 +151,34 @@ public class Collision{
                 obj = l.getGrid()[abs][ord];
                 break;
         }
-        if(entity.solidArea.intersects(obj.solidArea)){
-            if (obj.getContent() == ObjectType.FIRE ){
-                if (entity.life > 0)
-                    entity.life--;
-                gp.playSE(1,1.0f);
-            }
-            if (obj.getContent() == ObjectType.BOOTS ) {
+        if (entity.solidArea.intersects(obj.solidArea)) {
+            if (obj.getContent() == ObjectType.FIRE) {
+                long currentTime = System.currentTimeMillis();
+                // Check if enough time has passed since the last fire damage
+                if (currentTime - lastFireDamageTime >= fireCooldown) {
+                    if (entity.life > 0) {
+                        entity.life--;
+                        gp.playSE(1, 1.0f);
+                        // Update the last fire damage time
+                        lastFireDamageTime = currentTime;
+                    }
+                }
+            } else if (obj.getContent() == ObjectType.BOOTS) {
                 l.setSquare(abs, ord, ObjectType.WALKWAY);
                 entity.speedBoosted = true;
                 entity.originalSpeed = entity.speed;
                 entity.speed = entity.boostValue; // Set the speed to the boosted value
                 gp.speedBoostStartTime = System.currentTimeMillis();
-            }
-            else if (obj.getContent() == ObjectType.AID ){
-                if(entity.life < entity.maxLife){
-                    if(entity.life == entity.maxLife - 1){
-                        entity.life = entity.life + 1;
-                        gp.playSE(2,1.0f);
-                    }
-                    else {
-                        entity.life = entity.life + 2;
+            } else if (obj.getContent() == ObjectType.AID) {
+                if (entity.life < entity.maxLife) {
+                    if (entity.life == entity.maxLife - 1) {
+                        entity.life++;
+                        gp.playSE(2, 1.0f);
+                    } else {
+                        entity.life += 2;
                         gp.playSE(2, 1.0f);
                     }
-                    l.setSquare(abs, ord,ObjectType.WALKWAY);
+                    l.setSquare(abs, ord, ObjectType.WALKWAY);
                 }
             }
             else if (obj.getContent() == ObjectType.MANA ) {
@@ -179,6 +190,7 @@ public class Collision{
             }
 
         }
+        
     }
 
     public boolean checkTreasure(Entity entity,Labyrinth labyrinth){
