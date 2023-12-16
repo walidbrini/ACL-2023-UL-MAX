@@ -8,7 +8,8 @@ import java.util.Objects;
 
 public class Player extends Entity {
     Controller keyH;
-    PlayerHeart heart ;//= new PlayerHeart(gp);
+    PlayerHeart heart ;//= new PlayerHeart(gp);*
+    ManaCrystal crystal ;
     int minX = 100; // Replace with your desired values
     int minY = 100;
     int maxX = 200;
@@ -21,6 +22,8 @@ public class Player extends Entity {
     int attack_counter = 0 ; 
 
     public Projectile projectile ;
+    public int maxMana;
+    public int mana;
 
     public Player(GamePanel gp ,Controller keyH){
         super(gp);
@@ -36,6 +39,7 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.y ;
 
         heart = new PlayerHeart(gp);
+        crystal = new ManaCrystal(gp);
 
         setDefaultValues();
         getPlayerImage();
@@ -50,6 +54,8 @@ public class Player extends Entity {
         //Player Status
         maxLife = 6;
         life = maxLife ; //2 lives = 1 heart
+        maxMana = 4 ;
+        mana = maxMana;
         projectile = new Fireball(gp);
 
     }
@@ -267,6 +273,32 @@ public class Player extends Entity {
             }
             i++;
             x += gp.tileSize ;
+        }
+        ///////////////////////////// Draw mana
+        // DRAW MAX MANA
+
+        x = gp.tileSize / 2;
+        y = gp.tileSize * 2;
+        i = 0;
+        ///////////////////////////// Draw mana
+        // DRAW MAX MANA
+
+        x = gp.screenWidth - gp.tileSize * 4;
+        y = gp.tileSize /2;
+        i = 0;
+        while(i<gp.player.maxMana){
+            g2.drawImage(crystal.mana_blank,x,y,gp.tileSize , gp.tileSize,null);
+            i++;
+            x+=35;
+        }
+        // DRAW MANA
+        x = gp.screenWidth - gp.tileSize * 4;
+        y = gp.tileSize /2;
+        i = 0;
+        while(i<gp.player.mana){
+            g2.drawImage(crystal.mana_full,x,y,gp.tileSize , gp.tileSize,null);
+            i++;
+            x+=35;
         }
     }
 
