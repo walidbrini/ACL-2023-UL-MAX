@@ -100,7 +100,7 @@ public class UserInterface extends Utilities{
         g2.drawString(value,textX,textY);
         textY +=lineHeight;
 
-        value = String.valueOf(gp.player.speed);
+        value = String.valueOf(gp.player.getSpeed());
         textX = getXforAlignToRightText(value,edge);
         g2.drawString(value,textX,textY);
         textY +=lineHeight;

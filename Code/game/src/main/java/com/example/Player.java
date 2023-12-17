@@ -11,7 +11,7 @@ public class Player extends Entity {
     private PlayerHeart heart ;//= new PlayerHeart(gp);
     private ManaCrystal crystal ;
 
-    private BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
+    public BufferedImage attack_right_1,attack_right_2,attack_right_3,attack_up_1,attack_up_2
                     ,attack_up_3,attack_down_1,attack_down_2,attack_down_3,attack_left_1,attack_left_2,attack_left_3; 
 
     private int attack_counter = 0 ;
@@ -39,7 +39,7 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues(){
-        speed = 4;
+        setSpeed(4);
         direction = "down";
 
         //Player Status
@@ -63,7 +63,6 @@ public class Player extends Entity {
             right1 = setupImage("/player/player3/right/right1.png");
             right2 = setupImage("/player/player3/right/right2.png");
             right3 = setupImage("/player/player3/right/right3.png");
-
     }
     public void getPlayerAttackImage(){
         attack_right_1 = setupImage("/player/player3/right/attack1.png");
@@ -101,10 +100,10 @@ public class Player extends Entity {
     public void movePlayer(){
         if(collisionOn == false){
             switch(direction){
-                case "up":  y -= speed; break;
-                case "down":  y += speed; break;
-                case "left":  x -= speed; break;
-                case "right":  x += speed; break;
+                case "up":  y -= getSpeed(); break;
+                case "down":  y += getSpeed(); break;
+                case "left":  x -= getSpeed(); break;
+                case "right":  x += getSpeed(); break;
             }
         }
         spriteCounter++;
@@ -137,11 +136,7 @@ public class Player extends Entity {
         }
     }
     public void checkcollision(){
-        // CHECK MONSTER COLLISION
-        gp.checker.checkMonstre(this, gp.monsterSpawner);
-        for (int j=0 ; j<gp.projectileList.size();j++){
-            gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
-        }
+
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this,gp.labyrinth);
@@ -155,7 +150,7 @@ public class Player extends Entity {
     public void drawPlayer(Graphics2D g2,GamePanel gp){
 
         BufferedImage image = null;
-
+        draw(g2, gp);
         if (keyH.attaque) {
             attack_counter++;
             if (attack_counter > 10) {
@@ -202,52 +197,12 @@ public class Player extends Entity {
                     }
                     break;
             }
+            g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
         } else {
             attack_counter = 0;
-            switch (direction) {
-                case "up":
-                    if (spriteNum == 1) {
-                        image = up1;
-                    } else if (spriteNum == 2) {
-                        image = up2;
-                    } else if (spriteNum == 3) {
-                        image = up3;
-                    }
-                    break;
-                case "down":
-                    if (spriteNum == 1) {
-                        image = down1;
-                    } else if (spriteNum == 2) {
-                        image = down2;
-                    } else if (spriteNum == 3) {
-                        image = down3;
-                    }
-                    break;
-                case "left":
-                    if (spriteNum == 1) {
-                        image = left1;
-                    } else if (spriteNum == 2) {
-                        image = left2;
-                    } else if (spriteNum == 3) {
-                        image = left3;
-                    }
-                    break;
-                case "right":
-                    if (spriteNum == 1) {
-                        image = right1;
-                    } else if (spriteNum == 2) {
-                        image = right2;
-                    } else if (spriteNum == 3) {
-                        image = right3;
-                    }
-                    break;
-            }
         }
-        
-        g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
         drawPlayerLife(g2);
         drawPlayerMana(g2);
-        // draw an image on the screen
     }
     public void drawPlayerLife(Graphics2D g2){
         int x = gp.tileSize / 2;

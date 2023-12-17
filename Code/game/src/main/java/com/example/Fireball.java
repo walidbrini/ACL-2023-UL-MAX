@@ -5,7 +5,7 @@ public class Fireball extends Projectile {
     public Fireball(GamePanel gp){
         super(gp);
         name = "Fireball";
-        speed = 5;
+        setSpeed(5);
         maxLife = 80;
         life = maxLife;
         attack = 2 ;

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Entity extends Utilities{
     GamePanel gp;
     public int x, y;
-    public int speed;
+    private int speed;
     public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3;
     public String direction;
     public int spriteCounter = 0;
@@ -113,4 +113,11 @@ public class Entity extends Utilities{
     * ***********************************************
  */
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

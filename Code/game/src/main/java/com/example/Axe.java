@@ -6,7 +6,7 @@ public class Axe extends Projectile{
     public Axe(GamePanel gp){
         super(gp);
         name = "Axe";
-        speed = 10;
+        setSpeed(10);
         maxLife = 80;
         life = maxLife;
         attack = 2 ;

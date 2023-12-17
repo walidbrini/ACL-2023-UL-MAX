@@ -24,10 +24,10 @@ public class Projectile extends Entity{
 
     public void update(){
         switch (direction){
-            case "up" : y -= speed ; break;
-            case "down" : y += speed ; break;
-            case "left" : x -= speed ; break;
-            case "right" : x += speed ; break;
+            case "up" : y -= getSpeed() ; break;
+            case "down" : y += getSpeed() ; break;
+            case "left" : x -= getSpeed() ; break;
+            case "right" : x += getSpeed() ; break;
         }
         life--; // lose 1 each game frame or loop => the fireball disappears after 80 frames
         if(life <=0 ) {

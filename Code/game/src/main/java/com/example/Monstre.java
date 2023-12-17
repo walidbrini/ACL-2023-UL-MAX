@@ -33,7 +33,7 @@ public class Monstre extends Entity  {
     
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
-        speed = 1;
+        setSpeed(1);
         direction = "down";
         maxLife = 30;
         life = maxLife;
@@ -153,16 +153,16 @@ public class Monstre extends Entity  {
     private void moveInDirection() {
         switch (direction) {
             case "up":
-                y -= speed;
+                y -= getSpeed();
                 break;
             case "down":
-                y += speed;
+                y += getSpeed();
                 break;
             case "left":
-                x -= speed;
+                x -= getSpeed();
                 break;
             case "right":
-                x += speed;
+                x += getSpeed();
                 break;
         }
 }

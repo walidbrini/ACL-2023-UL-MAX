@@ -65,7 +65,7 @@ public class Collision{
 
         switch(entity.direction){
             case "up":
-                entityTopRow = (entityTopy-entity.speed)/gp.tileSize;
+                entityTopRow = (entityTopy-entity.getSpeed())/gp.tileSize;
                 corner1 = l.getGrid()[entityLeftCol][entityTopRow];
                 corner2 = l.getGrid()[entityRightCol][entityTopRow];
                 if(corner1.collision  || corner2.collision  ){
@@ -74,7 +74,7 @@ public class Collision{
 
                 break;
             case "down":
-                entityBottomRow = (entityBottomy+entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomy+entity.getSpeed())/gp.tileSize;
                 corner1 = l.getGrid()[entityLeftCol][entityBottomRow];
                 corner2 = l.getGrid()[entityRightCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
@@ -82,7 +82,7 @@ public class Collision{
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftx-entity.speed)/gp.tileSize;
+                entityLeftCol = (entityLeftx-entity.getSpeed())/gp.tileSize;
                 corner1 = l.getGrid()[entityLeftCol][entityTopRow];
                 corner2 = l.getGrid()[entityLeftCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
@@ -90,7 +90,7 @@ public class Collision{
                 }
                 break;
             case "right":
-                entityRightCol = (entityRightx+entity.speed)/gp.tileSize;
+                entityRightCol = (entityRightx+entity.getSpeed())/gp.tileSize;
                 corner1 = l.getGrid()[entityRightCol][entityTopRow];
                 corner2 = l.getGrid()[entityRightCol][entityBottomRow];
                 if(corner1.collision  || corner2.collision  ){
@@ -165,11 +165,13 @@ public class Collision{
                     }
                 }
             } else if (obj.getContent() == ObjectType.BOOTS) {
-                l.setSquare(abs, ord, ObjectType.WALKWAY);
-                entity.speedBoosted = true;
-                entity.originalSpeed = entity.speed;
-                entity.speed = entity.boostValue; // Set the speed to the boosted value
-                gp.speedBoostStartTime = System.currentTimeMillis();
+                if (!entity.speedBoosted){
+                    l.setSquare(abs, ord, ObjectType.WALKWAY);
+                    entity.speedBoosted = true;
+                    entity.originalSpeed = entity.getSpeed();
+                    entity.setSpeed(entity.boostValue); // Set the speed to the boosted value
+                    gp.speedBoostStartTime = System.currentTimeMillis();
+                }
             } else if (obj.getContent() == ObjectType.AID) {
                 if (entity.life < entity.maxLife) {
                     if (entity.life == entity.maxLife - 1) {
@@ -202,7 +204,7 @@ public class Collision{
         durationMillis = durationMillis * 1000;
         if (gp.currentTime - gp.speedBoostStartTime >= durationMillis){
             // Boost duration has elapsed, revert to original speed
-            entity.speed = 4;
+            entity.setSpeed(4);
             entity.speedBoosted = false;// Reset speed boost flag
         }
     }
