@@ -33,7 +33,7 @@ public class Monstre extends Entity  {
     
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
-        speed = 1;
+        setSpeed(1);
         direction = "down";
         maxLife = 30;
         life = maxLife;
