@@ -1,0 +1,483 @@
+@startuml
+
+    class Aid extends Square {
+        + healthPoints: final int
+
+        + Aid()
+        + toString(): String
+    }
+    class Entity {
+    - gp: GamePanel
+    - x: int
+    - y: int
+    - speed: int
+    - up1: BufferedImage
+    - up2: BufferedImage
+    - up3: BufferedImage
+    - down1: BufferedImage
+    - down2: BufferedImage
+    - down3: BufferedImage
+    - left1: BufferedImage
+    - left2: BufferedImage
+    - left3: BufferedImage
+    - right1: BufferedImage
+    - right2: BufferedImage
+    - right3: BufferedImage
+    - direction: String
+    - spriteCounter: int
+    - spriteNum: int
+    - solidArea: Rectangle
+    - collisionOn: boolean
+    - solidAreaDefaultX: int
+    - solidAreaDefaultY: int
+    - originalSpeed: int
+    - speedBoosted: boolean
+    - boostValue: int
+    - maxLife: int
+    - life: int
+    - alive: boolean
+    - maxMana: int
+    - mana: int
+
+    + Entity(gp: GamePanel, x: int, y: int, speed: int)
+    + Entity()
+    + Entity(gp: GamePanel)
+    + setPosition(x: int, y: int): void
+    + draw(g2: Graphics2D, gp: GamePanel): void
+    + getX(): int
+    + getY(): int
+    + getSpeed(): int
+    + getDirection(): String
+    + getSpriteCounter(): int
+    + getSpriteNum(): int
+    + getSolidArea(): Rectangle
+    + isCollisionOn(): boolean
+    + getSolidAreaDefaultX(): int
+    + getSolidAreaDefaultY(): int
+    + getOriginalSpeed(): int
+    + isSpeedBoosted(): boolean
+    + getBoostValue(): int
+    + getMaxLife(): int
+    + getLife(): int
+    + isAlive(): boolean
+    + getMaxMana(): int
+    + getMana(): int
+    }
+    class Sound {
+    -clip: Clip
+    -volumeControl: FloatControl
+    -soundURL: URL[30]
+    +Sound()
+    +setFile(i: int): void
+    +setVolume(volume: float): void
+    +play(): void
+    +loop(): void
+    +stop(): void
+    }
+    class Player {
+    -keyH: Controller
+    -heart: PlayerHeart
+    -crystal: ManaCrystal
+    -minX: int
+    -minY: int
+    -maxX: int
+    -maxY: int
+    -attack_right_1: BufferedImage
+    -attack_right_2: BufferedImage
+    -attack_right_3: BufferedImage
+    -attack_up_1: BufferedImage
+    -attack_up_2: BufferedImage
+    -attack_up_3: BufferedImage
+    -attack_down_1: BufferedImage
+    -attack_down_2: BufferedImage
+    -attack_down_3: BufferedImage
+    -attack_left_1: BufferedImage
+    -attack_left_2: BufferedImage
+    -attack_left_3: BufferedImage
+    -attack_counter: int
+    -kills: int
+    -projectile: Projectile
+    +Player(gp: GamePanel, keyH: Controller)
+    +setDefaultValues(): void
+    +getPlayerImage(): void
+    +getPlayerAttackImage(): void
+    +update(): void
+    +restoreMana(): void
+    +drawPlayer(g2: Graphics2D, gp: GamePanel): void
+    +drawPlayerLife(g2: Graphics2D): void
+    +replenishLife(): void
+    }
+    class Monstre {
+    -gp: GamePanel
+    -minDirectionStayCount: int
+    -maxRandomWalkSteps: int
+    -x: int
+    -y: int
+    -speed: int
+    -direction: String
+    -maxLife: int
+    -life: int
+    -alive: boolean
+    -directionStayingCounter: int
+    -maxDirectionStayCount: int
+    -spriteCounter: int
+    -spriteNum: int
+    -up1: BufferedImage
+    -up2: BufferedImage
+    -up3: BufferedImage
+    -down1: BufferedImage
+    -down2: BufferedImage
+    -down3: BufferedImage
+    -left1: BufferedImage
+    -left2: BufferedImage
+    -left3: BufferedImage
+    -right1: BufferedImage
+    -right2: BufferedImage
+    -right3: BufferedImage
+    -solidArea: Rectangle
+    -collisionOn: boolean
+    +Monstre(gp: GamePanel)
+    +setDefaultValues(labyrinth: Labyrinth): void
+    +getMonstreImage(): void
+    +update(): void
+    +updateSpriteNum(): void
+    +handleDirectionStayCollision(): void
+    +chooseNewDirection(): void
+    +handleDirectionChangeCollision(): void
+    +changeDirectionAndMove(): void
+    +moveInDirection(): void
+    }
+    class Fantome {
+        + setAction(): void
+    }
+
+    class Fire extends Square {
+    - damage: int
+
+    + Fire()
+    + toString(): String
+}
+
+class PlayerHeart {
+  -gp: GamePanel
+  -name: String
+  -heart_blank: BufferedImage
+  -heart_half: BufferedImage
+  -heart_full: BufferedImage
+  +PlayerHeart(gp: GamePanel)
+  +getPlayerImage(): void
+}
+    class Level {
+    - gp: GamePanel
+    - levelNumber: int
+    - levelDifficultyStep: int
+    - finalLevel: int
+
+    + Level(gp: GamePanel)
+    + start(): void
+    + restart(): void
+    + update(): void
+    - spawnNewMonsters(): void
+}
+
+    class GamePanel {
+        - originalTileSize: int
+        - scale: int
+        - tileSize: int
+        - maxScreenCol: int
+        - maxScreenRow: int
+        - screenWidth: int
+        - screenHeight: int
+        - thread: Thread
+        - control: Controller
+        - labyrinth: Labyrinth
+        - level: Level
+        - sound: Sound
+        - ui: UserInterface
+        - player: Player
+        - projectileList: ArrayList<Projectile>
+        - monsterSpawner: MonsterSpawner
+        - checker: Collision
+        - gameState: GameState
+        - speedBoostStartTime: long
+        - currentTime: long
+
+        + GamePanel()
+        + setupGame(volume: float): void
+        + startThread(): void
+        + run(): void
+        + update(): void
+        + paintComponent(g: Graphics): void
+        + playMusic(i: int, volume: float): void
+        + stopMusic(): void
+        + playSE(i: int, volume: float): void
+        + getTileSize(): int
+        + getMaxScreenCol(): int
+        + getMaxScreenRow(): int
+        + setGameState(gameState: GameState): void
+    }
+    class MonsterSpawner {
+    -gamePanel: GamePanel
+    -monsters: List<Monstre>
+    +MonsterSpawner(gamePanel: GamePanel)
+    +spawnMonsters(numberOfMonsters: int): void
+    +getMonsters(): List<Monstre>
+    +clearMonsters(): void
+    +drawMonsters(g2: Graphics2D): void
+    +update(): void
+    }
+
+   class Controller implements KeyListener {
+        - gp: GamePanel
+        - up: boolean
+        - left: boolean
+        - down: boolean
+        - right: boolean
+        - attaque: boolean
+        - shoot: boolean
+
+        + Controller(gp: GamePanel)
+        + keyTyped(e: KeyEvent): void
+        + keyPressed(e: KeyEvent): void
+        + keyReleased(e: KeyEvent): void
+    }
+
+    enum Level_enum {
+        CHICKEN
+        EASY
+        MEDIUM
+        HARD
+        INSANE
+    }
+
+   class Labyrinth {
+    - width: int
+    - height: int
+    - grid: Square[][]
+    - fileSaveLocation: String
+    - walkway: Walkway
+    - wall: Wall
+    - fire: Fire
+    - firstAid: Aid
+    - random: Random
+    - spawn: Spawn
+    - treasure: Treasure
+    - mana: Mana
+    - boots: Boots
+    - gamePanel: GamePanel
+    - difficulty: Difficulty
+
+    + Labyrinth(width: int, height: int, gamePanel: GamePanel)
+    + Labyrinth(gamePanel: GamePanel)
+    + generate(spawnPosition: Coordinates): void
+    + saveToFile(): void
+    + loadFromFile(filePath: String): void
+    + draw(graphics: Graphics): void
+    + afficheVersionTexte(): void
+    + levelTransition(): void
+    + isWall(x: int, y: int): boolean
+    + isFree(x: int, y: int): boolean
+    + getGrid(): Square[][]
+    + getTreasure(): Treasure
+    + getSpawn(): Spawn
+    + setDifficulty(difficulty: Difficulty): void
+    + getDifficulty(): Difficulty
+    + setSquare(x: int, y: int, objectType: ObjectType): void
+    + getHeight(): int
+    + getWidth(): int
+    + getFileSaveLocation(): String
+}
+
+  class Square {
+  -content: ObjectType
+  -blocking: boolean
+  -effectOnHealthPoints: int
+  -imagePath: String
+  -bufferedImage: BufferedImage
+  -collision: boolean
+  -solidArea: Rectangle
+  -solidAreaDefaultX: int
+  -solidAreaDefaultY: int
+  
+  +Square(content: ObjectType, blocking: boolean, effectOnHealthPoints: int, imagePath: String)
+  +Square(content: ObjectType, imagePath: String)
+  +Square(content: ObjectType, effectOnHealthPoints: int, imagePath: String)
+  +Square(content: ObjectType, blocking: boolean, imagePath: String)
+  +Square()
+  +getContent(): ObjectType
+  +isBlocking(): boolean
+  +getEffectOnHealthPoints(): int
+  +setContent(content: ObjectType): void
+  +setBlocking(blocking: boolean): void
+  +setEffectOnHealthPoints(effectOnHealthPoints: int): void
+  +getBufferedImage(): BufferedImage
+}
+
+    class Wall {
+        + -- Coordinates
+    }
+
+    class Walkway {
+    +Walkway()
+    ~toString(): String
+}
+
+    class Treasure {
+    -position: Coordinates
+    +Treasure()
+    +setPosition(position: Coordinates): void
+    +getPosition(): Coordinates
+    +toString(): String
+    }
+
+    class Spawn {
+        + -- Coordinates
+    }
+
+
+ class Coordinates {
+        - x: int
+        - y: int
+
+        + Coordinates(x: int, y: int)
+        + getX(): int
+        + getY(): int
+        + setX(x: int): void
+        + setY(y: int): void
+        + toString(): String
+    }
+
+    class Collision {
+        - gp: GamePanel
+        - lastCollisionTime: long
+        - collisionCooldown: long
+        - fireCooldown: int
+        - lastFireDamageTime: long
+
+        + Collision(gp: GamePanel)
+        + checkMonstre(entity: Entity, monsterSpawner: MonsterSpawner): void
+        + checkSquare(entity: Entity, l: Labyrinth): void
+        + checkProjectile(projectile: Projectile, m: MonsterSpawner): void
+        + checkObject(entity: Entity, l: Labyrinth, player: boolean): void
+        + checkTreasure(entity: Entity, labyrinth: Labyrinth): boolean
+        + checkboostSpeedForDuration(entity: Entity, durationMillis: long): void
+    }
+
+class UserInterface {
+        - gp: GamePanel
+        - g2: Graphics2D
+        - arial_40: Font
+        - arial_80B: Font
+        - message: String
+        - messageOn: boolean
+        - messageCounter: int
+        - buttonAdded: boolean
+        + UserInterface(gp: GamePanel)
+        + showMessage(text: String): void
+        + draw(g2: Graphics2D): void
+        + drawWinGameScreen(): void
+        + drawGameOverScreen(): void
+        + drawPauseScreen(): void
+        + getXforCenteredText(text: String): int
+    }
+
+
+class Projectile extends Entity {
+        - useCost: int
+        - user: Entity
+        - attack: int
+        - name: String
+
+        + Projectile(gp: GamePanel)
+        + set(x: int, y: int, direction: String, alive: boolean, user: Entity): void
+        + update(): void
+        + checkMana(user: Entity): boolean
+        + reduceMana(user: Entity): void
+    }
+
+class Axe extends Projectile {
+        + Axe(gp: GamePanel)
+        + getImage(): void
+    }
+
+class Boots extends Square {
+    + Boots()
+    + toString(): String
+}
+
+
+class Fireball extends Projectile {
+    + gp: GamePanel
+
+    + Fireball(gp: GamePanel)
+    + getImage(): void
+    + checkMana(user: Entity): boolean
+    + reduceMana(user: Entity): void
+}
+
+
+class Mana {
+  +Mana()
+  +toString(): String
+}
+
+class Spawn {
+  -position: Coordinates
+  +Spawn()
+  +setPosition(position: Coordinates): void
+  +getPosition(): Coordinates
+  +toString(): String
+}
+
+class UserInterface {
+  -gp: GamePanel
+  -g2: Graphics2D
+  -arial_40: Font
+  -arial_80B: Font
+  -arial_30: Font
+  -message: String
+  -messageOn: boolean
+  -messageCounter: int
+  -buttonAdded: boolean
+  +UserInterface(gp: GamePanel)
+  +showMessage(text: String): void
+  +draw(g2: Graphics2D): void
+  +drawCharacterScreen(): void
+  +getLevel(d: Difficulty): String
+  +drawSubWindow(x: int, y: int, width: int, height: int): void
+  +drawWinGameScreen(): void
+  +drawGameOverScreen(): void
+  +drawPauseScreen(): void
+  +getXforCenteredText(text: String): int
+  +getXforAlignToRightText(text: String, edge: int): int
+}
+
+Mana --|> Square
+
+Entity <|-- Monstre
+Monstre <|-- Fantome
+GamePanel "1..1" -- "1..1" Player
+Entity <|-- Player
+GamePanel "1" -- "1..*" Labyrinth
+Level_enum -- Labyrinth
+Player "1..1" -- "0..1" Controller
+GamePanel -- "0..1" Controller
+Labyrinth -- "1..*" Square
+Square <|-- Wall 
+Square <|-- Walkway
+Square <|-- Treasure
+Square <|-- Spawn
+Level "1..1" -- "1..1" GamePanel
+MonsterSpawner  -- "1..*" Monstre
+GamePanel "1..1" -- "1..1" MonsterSpawner
+GamePanel "1..1" -- "1..1" UserInterface
+
+Coordinates "1..1" -- "1..1" Square
+Player "1..1" -- "1..1" PlayerHeart
+GamePanel "1..1" -- "1..1" Sound
+
+Player "1..1" -- "1..1" Collision
+Collision "1..1" -- "1..1" Labyrinth
+Collision "1..1" -- "1..1" Monstre
+
+@enduml
