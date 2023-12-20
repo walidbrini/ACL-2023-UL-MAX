@@ -136,13 +136,17 @@ public class Player extends Entity {
         }
     }
     public void checkcollision(){
-
+        gp.checker.checkMonstre(this, gp.monsterSpawner);
+        for (int j=0 ; j<gp.projectileList.size();j++){
+            gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
+        }
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this,gp.labyrinth);
         // CHECK FIRE COLLISION
         gp.checker.checkObject(this ,gp.labyrinth ,true);
     }
+        
     public void restoreMana(){
         mana = maxMana;
     }

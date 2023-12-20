@@ -15,7 +15,6 @@ public class Monstre extends Entity  {
         this.gp = gp;
         setDefaultValues(gp.labyrinth);
         getMonstreImage();
-
         solidArea = new Rectangle(0,0,48,48);
 
     }
@@ -153,12 +152,6 @@ public class Monstre extends Entity  {
                 break;
         }
     }
-
-
-        
-    
- 
-
 }
 
 	
