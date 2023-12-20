@@ -11,6 +11,7 @@ public class Monstre extends Entity  {
     GamePanel gp;
     private int minDirectionStayCount = 10;  
     private int maxRandomWalkSteps = 10;
+    
     public Monstre(GamePanel gp) {
         this.gp = gp;
         setDefaultValues(gp.labyrinth);
@@ -24,11 +25,10 @@ public class Monstre extends Entity  {
         int spawnCol;
         int spawnRow;
     
-        // Ensure the monster doesn't spawn on the borders or on a wall
         do {
             spawnCol = (int) (Math.random() * (GamePanel.getMaxScreenCol() - 2)) + 1;
             spawnRow = (int) (Math.random() * (GamePanel.getMaxScreenRow() - 2)) + 1;
-        } while (spawnCol <= 1 || spawnRow <= 1 || !labyrinth.isFree(spawnCol, spawnRow));
+        } while (spawnCol <= 1 || spawnRow <= 1 || !isSpawnLocationValid(labyrinth, spawnCol, spawnRow));
     
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
@@ -37,6 +37,18 @@ public class Monstre extends Entity  {
         maxLife = 30;
         life = maxLife;
         alive = true;
+    }
+    
+    private boolean isSpawnLocationValid(Labyrinth labyrinth, int col, int row) {
+        // Check if the spawn location and its adjacent cells are free of walls
+        for (int i = col - 1; i <= col + 1; i++) {
+            for (int j = row - 1; j <= row + 1; j++) {
+                if (!labyrinth.isFree(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
 
@@ -92,8 +104,30 @@ public class Monstre extends Entity  {
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirection();
+            // Try moving in a different direction before changing
+            chooseNewDirection();
+            if (!attemptMoveInDirection()) {
+                changeDirection();
+            }
         }
+    }
+
+    private boolean attemptMoveInDirection() {
+        // Try moving in the current direction without changing it
+        String originalDirection = direction;
+        moveInDirection();
+
+        // Check for collision after attempting to move
+        collisionOn = false;
+        gp.checker.checkSquare(this, gp.labyrinth);
+
+        if (collisionOn) {
+            // If there's still a collision, revert to the original direction
+            direction = originalDirection;
+            return false;
+        }
+
+        return true;
     }
 
     private void chooseNewDirection() {
@@ -124,7 +158,11 @@ public class Monstre extends Entity  {
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirection();
+            // Try moving in a different direction before changing
+            chooseNewDirection();
+            if (!attemptMoveInDirection()) {
+                changeDirection();
+            }
         }
     }
 
