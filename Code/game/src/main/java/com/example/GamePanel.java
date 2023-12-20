@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Sound sound = new Sound();
 	UserInterface ui = new UserInterface(this);
 	Player player = new Player(this,control); // oth
+	Ghost fantome = new Ghost(this);
 
 	ArrayList<Projectile> projectileList = new ArrayList<>();
 	MonsterSpawner monsterSpawner;
@@ -88,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
 		if (gameState == GameState.PLAYSTATE){
 			level.update();
 			player.update();
+			fantome.update();
 			currentTime = System.currentTimeMillis();
 			checker.checkboostSpeedForDuration(player,5);
 			for (Monstre monster : monsterSpawner.getMonsters()) {
@@ -134,6 +136,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 		labyrinth.draw(g2);
 		player.drawPlayer(g2,this);
+		fantome.appear(g2,this);
 		for (Monstre monster : monsterSpawner.getMonsters()) {
             monster.draw(g2,this);
         }

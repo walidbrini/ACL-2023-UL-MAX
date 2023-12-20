@@ -11,6 +11,7 @@ public class Monstre extends Entity  {
     GamePanel gp;
     private int minDirectionStayCount = 10;  
     private int maxRandomWalkSteps = 10;
+    public Monstre(){}
     public Monstre(GamePanel gp) {
         this.gp = gp;
         setDefaultValues(gp.labyrinth);
@@ -70,7 +71,6 @@ public class Monstre extends Entity  {
             updateSpriteNum();
             spriteCounter = 0;
         }
-
         if (directionStayingCounter > 0) {
             handleDirectionStayCollision();
         } else {
@@ -79,11 +79,11 @@ public class Monstre extends Entity  {
         }
     }
 
-    private void updateSpriteNum() {
+    public void updateSpriteNum() {
         spriteNum = (spriteNum % 3) + 1;
     }
 
-    private void handleDirectionStayCollision() {
+    public void handleDirectionStayCollision() {
         directionStayingCounter--;
 
         // CHECK TILE COLLISION
@@ -97,7 +97,7 @@ public class Monstre extends Entity  {
         }
     }
 
-    private void chooseNewDirection() {
+    public void chooseNewDirection() {
         int randomDirection = (int) (Math.random() * 4);
         switch (randomDirection) {
             case 0:
@@ -117,7 +117,7 @@ public class Monstre extends Entity  {
         directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
 
-    private void handleDirectionChangeCollision() {
+    public void handleDirectionChangeCollision() {
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this, gp.labyrinth);
@@ -129,7 +129,7 @@ public class Monstre extends Entity  {
         }
     }
 
-    private void changeDirection() {
+    public void changeDirection() {
         // Change direction to a random direction
         chooseNewDirection();
 
@@ -137,19 +137,19 @@ public class Monstre extends Entity  {
         directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
 
-    private void moveInDirection() {
+    public void moveInDirection() {
         switch (direction) {
             case "up":
-                y -= 1; // Adjust the step size based on your needs
+                y -= getSpeed(); // Adjust the step size based on your needs
                 break;
             case "down":
-                y += 1;
+                y += getSpeed();
                 break;
             case "left":
-                x -= 1;
+                x -= getSpeed();
                 break;
             case "right":
-                x += 1;
+                x += getSpeed();
                 break;
         }
     }

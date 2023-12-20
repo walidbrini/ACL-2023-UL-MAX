@@ -45,6 +45,13 @@ public class Collision{
             }
         }
     }
+    public boolean checkBorder(Entity entity, Labyrinth lab){
+        boolean border =false;
+        if(entity.x==gp.getTileSize()||entity.y==gp.getTileSize()||entity.x==gp.screenWidth-2*gp.getTileSize()||entity.y==gp.screenHeight-2*gp.getTileSize()){
+            border = true;
+        }
+        return border;
+    }
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
@@ -60,8 +67,6 @@ public class Collision{
 
         Square corner1 = new Square();
         Square corner2 = new Square();
-       
-
 
         switch(entity.direction){
             case "up":
