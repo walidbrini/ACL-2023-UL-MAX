@@ -19,7 +19,7 @@ public class Monstre extends Entity  {
         solidArea = new Rectangle(0,0,48,48);
 
     }
-
+    public Monstre(){}
     public void setDefaultValues(Labyrinth labyrinth) {
         // Spawn Coordinates
         int spawnCol;
@@ -174,7 +174,7 @@ public class Monstre extends Entity  {
         directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
 
-    private void moveInDirection() {
+    public void moveInDirection() {
         switch (direction) {
             case "up":
                 y -= 1; // Adjust the step size based on your needs
