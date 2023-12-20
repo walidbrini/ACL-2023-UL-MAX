@@ -51,35 +51,35 @@ public class Player extends Entity {
 
     }
     public void getPlayerImage(){
-            up1 = setupImage("/player/player3/up/up1.png");
-            up2 = setupImage("/player/player3/up/up2.png");
-            up3 = setupImage("/player/player3/up/up3.png");
-            down1 = setupImage("/player/player3/down/down1.png");
-            down2 = setupImage("/player/player3/down/down2.png");
-            down3 = setupImage("/player/player3/down/down3.png");
-            left1 = setupImage("/player/player3/left/left1.png");
-            left2 = setupImage("/player/player3/left/left2.png");
-            left3 = setupImage("/player/player3/left/left3.png");
-            right1 = setupImage("/player/player3/right/right1.png");
-            right2 = setupImage("/player/player3/right/right2.png");
-            right3 = setupImage("/player/player3/right/right3.png");
+            up1 = setupImage("/player/player4/up/up1.png");
+            up2 = setupImage("/player/player4/up/up2.png");
+            up3 = setupImage("/player/player4/up/up3.png");
+            down1 = setupImage("/player/player4/down/down1.png");
+            down2 = setupImage("/player/player4/down/down2.png");
+            down3 = setupImage("/player/player4/down/down3.png");
+            left1 = setupImage("/player/player4/left/left1.png");
+            left2 = setupImage("/player/player4/left/left2.png");
+            left3 = setupImage("/player/player4/left/left3.png");
+            right1 = setupImage("/player/player4/right/right1.png");
+            right2 = setupImage("/player/player4/right/right2.png");
+            right3 = setupImage("/player/player4/right/right3.png");
     }
     public void getPlayerAttackImage(){
-        attack_right_1 = setupImage("/player/player3/right/attack1.png");
-        attack_right_2 = setupImage("/player/player3/right/attack2.png");
-        attack_right_3 = setupImage("/player/player3/right/attack3.png");
+        attack_right_1 = setupImage("/player/player4/right/attack1.png");
+        attack_right_2 = setupImage("/player/player4/right/attack2.png");
+        attack_right_3 = setupImage("/player/player4/right/attack3.png");
 
-        attack_up_1 = setupImage("/player/player3/up/attack1.png");
-        attack_up_2 = setupImage("/player/player3/up/attack2.png");
-        attack_up_3 = setupImage("/player/player3/up/attack3.png");
+        attack_up_1 = setupImage("/player/player4/up/attack1.png");
+        attack_up_2 = setupImage("/player/player4/up/attack2.png");
+        attack_up_3 = setupImage("/player/player4/up/attack3.png");
 
-        attack_down_1 = setupImage("/player/player3/down/attack1.png");
-        attack_down_2 = setupImage("/player/player3/down/attack2.png");
-        attack_down_3 = setupImage("/player/player3/down/attack3.png");
+        attack_down_1 = setupImage("/player/player4/down/attack1.png");
+        attack_down_2 = setupImage("/player/player4/down/attack2.png");
+        attack_down_3 = setupImage("/player/player4/down/attack3.png");
 
-        attack_left_1 = setupImage("/player/player3/left/attack1.png");
-        attack_left_2 = setupImage("/player/player3/left/attack2.png");
-        attack_left_3 = setupImage("/player/player3/left/attack3.png");
+        attack_left_1 = setupImage("/player/player4/left/attack1.png");
+        attack_left_2 = setupImage("/player/player4/left/attack2.png");
+        attack_left_3 = setupImage("/player/player4/left/attack3.png");
     }
     public void update(){
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true) {
@@ -136,13 +136,17 @@ public class Player extends Entity {
         }
     }
     public void checkcollision(){
-
+        gp.checker.checkMonstre(this, gp.monsterSpawner);
+        for (int j=0 ; j<gp.projectileList.size();j++){
+            gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);
+        }
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this,gp.labyrinth);
         // CHECK FIRE COLLISION
         gp.checker.checkObject(this ,gp.labyrinth ,true);
     }
+        
     public void restoreMana(){
         mana = maxMana;
     }

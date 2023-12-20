@@ -11,12 +11,11 @@ public class Monstre extends Entity  {
     GamePanel gp;
     private int minDirectionStayCount = 10;  
     private int maxRandomWalkSteps = 10;
-    public Monstre(){}
+    
     public Monstre(GamePanel gp) {
         this.gp = gp;
         setDefaultValues(gp.labyrinth);
         getMonstreImage();
-
         solidArea = new Rectangle(0,0,48,48);
 
     }
@@ -26,11 +25,10 @@ public class Monstre extends Entity  {
         int spawnCol;
         int spawnRow;
     
-        // Ensure the monster doesn't spawn on the borders or on a wall
         do {
             spawnCol = (int) (Math.random() * (GamePanel.getMaxScreenCol() - 2)) + 1;
             spawnRow = (int) (Math.random() * (GamePanel.getMaxScreenRow() - 2)) + 1;
-        } while (spawnCol <= 1 || spawnRow <= 1 || !labyrinth.isFree(spawnCol, spawnRow));
+        } while (spawnCol <= 1 || spawnRow <= 1 || !isSpawnLocationValid(labyrinth, spawnCol, spawnRow));
     
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
@@ -39,6 +37,18 @@ public class Monstre extends Entity  {
         maxLife = 30;
         life = maxLife;
         alive = true;
+    }
+    
+    private boolean isSpawnLocationValid(Labyrinth labyrinth, int col, int row) {
+        // Check if the spawn location and its adjacent cells are free of walls
+        for (int i = col - 1; i <= col + 1; i++) {
+            for (int j = row - 1; j <= row + 1; j++) {
+                if (!labyrinth.isFree(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
 
@@ -71,6 +81,7 @@ public class Monstre extends Entity  {
             updateSpriteNum();
             spriteCounter = 0;
         }
+
         if (directionStayingCounter > 0) {
             handleDirectionStayCollision();
         } else {
@@ -79,11 +90,11 @@ public class Monstre extends Entity  {
         }
     }
 
-    public void updateSpriteNum() {
+    private void updateSpriteNum() {
         spriteNum = (spriteNum % 3) + 1;
     }
 
-    public void handleDirectionStayCollision() {
+    private void handleDirectionStayCollision() {
         directionStayingCounter--;
 
         // CHECK TILE COLLISION
@@ -93,11 +104,33 @@ public class Monstre extends Entity  {
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirection();
+            // Try moving in a different direction before changing
+            chooseNewDirection();
+            if (!attemptMoveInDirection()) {
+                changeDirection();
+            }
         }
     }
 
-    public void chooseNewDirection() {
+    private boolean attemptMoveInDirection() {
+        // Try moving in the current direction without changing it
+        String originalDirection = direction;
+        moveInDirection();
+
+        // Check for collision after attempting to move
+        collisionOn = false;
+        gp.checker.checkSquare(this, gp.labyrinth);
+
+        if (collisionOn) {
+            // If there's still a collision, revert to the original direction
+            direction = originalDirection;
+            return false;
+        }
+
+        return true;
+    }
+
+    private void chooseNewDirection() {
         int randomDirection = (int) (Math.random() * 4);
         switch (randomDirection) {
             case 0:
@@ -117,7 +150,7 @@ public class Monstre extends Entity  {
         directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
 
-    public void handleDirectionChangeCollision() {
+    private void handleDirectionChangeCollision() {
         // CHECK TILE COLLISION
         collisionOn = false;
         gp.checker.checkSquare(this, gp.labyrinth);
@@ -125,11 +158,15 @@ public class Monstre extends Entity  {
         if (!collisionOn) {
             moveInDirection();
         } else {
-            changeDirection();
+            // Try moving in a different direction before changing
+            chooseNewDirection();
+            if (!attemptMoveInDirection()) {
+                changeDirection();
+            }
         }
     }
 
-    public void changeDirection() {
+    private void changeDirection() {
         // Change direction to a random direction
         chooseNewDirection();
 
@@ -137,28 +174,22 @@ public class Monstre extends Entity  {
         directionStayingCounter = (int) (Math.random() * maxDirectionStayCount) + 1;
     }
 
-    public void moveInDirection() {
+    private void moveInDirection() {
         switch (direction) {
             case "up":
-                y -= getSpeed(); // Adjust the step size based on your needs
+                y -= 1; // Adjust the step size based on your needs
                 break;
             case "down":
-                y += getSpeed();
+                y += 1;
                 break;
             case "left":
-                x -= getSpeed();
+                x -= 1;
                 break;
             case "right":
-                x += getSpeed();
+                x += 1;
                 break;
         }
     }
-
-
-        
-    
- 
-
 }
 
 	
