@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
-		this.setDoubleBuffered(true); 
+		this.setDoubleBuffered(true);
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
@@ -64,20 +64,20 @@ public class GamePanel extends JPanel implements Runnable{
 		thread = new Thread(this);
 		thread.start(); // Automatically call run()
 	}
-	
+
 	public void run() {
 		long interval=1000/60; // FPS
 		long passTime =0;
 		long oldTime = System.currentTimeMillis();
 		long currentTime;
-		
-		while (thread != null){	
+
+		while (thread != null){
 			currentTime = System.currentTimeMillis();
 			passTime = currentTime - oldTime;
 			if (passTime > interval ) {  //><
-			update();
-			repaint();
-			oldTime = System.currentTimeMillis();
+				update();
+				repaint();
+				oldTime = System.currentTimeMillis();
 			}
 		}
 	}
@@ -135,8 +135,8 @@ public class GamePanel extends JPanel implements Runnable{
 		player.drawPlayer(g2,this);
 		fantome.appear(g2,this);
 		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.draw(g2,this);
-        }
+			monster.draw(g2,this);
+		}
 		ui.draw(g2);
 
 		for (int i = 0 ; i<projectileList.size() ; i++){
