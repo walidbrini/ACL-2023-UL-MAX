@@ -17,6 +17,9 @@ public class UserInterface extends Utilities{
     private boolean buttonAdded = false;
     private boolean button2Added = false;
     Button saveButton = new Button("Save Game");
+    // Cursor position in the window
+    public int slotCol = 0;
+    public int slotRow = 0;
     Button startnewGameButton = new Button("Start New Game");
     Button continueGameButton = new Button("Continue");
 
@@ -48,6 +51,7 @@ public class UserInterface extends Utilities{
         }
         else if(gp.gameState == GameState.CHARACTER_STATUS){
             drawCharacterScreen();
+            drawInventory();
         }
         else if(gp.gameState == GameState.START_MENU){
             drawStartMenu();
@@ -55,9 +59,10 @@ public class UserInterface extends Utilities{
     }
 
     private void drawStartMenu() {
-        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/2);
-        button2Added = addButton(startnewGameButton, button2Added,-1, gp.screenHeight/4);
-        // Add a MouseListener to the button for click events
+        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight / 2);
+        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 4);
+
+        // Add a MouseListener to the continueGameButton for click events
         continueGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -71,9 +76,13 @@ public class UserInterface extends Utilities{
                 gp.setGameState(GameState.PAUSESTATE);
                 buttonAdded = false;
                 button2Added = false;
+
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
 
+        // Add a MouseListener to the startnewGameButton for click events
         startnewGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -83,6 +92,9 @@ public class UserInterface extends Utilities{
                 gp.setGameState(GameState.PLAYSTATE);
                 button2Added = false;
                 buttonAdded = false;
+
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
     }
@@ -165,6 +177,58 @@ public class UserInterface extends Utilities{
         g2.drawImage(shield,edge-gp.tileSize,textY-15,gp.getTileSize(), gp.getTileSize(), null);
         textY+= gp.tileSize;
     }
+    public void drawInventory(){
+        int x = gp.getTileSize()*9;
+        int y = gp.getTileSize()*3;
+        int width = gp.getTileSize()*4;
+        int height = gp.getTileSize()*5;
+        drawSubWindow(x,y,width,height);
+
+        //SLOT
+        final int initialSlotX = x + 20 ;
+        final int initialSlotY = y + 20 ;
+        int slotX = initialSlotX;
+        int slotY = initialSlotY;
+
+        // DRAW PLAYER ITEMS
+        for (int i = 0 ; i<gp.player.inventory.size();i++){
+            g2.drawImage(gp.player.inventory.get(i).left1 ,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
+            slotX += gp.getTileSize();
+
+            if(i==2 || i==5 || i==8){
+                slotX = initialSlotX ;
+                slotY += gp.getTileSize();
+            }
+        }
+        slotX = initialSlotX ;
+        slotY += gp.getTileSize();
+        BufferedImage img1;
+        img1 =setupImage("/player/player1/down/down1.png");
+        g2.drawImage(img1,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
+        slotX += gp.getTileSize();
+        img1 = setupImage("/player/player2/down/down1.png");
+        g2.drawImage(img1,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
+        slotX += gp.getTileSize();
+        img1 = setupImage("/player/player3/down/down1.png");
+        g2.drawImage(img1,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
+        slotX += gp.getTileSize();
+        slotX = initialSlotX ;
+        slotY += gp.getTileSize();
+        img1 = setupImage("/player/player4/down/down1.png");
+        g2.drawImage(img1,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
+        slotX += gp.getTileSize();
+
+        //CURSOR
+        int cursorX = initialSlotX + (gp.getTileSize() * slotCol);
+        int cursorY = initialSlotY + (gp.getTileSize() * slotRow);
+        int cursorW = gp.getTileSize();
+        int cursorH = gp.getTileSize();
+        // DRAW CURSOR
+        g2.setColor (Color.white);
+        g2.setStroke(new BasicStroke(3)); // thickness of the line
+        g2.drawRoundRect(cursorX,cursorY,cursorW,cursorH,10,10);
+    }
+
     public String getLevel(Difficulty d){
         String level = null;
         switch (d){
@@ -346,5 +410,19 @@ public class UserInterface extends Utilities{
             buttonAdded = true;
         }
         return buttonAdded;
+    }
+
+    // GETTERS and SETTERS
+    public int getSlotCol() {
+        return slotCol;
+    }
+    public void setSlotCol(int slotCol) {
+        this.slotCol = slotCol;
+    }
+    public int getSlotRow() {
+        return slotRow;
+    }
+    public void setSlotRow(int slotRow) {
+        this.slotRow = slotRow;
     }
 }
