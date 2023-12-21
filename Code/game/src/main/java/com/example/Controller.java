@@ -6,6 +6,7 @@ public class Controller implements KeyListener {
 	GamePanel gp;
 	public boolean up,left,down,right,attaque,shoot;
 	public int weapon = 1;
+	public int play = 0 ;
 
 	public Controller(GamePanel gp){
 		this.gp =gp;
@@ -86,6 +87,19 @@ public class Controller implements KeyListener {
 				if (gp.ui.slotCol == 1 && gp.ui.slotRow == 0){
 					weapon = 2;
 				}
+				if (gp.ui.slotCol == 0 && gp.ui.slotRow == 1){
+					play = 1;
+				}
+				if (gp.ui.slotCol == 1 && gp.ui.slotRow == 1){
+					play = 2;
+				}
+				if (gp.ui.slotCol == 2 && gp.ui.slotRow == 1){
+					play = 3;
+				}
+				if (gp.ui.slotCol == 0 && gp.ui.slotRow == 2){
+					play = 4;
+				}
+
 			}
 			}
 
