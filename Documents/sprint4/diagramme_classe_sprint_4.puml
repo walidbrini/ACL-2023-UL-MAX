@@ -148,7 +148,23 @@
     +moveInDirection(): void
     }
     class Ghost {
-        + setAction(): void
+        - gp: GamePanel
+        - visibility: boolean
+        - timer: Timer
+        - spiralCounter: int
+        - spiralRadius: int
+        - spiralDirection: int
+        + Ghost(gp: GamePanel)
+        + setDefaultValues(): void
+        + getGhostImage(): void
+        + update(): void
+        + changeDirection(): void
+        + randomDirection(): void
+        + move(): void
+        + appear(g2: Graphics2D, gp: GamePanel): void
+        + disappear(amount: int): void
+        + startDisappearingCycle(amount: int): void
+        + moveInSpiral(): void
     }
 
     class Fire extends Square {
