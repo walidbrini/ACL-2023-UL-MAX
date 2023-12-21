@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame(1f);
+		setupGame(0f);
 
 		monsterSpawner = new MonsterSpawner(this);
 
@@ -138,7 +138,6 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D)g;
 
 		labyrinth.draw(g2);
-		ui.draw(g2);
 
 		if(gameState != GameState.START_MENU){
 			player.drawPlayer(g2,this);
@@ -147,6 +146,8 @@ public class GamePanel extends JPanel implements Runnable{
 				monster.draw(g2,this);
 			}
 		}
+
+		ui.draw(g2);
 
 		for (int i = 0 ; i<projectileList.size() ; i++){
 			if(projectileList.get(i) != null){
