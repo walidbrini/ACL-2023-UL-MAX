@@ -27,14 +27,14 @@ class PlayerTest {
     @Test
     void testPlayerSpawnNotOnWall() {
         Square[][] grid = l.getGrid(); 
-        ObjectType squareContent = grid[l.getSpawn().getPosition().getX()][l.getSpawn().getPosition().getY()].getContent();
+        ObjectType squareContent = grid[player.getX()][player.getY()].getContent();
         assertNotEquals(ObjectType.WALL, squareContent);
     }
 
     @Test
     void testPlayerSpawnNotOnFire() {
         Square[][] grid = l.getGrid(); 
-        ObjectType squareContent = grid[l.getSpawn().getPosition().getX()][l.getSpawn().getPosition().getY()].getContent();
+        ObjectType squareContent = grid[player.getX()][player.getY()].getContent();
         assertNotEquals(ObjectType.FIRE, squareContent);
     }   
 
