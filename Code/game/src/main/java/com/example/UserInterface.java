@@ -16,12 +16,13 @@ public class UserInterface extends Utilities{
     private int messageCounter = 0;
     private boolean buttonAdded = false;
     private boolean button2Added = false;
-    Button saveButton = new Button("Save Game");
+    private Button saveButton = new Button("Save Game");
+    private Button quitButton = new Button("Quit Game");
     // Cursor position in the window
     public int slotCol = 0;
     public int slotRow = 0;
-    Button startnewGameButton = new Button("Start New Game");
-    Button continueGameButton = new Button("Continue");
+    private Button startnewGameButton = new Button("Start New Game");
+    private Button continueGameButton = new Button("Continue");
 
     public UserInterface(GamePanel gp){
         this.gp=gp;
@@ -349,6 +350,7 @@ public class UserInterface extends Utilities{
         g2.drawString(text,x,y);
 
         buttonAdded = addButton(saveButton, buttonAdded, -1, y + 40);
+        button2Added = addButton(quitButton, button2Added, -1, y + 170);
 
         if(gp.level.isGameSaved()){
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30F));
@@ -370,6 +372,14 @@ public class UserInterface extends Utilities{
                 }
             }
         });
+
+        // Add a MouseListener to the button for click events
+        quitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     public int getXforCenteredText(String text){
@@ -380,7 +390,9 @@ public class UserInterface extends Utilities{
 
     public void removeSaveButton(){
         gp.remove(saveButton);
+        gp.remove(quitButton);
         buttonAdded = false;
+        button2Added = false;
         gp.level.setGameSaved(false);
     }
 
