@@ -1,11 +1,11 @@
 package com.example;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.TimeUnit;
 
 public class UserInterface extends Utilities{
     private GamePanel gp;
@@ -15,10 +15,13 @@ public class UserInterface extends Utilities{
     private boolean messageOn = false;
     private int messageCounter = 0;
     private boolean buttonAdded = false;
+    private boolean button2Added = false;
     Button saveButton = new Button("Save Game");
     // Cursor position in the window
     public int slotCol = 0;
     public int slotRow = 0;
+    Button startnewGameButton = new Button("Start New Game");
+    Button continueGameButton = new Button("Continue");
 
     public UserInterface(GamePanel gp){
         this.gp=gp;
@@ -47,11 +50,46 @@ public class UserInterface extends Utilities{
             drawWinGameScreen();
         }
         else if(gp.gameState == GameState.CHARACTER_STATUS){
-
             drawCharacterScreen();
             drawInventory();
         }
+        else if(gp.gameState == GameState.START_MENU){
+            drawStartMenu();
+        }
     }
+
+    private void drawStartMenu() {
+        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/2);
+        button2Added = addButton(startnewGameButton, button2Added,-1, gp.screenHeight/4);
+        // Add a MouseListener to the button for click events
+        continueGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gp.remove(continueGameButton);
+                gp.remove(startnewGameButton);
+                try {
+                    gp.level.continueGame();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                gp.setGameState(GameState.PAUSESTATE);
+                button2Added = false;
+            }
+        });
+
+        startnewGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gp.remove(startnewGameButton);
+                gp.remove(continueGameButton);
+                gp.level.startNewGame();
+                gp.setGameState(GameState.PLAYSTATE);
+                button2Added = false;
+                buttonAdded = false;
+            }
+        });
+    }
+
     public void drawCharacterScreen(){
         final int x = gp.tileSize * 2 ;
         final int y = gp.tileSize *3 ;
@@ -306,20 +344,7 @@ public class UserInterface extends Utilities{
         int y = gp.screenHeight/2;
         g2.drawString(text,x,y);
 
-        // Save button
-        saveButton.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
-        saveButton.setBackground(Color.white);
-        int buttonWidth = 200;
-        int buttonHeight = 100;
-        int buttonX = (gp.screenWidth - buttonWidth) / 2;
-        int buttonY = y + 40;
-        saveButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
-
-        // Add the button to the GamePanel
-        if(!buttonAdded){
-            gp.add(saveButton);
-            buttonAdded = true;
-        }
+        buttonAdded = addButton(saveButton, buttonAdded, -1, y + 40);
 
         if(gp.level.isGameSaved()){
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30F));
@@ -333,7 +358,6 @@ public class UserInterface extends Utilities{
         saveButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //gp.setGameState(GameState.PLAYSTATE);
                 gp.remove(saveButton);
                 try {
                     gp.level.save();
@@ -343,6 +367,7 @@ public class UserInterface extends Utilities{
             }
         });
     }
+
     public int getXforCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         int x = gp.screenWidth/2 - length/2;
@@ -359,6 +384,27 @@ public class UserInterface extends Utilities{
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         int x = edge - length;
         return x;
+    }
+
+    private boolean addButton(Button button, Boolean buttonAdded, int x, int y){
+        int width = 200;
+        int height = 100;
+
+        // Chose x = -1 to center the button
+        if(x == -1)
+            x = (gp.screenWidth - width) / 2;
+
+        button.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        button.setBackground(Color.white);
+
+        button.setBounds(x, y, width, height);
+
+        // Add the button to the GamePanel
+        if(!buttonAdded){
+            gp.add(button);
+            buttonAdded = true;
+        }
+        return buttonAdded;
     }
 
     // GETTERS and SETTERS

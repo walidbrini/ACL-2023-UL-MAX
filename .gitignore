@@ -8,6 +8,7 @@ Code/game/target/*
 ../../ACL-2023-UL-MAX.iml
 ../../game.iml
 
+*.txt
 
 # Eclipse
 */.classpath

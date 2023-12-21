@@ -7,5 +7,6 @@ public enum GameState {
     GAMEOVER,
     WIN,
     RESTART,
-    CHARACTER_STATUS
+    CHARACTER_STATUS,
+    START_MENU
 }

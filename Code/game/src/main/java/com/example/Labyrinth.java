@@ -481,6 +481,10 @@ public class Labyrinth {
             grid[x][y] = new Square();
     }
 
+    public void generateStartMenuMap(){
+        fillBordersWithWalls();
+    }
+
     public int getHeight() {
         return height;
     }

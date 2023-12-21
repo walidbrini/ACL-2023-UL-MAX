@@ -16,26 +16,30 @@ public class Level {
 
     public Level(GamePanel gp) {
         this.gp = gp;
+        gp.labyrinth = new Labyrinth(gp);
+    }
+
+    public void initializeGame(){
+        gp.labyrinth.generateStartMenuMap();
     }
 
     public void startNewGame(){
-        gp.labyrinth = new Labyrinth(gp);
         gp.labyrinth.generate(null);
         levelNumber = 1;
         gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
                               gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
     }
 
-    public void startSavedGame() throws IOException {
-        gp.labyrinth = new Labyrinth(gp);
+    public void continueGame() throws IOException {
         gp.labyrinth.loadFromFile("save_files/map.txt");
         gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
-                gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
+               gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
     }
 
     public void restart(){
         gp.monsterSpawner.clearMonsters();
         gp.player.replenishLife();
+        gp.player.restoreMana();
         this.startNewGame();
     }
 
@@ -50,6 +54,8 @@ public class Level {
         printWriter.print(gp.player.y);
         printWriter.print(',');
         printWriter.print(gp.player.life);
+        printWriter.print(',');
+        printWriter.print(gp.player.mana);
         printWriter.print(',');
         printWriter.close();
         setGameSaved(true);
