@@ -5,20 +5,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
-public class UserInterface {
-    GamePanel gp;
-    Graphics2D g2;
-    Font arial_40,arial_80B;
-    public String message ="";
-    public boolean messageOn = false;
-    int messageCounter = 0;
-    boolean buttonAdded = false;
+public class UserInterface extends Utilities{
+    private GamePanel gp;
+    private Graphics2D g2;
+    private Font arial_40,arial_80B,arial_30;
+    private String message ="";
+    private boolean messageOn = false;
+    private int messageCounter = 0;
+    private boolean buttonAdded = false;
     Button saveButton = new Button("Save Game");
 
     public UserInterface(GamePanel gp){
         this.gp=gp;
         arial_40 = new Font("Arial",Font.PLAIN,40);
+        arial_30 = new Font("Arial",Font.PLAIN,30);
         arial_80B = new Font("Arial",Font.BOLD,80);
     }
     public void showMessage(String text){
@@ -41,6 +43,120 @@ public class UserInterface {
         else if (gp.gameState == GameState.WIN){
             drawWinGameScreen();
         }
+        else if(gp.gameState == GameState.CHARACTER_STATUS){
+
+            drawCharacterScreen();
+        }
+    }
+    public void drawCharacterScreen(){
+        final int x = gp.tileSize * 2 ;
+        final int y = gp.tileSize *3 ;
+        final int w = gp.tileSize * 7 ;
+        final int h = gp.tileSize * 10 ;
+        drawSubWindow(x,y,w,h);
+
+        // TEXT
+
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(32F));
+
+        int textX = x+ 20;
+        int textY = y +gp.tileSize;
+        final int lineHeight = 32;
+
+        g2.drawString("Level",textX,textY);
+        textY +=lineHeight;
+        g2.drawString("Life",textX,textY);
+        textY +=lineHeight;
+        g2.drawString("Mana",textX,textY);
+        textY +=lineHeight;
+        g2.drawString("Speed",textX,textY);
+        textY +=lineHeight;
+        g2.drawString("Next Level",textX,textY);
+        textY +=lineHeight;
+        g2.drawString("Kills",textX,textY);
+        textY +=lineHeight + 20;
+        g2.drawString("Weapon ",textX,textY);
+        textY +=lineHeight + 15 ;
+        g2.drawString("Shield",textX,textY);
+        textY +=lineHeight + 15 ;
+
+        //VALUES
+        g2.setFont(arial_30);
+        g2.setFont(g2.getFont().deriveFont(20F));
+        int edge = (x+w) - 30;
+        textY = y +gp.tileSize;
+        String value;
+
+        value = getLevel(gp.labyrinth.getDifficulty());
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        value = String.valueOf(gp.player.life + "/" + gp.player.maxLife);
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        value = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        value = String.valueOf(gp.player.getSpeed());
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        value = getLevel(gp.labyrinth.getDifficulty().next());
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        value = String.valueOf(gp.player.getKills());
+        textX = getXforAlignToRightText(value,edge);
+        g2.drawString(value,textX,textY);
+        textY +=lineHeight;
+
+        BufferedImage weapon = setupImage("/items/axe.png");
+        g2.drawImage(weapon,edge-gp.tileSize,textY-15,gp.getTileSize(), gp.getTileSize(),null);
+        textY+= gp.tileSize;
+
+        BufferedImage shield = setupImage("/items/shield_wood.png");
+        g2.drawImage(shield,edge-gp.tileSize,textY-15,gp.getTileSize(), gp.getTileSize(), null);
+        textY+= gp.tileSize;
+    }
+    public String getLevel(Difficulty d){
+        String level = null;
+        switch (d){
+            case CHICKEN:
+                level = "CHICKEN";
+                break;
+            case EASY:
+                level = "EASY";
+                break;
+            case MEDIUM:
+                level = "MEDIUM";
+                break;
+            case HARD:
+                level = "HARD";
+                break;
+            case INSANE:
+                level = "INSANE";
+                break;
+            default:
+                break;
+        }
+        return level;
+    }
+    public void drawSubWindow(int x , int y , int width , int height){
+        Color c = new Color(0,0,0,210);
+        g2.setColor(c);
+        g2.fillRoundRect(x,y,width,height,35,35);
+        c=new Color(255,255,255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x+5,y+5,width-10,height-10,25,25);
     }
 
     private void drawWinGameScreen() {
@@ -177,5 +293,11 @@ public class UserInterface {
         gp.remove(saveButton);
         buttonAdded = false;
         gp.level.setGameSaved(false);
+    }
+
+    public int getXforAlignToRightText(String text,int edge){
+        int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
+        int x = edge - length;
+        return x;
     }
 }

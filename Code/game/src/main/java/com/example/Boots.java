@@ -6,8 +6,6 @@ public class Boots extends Square{
         collision = false;
     }
 
-
-
     // FOR TESTING
     @Override
     public String toString() {

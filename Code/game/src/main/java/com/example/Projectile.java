@@ -3,11 +3,9 @@ package com.example;
 import java.awt.*;
 import java.util.Iterator;
 
-public class Projectile extends Entity {
+public class Projectile extends Entity{
     public int useCost ; // the cost to use the projectile
     Entity user;
-    public int maxMana ;
-    public int mana = maxMana;
     public int attack;
     public String name ;
     public Projectile(GamePanel gp){
@@ -26,10 +24,10 @@ public class Projectile extends Entity {
 
     public void update(){
         switch (direction){
-            case "up" : y -= speed ; break;
-            case "down" : y += speed ; break;
-            case "left" : x -= speed ; break;
-            case "right" : x += speed ; break;
+            case "up" : y -= getSpeed() ; break;
+            case "down" : y += getSpeed() ; break;
+            case "left" : x -= getSpeed() ; break;
+            case "right" : x += getSpeed() ; break;
         }
         life--; // lose 1 each game frame or loop => the fireball disappears after 80 frames
         if(life <=0 ) {
@@ -54,7 +52,11 @@ public class Projectile extends Entity {
             spriteCounter = 0;
         }
     }
-
-
+    public boolean checkMana(Entity user){
+        boolean resource = false;
+        return resource;
+    }
+    public void reduceMana(Entity user){
+    }
 
 }

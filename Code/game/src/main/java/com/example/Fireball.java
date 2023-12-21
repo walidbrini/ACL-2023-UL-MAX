@@ -5,7 +5,7 @@ public class Fireball extends Projectile {
     public Fireball(GamePanel gp){
         super(gp);
         name = "Fireball";
-        speed = 5;
+        setSpeed(5);
         maxLife = 80;
         life = maxLife;
         attack = 2 ;
@@ -25,6 +25,16 @@ public class Fireball extends Projectile {
         right1 = setupImage("/items/fireball/fireball_right_1.png");
         right2 = setupImage("/items/fireball/fireball_right_1.png");
         right3 = right2;
+    }
+    public boolean checkMana(Entity user){
+        boolean resource = false;
+        if(user.mana >= useCost){
+            resource = true;
+        }
+        return resource;
+    }
+    public void reduceMana(Entity user){
+        user.mana -= useCost;
     }
 
 

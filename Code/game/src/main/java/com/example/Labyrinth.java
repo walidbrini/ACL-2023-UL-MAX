@@ -143,7 +143,7 @@ public class Labyrinth {
     }
 
     private void randomizeMana() {
-        double manaProbability = 0.01;
+        double manaProbability = 0.02;
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
