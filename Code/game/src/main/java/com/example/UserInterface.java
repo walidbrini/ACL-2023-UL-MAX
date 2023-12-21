@@ -65,6 +65,7 @@ public class UserInterface extends Utilities{
         continueGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                gp.setGameState(GameState.PAUSESTATE);
                 gp.remove(continueGameButton);
                 gp.remove(startnewGameButton);
                 try {
@@ -72,7 +73,7 @@ public class UserInterface extends Utilities{
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                gp.setGameState(GameState.PAUSESTATE);
+
                 button2Added = false;
             }
         });
@@ -80,10 +81,10 @@ public class UserInterface extends Utilities{
         startnewGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                gp.setGameState(GameState.PLAYSTATE);
                 gp.remove(startnewGameButton);
                 gp.remove(continueGameButton);
                 gp.level.startNewGame();
-                gp.setGameState(GameState.PLAYSTATE);
                 button2Added = false;
                 buttonAdded = false;
             }
@@ -356,7 +357,7 @@ public class UserInterface extends Utilities{
             public void mouseClicked(MouseEvent e) {
                 gp.remove(saveButton);
                 try {
-                    gp.level.save();
+                    gp.level.saveGame();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

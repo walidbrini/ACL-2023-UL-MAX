@@ -1,8 +1,6 @@
 package com.example;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -31,9 +29,7 @@ public class Level {
     }
 
     public void continueGame() throws IOException {
-        gp.labyrinth.loadFromFile("save_files/map.txt");
-        gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
-               gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
+        loadGame();
     }
 
     public void restart(){
@@ -43,11 +39,13 @@ public class Level {
         this.startNewGame();
     }
 
-    public void save() throws IOException {
+    public void saveGame() throws IOException {
         gp.labyrinth.saveToFile();
         FileWriter fileWriter = new FileWriter(fileSaveLocation);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         printWriter.print(levelNumber);
+        printWriter.print(',');
+        printWriter.print(gp.labyrinth.getDifficulty());
         printWriter.print(',');
         printWriter.print(gp.player.x);
         printWriter.print(',');
@@ -59,6 +57,34 @@ public class Level {
         printWriter.print(',');
         printWriter.close();
         setGameSaved(true);
+    }
+
+    public void loadGame() throws IOException {
+        gp.labyrinth.loadFromFile("save_files/map.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(fileSaveLocation));
+
+        String line = reader.readLine();
+        if (line != null) {
+            String[] values = line.split(",");
+            if (values.length == 6) { // Assuming there are 5 values separated by commas
+                levelNumber = Integer.parseInt(values[0]);
+                gp.labyrinth.setDifficulty(Difficulty.valueOf(values[1]));
+                int playerX = Integer.parseInt(values[2]);
+                int playerY = Integer.parseInt(values[3]);
+                int playerLife = Integer.parseInt(values[4]);
+                int playerMana = Integer.parseInt(values[5]);
+
+                gp.getPlayer().setPosition(playerX, playerY);
+                gp.getPlayer().setLife(playerLife);
+                gp.getPlayer().setMana(playerMana);
+
+            } else {
+                // Handle incorrect file format
+                System.out.println("Error: Incorrect file format");
+            }
+        }
+
+        reader.close();
     }
 
     public void update(){

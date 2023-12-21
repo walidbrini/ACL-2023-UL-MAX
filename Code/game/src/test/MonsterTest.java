@@ -32,7 +32,7 @@ public class MonsterTest {
         for (int i = 0; i < maxIterations; i++) {
             monster.update();
 
-            if (monster.getX() != initialX || monster.getY() != initialY) {
+            if (monster.getX() != initialX && monster.getY() != initialY) {
                 positionChanged = true;
                 break;
             }
