@@ -74,7 +74,6 @@ public class UserInterface extends Utilities{
                     throw new RuntimeException(ex);
                 }
                 gp.setGameState(GameState.PAUSESTATE);
-                buttonAdded = false;
                 button2Added = false;
 
                 // Set focus explicitly to the GamePanel component

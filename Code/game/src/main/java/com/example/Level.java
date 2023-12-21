@@ -86,6 +86,7 @@ public class Level {
         }
 
         reader.close();
+        //spawnNewMonsters();
     }
 
     public void update(){
