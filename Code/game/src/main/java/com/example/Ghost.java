@@ -12,6 +12,8 @@ public class Ghost extends Monstre{
     private int spiralCounter = 0;
     private int spiralRadius = 1;
     private int spiralDirection = 1; // 1 for clockwise, -1 for counterclockwise
+    public boolean active = true;
+
     public Ghost(GamePanel gp) {
         this.gp = gp;
         getGhostImage();
@@ -108,7 +110,7 @@ public class Ghost extends Monstre{
 
     }
     public void appear(Graphics2D g2, GamePanel gp){
-        if (visibility){
+        if (visibility && active){
             BufferedImage image = null;
 
             switch (direction) {
