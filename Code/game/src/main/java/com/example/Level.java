@@ -8,9 +8,10 @@ public class Level {
     private final GamePanel gp;
     private int levelNumber;
     private final int levelDifficultyStep = 1;
-    private final int finalLevel = 4;
+    private final int finalLevel = 5;
     private static final String fileSaveLocation = "save_files/save.txt";
     private boolean gameSaved = false;
+    private boolean gameLoaded = false;
 
     public Level(GamePanel gp) {
         this.gp = gp;
@@ -87,10 +88,17 @@ public class Level {
         }
 
         reader.close();
+        gameLoaded = true;
         //spawnNewMonsters();
     }
 
     public void update(){
+        if(gameLoaded){
+            spawnNewMonsters();
+            System.out.println("efefe");
+            gameLoaded = false;
+        }
+
         if (gp.checker.checkTreasure(gp.player,gp.labyrinth)){
             if(levelNumber == finalLevel){
                 gp.setGameState(GameState.WIN);
