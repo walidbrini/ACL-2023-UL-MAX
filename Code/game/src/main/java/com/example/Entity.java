@@ -1,7 +1,7 @@
 package com.example;
 
 import java.awt.image.BufferedImage;
-import java.awt.Rectangle;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -120,4 +120,12 @@ public class Entity extends Utilities{
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public int getX(){ 
+        return(x);
+    } 
+
+    public int getY(){ 
+        return(y);
+    } 
 }
