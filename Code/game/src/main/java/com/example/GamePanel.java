@@ -52,8 +52,8 @@ public class GamePanel extends JPanel implements Runnable{
 		setupGame(1f);
 
 		monsterSpawner = new MonsterSpawner(this);
-	}
 
+	}
 	public void setupGame(float volume) throws IOException {
 		playMusic(3,volume);
 		gameState = GameState.START_MENU;
@@ -98,7 +98,6 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		else if(gameState == GameState.RESTART){
 			level.restart();
-
 			gameState = GameState.PLAYSTATE;
 		}
 
@@ -184,5 +183,15 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+
+	public Labyrinth getLabyrinth (){
+		return labyrinth;
+	}
+	public Player getPlayer(){
+		return player ;
+	}
+	public Controller getController(){
+		return control;
 	}
 }
