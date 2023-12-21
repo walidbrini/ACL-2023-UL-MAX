@@ -58,18 +58,15 @@ public class Ghost extends Monstre{
     public void update() {
 
         collisionOn = false;
-        gp.checker.checkSquare(this, gp.labyrinth);
+        gp.checker.checkBorder(this, gp.labyrinth);
 
         if (collisionOn ) {
             changeDirection();
             //randomDirection();
         } else {
             moveInDirection();
-
         }
-
     }
-
     public void changeDirection(){
         switch(direction){
             case "up":

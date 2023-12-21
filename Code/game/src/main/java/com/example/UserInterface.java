@@ -52,16 +52,17 @@ public class UserInterface extends Utilities{
         }
         else if(gp.gameState == GameState.CHARACTER_STATUS){
             drawCharacterScreen();
-            drawInventory();
+            //drawInventory();
         }
         else if(gp.gameState == GameState.START_MENU){
             drawStartMenu();
+            drawInventory();
         }
     }
 
     private void drawStartMenu() {
-        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight / 2);
-        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 4);
+        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/4 );
+        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 10);
 
         // Add a MouseListener to the continueGameButton for click events
         continueGameButton.addMouseListener(new MouseAdapter() {
@@ -178,8 +179,8 @@ public class UserInterface extends Utilities{
         textY+= gp.tileSize;
     }
     public void drawInventory(){
-        int x = gp.getTileSize()*9;
-        int y = gp.getTileSize()*3;
+        int x = gp.getTileSize()*6;
+        int y = gp.getTileSize()*8;
         int width = gp.getTileSize()*4;
         int height = gp.getTileSize()*5;
         drawSubWindow(x,y,width,height);
