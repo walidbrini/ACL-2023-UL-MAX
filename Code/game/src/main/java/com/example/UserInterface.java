@@ -209,8 +209,6 @@ public class UserInterface extends Utilities{
         g2.drawImage(img1,slotX,slotY,gp.getTileSize(),gp.getTileSize(),null);
         slotX += gp.getTileSize();
 
-
-
         //CURSOR
         int cursorX = initialSlotX + (gp.getTileSize() * slotCol);
         int cursorY = initialSlotY + (gp.getTileSize() * slotRow);
@@ -220,8 +218,6 @@ public class UserInterface extends Utilities{
         g2.setColor (Color.white);
         g2.setStroke(new BasicStroke(3)); // thickness of the line
         g2.drawRoundRect(cursorX,cursorY,cursorW,cursorH,10,10);
-
-
     }
 
     public String getLevel(Difficulty d){
