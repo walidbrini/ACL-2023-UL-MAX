@@ -52,14 +52,14 @@ public class GamePanel extends JPanel implements Runnable{
 		setupGame(1f);
 
 		monsterSpawner = new MonsterSpawner(this);
-
 	}
+
 	public void setupGame(float volume) throws IOException {
 		playMusic(3,volume);
-		level.startSavedGame();
-		gameState = GameState.PLAYSTATE;
-
+		gameState = GameState.START_MENU;
+		level.initializeGame();
 	}
+
 	public void startThread() throws IOException{
 		thread = new Thread(this);
 		thread.start(); // Automatically call run()
@@ -98,9 +98,15 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		else if(gameState == GameState.RESTART){
 			level.restart();
-			player.restoreMana();
+
 			gameState = GameState.PLAYSTATE;
 		}
+
+		else if (gameState == GameState.START_MENU){
+
+		}
+
+
 		for (int i =0;i < projectileList.size();i++){
 			if(projectileList.get(i) != null){
 				if (projectileList.get(i).alive == true){
@@ -132,12 +138,15 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D)g;
 
 		labyrinth.draw(g2);
-		player.drawPlayer(g2,this);
-		fantome.appear(g2,this);
-		for (Monstre monster : monsterSpawner.getMonsters()) {
-            monster.draw(g2,this);
-        }
 		ui.draw(g2);
+
+		if(gameState != GameState.START_MENU){
+			player.drawPlayer(g2,this);
+			fantome.appear(g2,this);
+			for (Monstre monster : monsterSpawner.getMonsters()) {
+				monster.draw(g2,this);
+			}
+		}
 
 		for (int i = 0 ; i<projectileList.size() ; i++){
 			if(projectileList.get(i) != null){
