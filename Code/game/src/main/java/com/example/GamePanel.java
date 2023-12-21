@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenHeight = tileSize * maxScreenRow ;
 	private final static String fileSaveLocation = "save_files/map.txt";
 
+
 	Thread thread;
 	Controller control= new Controller(this);
 	Labyrinth labyrinth;

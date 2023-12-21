@@ -1,9 +1,12 @@
 package com.example;
 
+import jdk.internal.foreign.abi.ppc64.PPC64Architecture;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity {
@@ -16,13 +19,17 @@ public class Player extends Entity {
 
     private int attack_counter = 0 ;
     private int kills = 0;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int inventorySize = 12;
 
     private Projectile projectile ;
+
 
 
     public Player(GamePanel gp ,Controller keyH){
         super(gp);
         this.keyH = keyH;
+
         
         solidArea = new Rectangle();
         solidArea.x=8;
@@ -48,7 +55,14 @@ public class Player extends Entity {
         maxMana = 4 ;
         mana = maxMana;
         projectile = new Fireball(gp);
+        //projectile = new Axe(gp);
 
+        setItems();
+    }
+    public void setItems(){
+        inventory.add(new Fireball(gp));
+        inventory.add(new Axe(gp));
+        //inventory.add(new Player(gp,keyH));
     }
     public void getPlayerImage(){
             up1 = setupImage("/player/player4/up/up1.png");

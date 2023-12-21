@@ -6,9 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-class LabyrinthTest {}
-    /*
-}
+class LabyrinthTest {
+
     private Labyrinth labyrinth;
     static String fileSaveLocation = "save_files/test_map.txt";
 
@@ -47,7 +46,5 @@ class LabyrinthTest {}
         File test_map = new File(fileSaveLocation);
         test_map.delete();
     }
-
+    
 }
-
-     */
