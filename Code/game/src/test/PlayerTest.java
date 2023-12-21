@@ -12,7 +12,7 @@ class PlayerTest {
     private GamePanel gp;
     private Player player;
     private Labyrinth l;
-    private Controller control ; 
+    private Controller control;
 
     @BeforeEach
     void setup() throws IOException{
@@ -20,7 +20,8 @@ class PlayerTest {
         gp = new GamePanel();
         player = gp.getPlayer();
         l = gp.getLabyrinth();
-        gp.getController(); 
+        l.generate(null);
+        control = gp.getController();
 
     }
 
@@ -33,7 +34,7 @@ class PlayerTest {
 
     @Test
     void testPlayerSpawnNotOnFire() {
-        Square[][] grid = l.getGrid(); 
+        Square[][] grid = l.getGrid();
         ObjectType squareContent = grid[l.getSpawn().getPosition().getX()][l.getSpawn().getPosition().getY()].getContent();
         assertNotEquals(ObjectType.FIRE, squareContent);
     }   
@@ -112,6 +113,4 @@ class PlayerTest {
             assertEquals(oldX, player.getX(), "Player should not move due to collision");
         }
     }
-    
-
 }

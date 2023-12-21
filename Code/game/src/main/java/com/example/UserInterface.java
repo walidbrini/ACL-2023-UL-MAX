@@ -300,7 +300,7 @@ public class UserInterface extends Utilities{
             public void mouseClicked(MouseEvent e) {
                 gp.remove(saveButton);
                 try {
-                    gp.level.save();
+                    gp.level.saveGame();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

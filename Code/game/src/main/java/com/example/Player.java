@@ -298,5 +298,13 @@ public class Player extends Entity {
 
     public int getY(){ 
         return(y);
-    } 
+    }
+
+    public void setLife(int playerLife) {
+        this.life = playerLife;
+    }
+
+    public void setMana(int playerMana) {
+        this.mana = playerMana;
+    }
 }
