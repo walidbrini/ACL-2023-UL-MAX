@@ -176,4 +176,14 @@ public class GamePanel extends JPanel implements Runnable{
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
+
+	public Labyrinth getLabyrinth (){ 
+		return labyrinth;
+	}
+	public Player getPlayer(){
+		return player ; 
+	}
+	public Controller getController(){
+		return control; 
+	}
 }
