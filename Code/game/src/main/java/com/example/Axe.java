@@ -31,5 +31,15 @@ public class Axe extends Projectile{
         right2 = setupImage("/items/axe/two.png");
         right3 = setupImage("/items/axe/three.png");
     }
+    public boolean checkMana(Entity user){
+        boolean resource = false;
+        if(user.mana >= useCost){
+            resource = true;
+        }
+        return resource;
+    }
+    public void reduceMana(Entity user){
+        user.mana -= useCost;
+    }
 
 }

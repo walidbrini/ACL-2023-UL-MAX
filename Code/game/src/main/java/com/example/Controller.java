@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 public class Controller implements KeyListener {
 	GamePanel gp;
 	public boolean up,left,down,right,attaque,shoot;
-	public int weapon;
+	public int weapon = 1;
 
 	public Controller(GamePanel gp){
 		this.gp =gp;

@@ -54,15 +54,16 @@ public class Player extends Entity {
         life = maxLife ; //2 lives = 1 heart
         maxMana = 4 ;
         mana = maxMana;
-        if(keyH.weapon ==1){
+
+        if(gp.control.weapon ==1){
             projectile = new Fireball(gp);
         }
-        if(keyH.weapon ==2){
+        if(gp.control.weapon ==2){
             projectile = new Axe(gp);
         }
-        projectile = new Fireball(gp);
-
-        //
+        
+        //projectile = new Axe(gp);
+        //projectile = new Fireball(gp);
 
         setItems();
     }
