@@ -55,9 +55,10 @@ public class UserInterface extends Utilities{
     }
 
     private void drawStartMenu() {
-        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/2);
-        button2Added = addButton(startnewGameButton, button2Added,-1, gp.screenHeight/4);
-        // Add a MouseListener to the button for click events
+        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight / 2);
+        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 4);
+    
+        // Add a MouseListener to the continueGameButton for click events
         continueGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -69,11 +70,15 @@ public class UserInterface extends Utilities{
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
+    
                 button2Added = false;
+    
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
-
+    
+        // Add a MouseListener to the startnewGameButton for click events
         startnewGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -83,9 +88,13 @@ public class UserInterface extends Utilities{
                 gp.level.startNewGame();
                 button2Added = false;
                 buttonAdded = false;
+    
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
     }
+    
 
     public void drawCharacterScreen(){
         final int x = gp.tileSize * 2 ;
