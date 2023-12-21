@@ -65,11 +65,8 @@ public class Ghost extends Monstre{
             //randomDirection();
         } else {
             moveInDirection();
-
         }
-
     }
-
     public void changeDirection(){
         switch(direction){
             case "up":

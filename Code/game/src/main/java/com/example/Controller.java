@@ -56,6 +56,9 @@ public class Controller implements KeyListener {
 			if (input == KeyEvent.VK_C) {
 				gp.gameState = GameState.PLAYSTATE;
 			}
+		}
+		else if (gp.gameState == GameState.START_MENU){
+
 			if( input == KeyEvent.VK_UP){
 				if (gp.ui.slotRow != 0){
 					gp.ui.slotRow--;
@@ -84,8 +87,9 @@ public class Controller implements KeyListener {
 					weapon = 2;
 				}
 			}
+			}
 
-		}
+
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {

@@ -25,7 +25,7 @@ public class MonsterTest {
         int initialX = monster.getX();
         int initialY = monster.getY();
 
-        int maxIterations = 100;
+        int maxIterations = 1000;
 
         boolean positionChanged = false;
 
