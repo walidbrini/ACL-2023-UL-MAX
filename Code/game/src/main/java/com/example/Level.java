@@ -22,6 +22,7 @@ public class Level {
     }
 
     public void startNewGame(){
+        gp.getLabyrinth().setDifficulty(Difficulty.CHICKEN);
         gp.labyrinth.generate(null);
         levelNumber = 1;
         gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
@@ -85,6 +86,7 @@ public class Level {
         }
 
         reader.close();
+        //spawnNewMonsters();
     }
 
     public void update(){

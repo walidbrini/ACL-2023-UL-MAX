@@ -59,13 +59,13 @@ public class UserInterface extends Utilities{
     }
 
     private void drawStartMenu() {
-        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/2);
-        button2Added = addButton(startnewGameButton, button2Added,-1, gp.screenHeight/4);
-        // Add a MouseListener to the button for click events
+        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight / 2);
+        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 4);
+
+        // Add a MouseListener to the continueGameButton for click events
         continueGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gp.setGameState(GameState.PAUSESTATE);
                 gp.remove(continueGameButton);
                 gp.remove(startnewGameButton);
                 try {
@@ -73,20 +73,27 @@ public class UserInterface extends Utilities{
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
+                gp.setGameState(GameState.PAUSESTATE);
                 button2Added = false;
+
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
 
+        // Add a MouseListener to the startnewGameButton for click events
         startnewGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gp.setGameState(GameState.PLAYSTATE);
                 gp.remove(startnewGameButton);
                 gp.remove(continueGameButton);
                 gp.level.startNewGame();
+                gp.setGameState(GameState.PLAYSTATE);
                 button2Added = false;
                 buttonAdded = false;
+
+                // Set focus explicitly to the GamePanel component
+                gp.requestFocus();
             }
         });
     }
