@@ -1,17 +1,12 @@
 package com.example;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -22,10 +17,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public static int maxScreenRow = 16;
 	final int screenWidth = tileSize * maxScreenCol ;
 	final int screenHeight = tileSize * maxScreenRow ;
+	private final static String fileSaveLocation = "save_files/map.txt";
 
 	Thread thread;
 	Controller control= new Controller(this);
-	Labyrinth labyrinth = new Labyrinth(100,100,this);
+	Labyrinth labyrinth;
 	Level level = new Level(this);
 	Sound sound = new Sound();
 	UserInterface ui = new UserInterface(this);
@@ -41,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
 	// GAME STATE
 	GameState gameState ;
 
-	public GamePanel() {
+	public GamePanel() throws IOException {
 
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
@@ -49,24 +45,20 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame(0.5f);
+		setupGame(1f);
 
 		monsterSpawner = new MonsterSpawner(this);
 
 	}
-	public void setupGame(float volume){
+	public void setupGame(float volume) throws IOException {
 		playMusic(0,volume);
-		level.start();
+		level.startSavedGame();
 		gameState = GameState.PLAYSTATE;
 
 	}
 	public void startThread() throws IOException{
 		thread = new Thread(this);
 		thread.start(); // Automatically call run()
-
-		//labyrinth.afficheVersionTexte();
-		//labyrinth.saveToFile();
-		//labyrinth.loadFromFile("res/map/saved_map.txt");
 	}
 	
 	public void run() {

@@ -10,7 +10,6 @@ public class Labyrinth {
     private int width;
     private int height;
     private Square[][] grid;
-    private final String fileSaveLocation = "res/map/map.txt";
     private final Walkway walkway = new Walkway();
     private final Wall wall = new Wall();
     private final Fire fire = new Fire();
@@ -22,20 +21,15 @@ public class Labyrinth {
     private final Boots boots = new Boots();
     private final GamePanel gamePanel;
     private Difficulty difficulty;
-
-    public Labyrinth(int width, int height, GamePanel gamePanel) {
-        this.width = width;
-        this.height = height;
-        this.difficulty = Difficulty.CHICKEN;
-        this.grid = new Square[width][height];
-        this.gamePanel = gamePanel;
-    }
+    private static final String fileSaveLocation = "save_files/map.txt";
 
     public Labyrinth(GamePanel gamePanel) {
-        this.difficulty = Difficulty.CHICKEN;
         this.gamePanel = gamePanel;
+        this.width = GamePanel.getMaxScreenCol();
+        this.height = GamePanel.getMaxScreenCol();
+        this.difficulty = Difficulty.CHICKEN;
+        this.grid = new Square[width][height];
     }
-
 
     /* ----------------------------------------------------------
                             MAP GENERATION
@@ -298,6 +292,18 @@ public class Labyrinth {
                           SAVE AND LOAD MAP
     ------------------------------------------------------------ */
     public void saveToFile() throws IOException {
+        FileWriter fileWriter = new FileWriter(fileSaveLocation);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                printWriter.print(grid[j][i]);
+            }
+            printWriter.println();
+        }
+        printWriter.close();
+    }
+
+    public void saveToFile(String fileSaveLocation) throws IOException {
         FileWriter fileWriter = new FileWriter(fileSaveLocation);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         for (int i = 0; i < width; i++) {

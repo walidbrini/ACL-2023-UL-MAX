@@ -12,7 +12,16 @@ public class Main
 
 {
 	//static JButton jouer = new JButton("d�marrer la partie");
-	static GamePanel game = new GamePanel();
+	static GamePanel game;
+
+	static {
+		try {
+			game = new GamePanel();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		JFrame window = new JFrame();
 

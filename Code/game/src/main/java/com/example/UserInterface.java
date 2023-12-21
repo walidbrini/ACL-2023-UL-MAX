@@ -1,8 +1,10 @@
 package com.example;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class UserInterface {
     GamePanel gp;
@@ -12,6 +14,7 @@ public class UserInterface {
     public boolean messageOn = false;
     int messageCounter = 0;
     boolean buttonAdded = false;
+    Button saveButton = new Button("Save Game");
 
     public UserInterface(GamePanel gp){
         this.gp=gp;
@@ -119,16 +122,60 @@ public class UserInterface {
         });
 
     }
+
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
         String text = "PAUSED";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight/2;
         g2.drawString(text,x,y);
+
+        // Save button
+        saveButton.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        saveButton.setBackground(Color.white);
+        int buttonWidth = 200;
+        int buttonHeight = 100;
+        int buttonX = (gp.screenWidth - buttonWidth) / 2;
+        int buttonY = y + 40;
+        saveButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        // Add the button to the GamePanel
+        if(!buttonAdded){
+            gp.add(saveButton);
+            buttonAdded = true;
+        }
+
+        if(gp.level.isGameSaved()){
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30F));
+            text = "game saved successfully";
+            x = getXforCenteredText(text);
+            y = gp.screenHeight/2 + 90;
+            g2.drawString(text,x,y);
+        }
+
+        // Add a MouseListener to the button for click events
+        saveButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //gp.setGameState(GameState.PLAYSTATE);
+                gp.remove(saveButton);
+                try {
+                    gp.level.save();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
     public int getXforCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         int x = gp.screenWidth/2 - length/2;
         return x;
+    }
+
+    public void removeSaveButton(){
+        gp.remove(saveButton);
+        buttonAdded = false;
+        gp.level.setGameSaved(false);
     }
 }

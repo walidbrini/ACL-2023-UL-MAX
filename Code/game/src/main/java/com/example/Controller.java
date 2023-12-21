@@ -38,6 +38,7 @@ public class Controller implements KeyListener {
 			if (gp.gameState == GameState.PLAYSTATE){
 				gp.gameState = GameState.PAUSESTATE;
 			}else if(gp.gameState == GameState.PAUSESTATE){
+				gp.ui.removeSaveButton();
 				gp.gameState = GameState.PLAYSTATE;
 			}
 		}
