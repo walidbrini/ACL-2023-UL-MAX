@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	public void setupGame(float volume) throws IOException {
 		playMusic(3,volume);
-		level.startSavedGame();
+		level.startNewGame();
 		gameState = GameState.PLAYSTATE;
 
 	}
