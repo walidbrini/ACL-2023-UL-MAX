@@ -23,9 +23,8 @@ public class Player extends Entity {
     public final int inventorySize = 12;
 
     private Projectile projectile ;
-
-
-
+    private Projectile fireball = new Fireball(gp);
+    private Projectile axe = new Axe(gp);
     public Player(GamePanel gp ,Controller keyH){
         super(gp);
         this.keyH = keyH;
@@ -50,10 +49,10 @@ public class Player extends Entity {
         mana = maxMana;
 
         if(gp.control.weapon ==1){
-            projectile = new Fireball(gp);
+            projectile = fireball;
         }
         if(gp.control.weapon ==2){
-            projectile = new Axe(gp);
+            projectile = axe;
         }
         getPlayerImage(keyH.play);
         getPlayerAttackImage(keyH.play);
