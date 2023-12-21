@@ -147,7 +147,7 @@
     +changeDirectionAndMove(): void
     +moveInDirection(): void
     }
-    class Fantome {
+    class Ghost {
         + setAction(): void
     }
 
@@ -455,7 +455,7 @@ class UserInterface {
 Mana --|> Square
 
 Entity <|-- Monstre
-Monstre <|-- Fantome
+Monstre <|-- Ghost
 GamePanel "1..1" -- "1..1" Player
 Entity <|-- Player
 GamePanel "1" -- "1..*" Labyrinth
