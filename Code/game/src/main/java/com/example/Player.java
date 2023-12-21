@@ -291,4 +291,12 @@ public class Player extends Entity {
     public Projectile getProjectile() {
         return projectile;
     }
+
+    public int getX(){ 
+        return(x);
+    } 
+
+    public int getY(){ 
+        return(y);
+    } 
 }
