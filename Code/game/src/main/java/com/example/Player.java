@@ -165,6 +165,7 @@ public class Player extends Entity {
         }
     }
     public void checkcollision(){
+        gp.checker.checkGhost(this, gp.fantome);
         gp.checker.checkMonstre(this, gp.monsterSpawner);
         for (int j=0 ; j<gp.projectileList.size();j++){
             gp.checker.checkProjectile(gp.projectileList.get(j),gp.monsterSpawner);

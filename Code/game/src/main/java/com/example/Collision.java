@@ -45,6 +45,37 @@ public class Collision{
             }
         }
     }
+
+    public void checkGhost(Entity entity, Ghost ghost) {
+        long currentTime = System.currentTimeMillis();
+    
+        if (currentTime - lastCollisionTime >= collisionCooldown) {
+            int collisionRange = gp.getTileSize();
+    
+            if (Math.abs(entity.x - ghost.x) <= collisionRange &&
+                Math.abs(entity.y - ghost.y) <= collisionRange && ghost.active) {
+                
+               /*  if (this.gp.player.getKeyH().attaque) {
+                    // get rid of monster
+                    ghost.active = false ;
+                }
+                    */ 
+                if (Math.abs(entity.x - ghost.x) <= collisionRange / 2 &&
+                    Math.abs(entity.y - ghost.y) <= collisionRange / 2) {
+                    if (entity.life > 0) {
+                        entity.life--;
+                    }
+                }
+    
+                // Update the last collision time
+                lastCollisionTime = currentTime;
+            }
+        }
+    }
+    
+
+
+
     public void checkBorder(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;
