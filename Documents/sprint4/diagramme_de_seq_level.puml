@@ -1,0 +1,47 @@
+@startuml
+actor Joueur
+participant GamePanel
+participant Labyrinthe
+participant Collision
+participant MonsterSpawner
+
+Joueur -> GamePanel: jouer()
+activate GamePanel
+
+GamePanel -> Level: miseAJour()
+activate Level
+
+Level -> Collision: verifierTresor(joueur, labyrinthe)
+activate Collision
+Collision --> Level: resultat
+
+alt resultat est vrai
+    Level -> GamePanel: definirEtatPartie(GAGNE)
+else
+    Level -> Labyrinthe: transitionNiveau()
+    activate Labyrinthe
+
+    Level -> Labyrinthe: generer(tresorPosition)
+    Labyrinthe -> Level: faireApparaitreNouveauxMonstres()
+    activate Level
+
+    Level -> MonsterSpawner: effacerMonstres()
+    MonsterSpawner -> MonsterSpawner: effacerMonstresExistants()
+
+    Level -> MonsterSpawner: faireApparaitreMonstres(nombreDeMonstres)
+    MonsterSpawner -> Level: nextInt(max-min) + min
+    Level --> MonsterSpawner: valeurAleatoire
+    MonsterSpawner -> MonsterSpawner: faireApparaitreNombreSpecifieDeMonstres()
+
+    Level --> Labyrinthe: labyrintheGenere
+    Level --> GamePanel: redessineEtMiseAJour()
+
+    deactivate Level
+    deactivate Labyrinthe
+    deactivate MonsterSpawner
+end
+
+deactivate Collision
+deactivate Level
+deactivate GamePanel
+@enduml

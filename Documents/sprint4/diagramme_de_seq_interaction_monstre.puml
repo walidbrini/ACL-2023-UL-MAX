@@ -1,0 +1,40 @@
+@startuml
+hide footbox
+
+participant GamePanel
+participant Monstre
+participant Hero
+participant Collision
+
+GamePanel -> Monstre: update()
+
+activate Monstre
+
+activate Monstre
+
+Monstre -> GamePanel: collisionOn = false
+GamePanel -> Collision: gp.checker.checkSquare(Labyrinthe, Hero)
+
+alt !collisionOn
+    Monstre -> Monstre: moveInDirection()
+    Monstre -> Hero: checkCollision()
+
+    alt Collision avec le héros
+        Hero -> Hero: gérerCollisionAvecMonstre()
+
+        alt Hero.attack == true
+            Hero -> Monstre: tuerMonstre()
+        end
+
+        alt Hero.attack == false
+            Monstre -> Hero: DiminuerPointDevie()
+        end
+    else
+    end
+else
+   
+end
+
+
+deactivate Monstre
+@enduml
