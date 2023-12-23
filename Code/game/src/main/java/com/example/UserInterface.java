@@ -18,6 +18,8 @@ public class UserInterface extends Utilities{
     private boolean button2Added = false;
     private Button saveButton = new Button("Save Game");
     private Button quitButton = new Button("Quit Game");
+    private boolean startNewGameButtonClicked = false;
+
     // Cursor position in the window
     public int slotCol = 0;
     public int slotRow = 0;
@@ -61,45 +63,49 @@ public class UserInterface extends Utilities{
     }
 
     private void drawStartMenu() {
-        buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/4 );
-        button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 10);
-
-        // Add a MouseListener to the continueGameButton for click events
-        continueGameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                gp.remove(continueGameButton);
-                gp.remove(startnewGameButton);
-                try {
-                    gp.level.continueGame();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+        if (!startNewGameButtonClicked) {
+            buttonAdded = addButton(continueGameButton, buttonAdded, -1, gp.screenHeight/4);
+            button2Added = addButton(startnewGameButton, button2Added, -1, gp.screenHeight / 10);
+    
+            // Add a MouseListener to the continueGameButton for click events
+            continueGameButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    gp.remove(continueGameButton);
+                    gp.remove(startnewGameButton);
+                    try {
+                        gp.level.continueGame();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    gp.setGameState(GameState.PAUSESTATE);
+                    button2Added = false;
+    
+                    // Set focus explicitly to the GamePanel component
+                    gp.requestFocus();
                 }
-                gp.setGameState(GameState.PAUSESTATE);
-                button2Added = false;
-
-                // Set focus explicitly to the GamePanel component
-                gp.requestFocus();
-            }
-        });
-
-        // Add a MouseListener to the startnewGameButton for click events
-        startnewGameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                gp.remove(startnewGameButton);
-                gp.remove(continueGameButton);
-                gp.level.startNewGame();
-                gp.setGameState(GameState.PLAYSTATE);
-                button2Added = false;
-                buttonAdded = false;
-
-                // Set focus explicitly to the GamePanel component
-                gp.requestFocus();
-            }
-        });
+            });
+    
+            // Add a MouseListener to the startnewGameButton for click events
+            startnewGameButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!startNewGameButtonClicked) {
+                        gp.remove(startnewGameButton);
+                        gp.remove(continueGameButton);
+                        gp.level.startNewGame();
+                        gp.setGameState(GameState.PLAYSTATE);
+                        button2Added = false;
+                        buttonAdded = false;
+                        startNewGameButtonClicked = true;
+    
+                        // Set focus explicitly to the GamePanel component
+                        gp.requestFocus();
+                    }
+                }
+            });
+        }
     }
-
     public void drawCharacterScreen(){
         final int x = gp.tileSize * 2 ;
         final int y = gp.tileSize *3 ;

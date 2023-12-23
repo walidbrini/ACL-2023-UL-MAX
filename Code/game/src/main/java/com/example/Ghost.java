@@ -7,12 +7,13 @@ import java.util.TimerTask;
 
 public class Ghost extends Monstre{
     private GamePanel gp;
-    private boolean visibility = true;
+    public boolean visibility = true;
     private Timer timer;
     private int spiralCounter = 0;
     private int spiralRadius = 1;
     private int spiralDirection = 1; // 1 for clockwise, -1 for counterclockwise
     public boolean active = true;
+    private long lastDirectionChangeTime;
 
     public Ghost(GamePanel gp) {
         this.gp = gp;
@@ -22,6 +23,8 @@ public class Ghost extends Monstre{
         setSpeed(2);
         timer = new Timer();
         startDisappearingCycle(5000);
+        lastDirectionChangeTime = System.currentTimeMillis();
+
     }
 
     public void setDefaultValues() {
@@ -37,7 +40,7 @@ public class Ghost extends Monstre{
 
         x = spawnCol * gp.getTileSize();
         y = spawnRow * gp.getTileSize();
-        setSpeed(1);
+        setSpeed(4);
         direction = "down";
         maxLife = 30;
         life = maxLife;
@@ -58,14 +61,19 @@ public class Ghost extends Monstre{
         right3 = right2;
     }
     public void update() {
-
         collisionOn = false;
         gp.checker.checkBorder(this, gp.labyrinth);
 
-        if (collisionOn ) {
+        if (collisionOn) {
             changeDirection();
-            //randomDirection();
+            collisionOn = false ; 
         } else {
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - lastDirectionChangeTime >= 1000) {
+                randomDirection();
+                lastDirectionChangeTime = currentTime;
+            }
             moveInDirection();
         }
     }

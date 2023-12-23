@@ -30,6 +30,7 @@ public class Collision{
                     if (this.gp.player.getKeyH().attaque) {
                         // delete monster if hit
                         iterator.remove();
+                        gp.player.addKills();
                     }
     
                     if (Math.abs(entity.x - monster.x) <= collisionRange / 2 &&
@@ -62,7 +63,7 @@ public class Collision{
                     */ 
                 if (Math.abs(entity.x - ghost.x) <= collisionRange / 2 &&
                     Math.abs(entity.y - ghost.y) <= collisionRange / 2) {
-                    if (entity.life > 0) {
+                    if (entity.life > 0 && ghost.visibility) {
                         entity.life--;
                     }
                 }
@@ -76,59 +77,42 @@ public class Collision{
 
 
 
-    public void checkBorder(Entity entity,Labyrinth l){
-
-        int entityLeftx = entity.x+ entity.solidArea.x;
+    public void checkBorder(Entity entity, Labyrinth l) {
+        int entityLeftx = entity.x + entity.solidArea.x;
         int entityRightx = entity.x + entity.solidArea.x + entity.solidArea.width;
-        int entityTopy = entity.y + entity.solidArea.y ;
+        int entityTopy = entity.y + entity.solidArea.y;
         int entityBottomy = entity.y + entity.solidArea.y + entity.solidArea.height;
-
-        //Conversion en coordonnées (row,col)
-        int entityLeftCol = entityLeftx/ gp.tileSize;
-        int entityRightCol = entityRightx/ gp.tileSize;
-        int entityTopRow = entityTopy/ gp.tileSize;
-        int entityBottomRow = entityBottomy/ gp.tileSize;
-
-        Square corner1 = new Square();
-        Square corner2 = new Square();
-
-        switch(entity.direction){
+    
+        // Conversion en coordonnées (row, col)
+        int entityLeftCol = entityLeftx / gp.tileSize;
+        int entityRightCol = entityRightx / gp.tileSize;
+        int entityTopRow = entityTopy / gp.tileSize;
+        int entityBottomRow = entityBottomy / gp.tileSize;
+    
+        switch (entity.direction) {
             case "up":
-                entityTopRow = (entityTopy-entity.getSpeed())/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityTopRow];
-                corner2 = l.getGrid()[entityRightCol][entityTopRow];
-                if(corner1.collision  || corner2.collision || entityTopRow==0){
-                    entity.collisionOn=true;
+                if (entityTopRow == 0) {
+                    entity.collisionOn = true;
                 }
-
                 break;
             case "down":
-                entityBottomRow = (entityBottomy+entity.getSpeed())/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityBottomRow];
-                corner2 = l.getGrid()[entityRightCol][entityBottomRow];
-                if(corner1.collision  || corner2.collision || entityBottomRow==gp.maxScreenRow-1 ){
-                    entity.collisionOn=true;
+                if (entityBottomRow == gp.maxScreenRow - 1) {
+                    entity.collisionOn = true;
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftx-entity.getSpeed())/gp.tileSize;
-                corner1 = l.getGrid()[entityLeftCol][entityTopRow];
-                corner2 = l.getGrid()[entityLeftCol][entityBottomRow];
-                if(corner1.collision  || corner2.collision || entityLeftCol==0){
-                    entity.collisionOn=true;
+                if (entityLeftCol == 0) {
+                    entity.collisionOn = true;
                 }
                 break;
             case "right":
-                entityRightCol = (entityRightx+entity.getSpeed())/gp.tileSize;
-                corner1 = l.getGrid()[entityRightCol][entityTopRow];
-                corner2 = l.getGrid()[entityRightCol][entityBottomRow];
-                if(corner1.collision  || corner2.collision ||entityRightCol == gp.maxScreenCol -1 ){
-                    entity.collisionOn=true;
+                if (entityRightCol == gp.maxScreenCol - 1) {
+                    entity.collisionOn = true;
                 }
                 break;
-
         }
     }
+    
     public void checkSquare(Entity entity,Labyrinth l){
 
         int entityLeftx = entity.x+ entity.solidArea.x;

@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(control); // Wait for key input
 		this.setFocusable(true);
 
-		setupGame(0f);
+		setupGame(0.5f);
 
 		monsterSpawner = new MonsterSpawner(this);
 

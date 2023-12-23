@@ -66,49 +66,67 @@ public class Player extends Entity {
         inventory.add(new Axe(gp));
         //inventory.add(new Player(gp,keyH));
     }
-    public void getPlayerImage(int play){
-        String joueur = "player1";
-        switch (play){
-            case 1 : joueur = "player1" ; break;
-            case 2 : joueur = "player2" ; break;
-            case 3 : joueur = "player3" ; break;
-            case 4 : joueur = "player4" ; break;
+    public void getPlayerImage(int play) {
+
+        String joueur = "player4";
+        switch (play) {
+            case 1: joueur = "player1"; break;
+            case 2: joueur = "player2"; break;
+            case 3: joueur = "player3"; break;
+            case 4: joueur = "player4"; break;
+            default: 
+                System.out.println("Unexpected value of play: " + play);
+                joueur = "player4";
+                break;
         }
-            up1 = setupImage("/player/"+joueur+"/up/up1.png");
-            up2 = setupImage("/player/"+joueur+"/up/up2.png");
-            up3 = setupImage("/player/"+joueur+"/up/up3.png");
-            down1 = setupImage("/player/"+joueur+"/down/down1.png");
-            down2 = setupImage("/player/"+joueur+"/down/down2.png");
-            down3 = setupImage("/player/"+joueur+"/down/down3.png");
-            left1 = setupImage("/player/"+joueur+"/left/left1.png");
-            left2 = setupImage("/player/"+joueur+"/left/left2.png");
-            left3 = setupImage("/player/"+joueur+"/left/left3.png");
-            right1 = setupImage("/player/"+joueur+"/right/right1.png");
-            right2 = setupImage("/player/"+joueur+"/right/right2.png");
-            right3 = setupImage("/player/"+joueur+"/right/right3.png");
+    
+        up1 = setupImage("/player/"+joueur+"/up/up1.png");
+        up2 = setupImage("/player/"+joueur+"/up/up2.png");
+        up3 = setupImage("/player/"+joueur+"/up/up3.png");
+        down1 = setupImage("/player/"+joueur+"/down/down1.png");
+        down2 = setupImage("/player/"+joueur+"/down/down2.png");
+        down3 = setupImage("/player/"+joueur+"/down/down3.png");
+        left1 = setupImage("/player/"+joueur+"/left/left1.png");
+        left2 = setupImage("/player/"+joueur+"/left/left2.png");
+        left3 = setupImage("/player/"+joueur+"/left/left3.png");
+        right1 = setupImage("/player/"+joueur+"/right/right1.png");
+        right2 = setupImage("/player/"+joueur+"/right/right2.png");
+        right3 = setupImage("/player/"+joueur+"/right/right3.png");
     }
-    public void getPlayerAttackImage(int play){
+    
+    
+    public void getPlayerAttackImage(int play) {
         String joueur = "player3";
-        switch (play){
-            case 3 : joueur = "player3" ; break;
-            case 4 : joueur = "player4" ; break;
+        switch (play) {
+            case 1: joueur = "player3"; break;
+            case 2: joueur = "player2"; break;
+            case 3: joueur = "player3"; break;
+            case 4: joueur = "player4"; break;
+            default:
+                // Handle unexpected value of play
+                System.out.println("Unexpected value of play attac: " + play);
+                // Set a default value for joueur
+                joueur = "player3";
+                break;
         }
+    
         attack_right_1 = setupImage("/player/"+joueur+"/right/attack1.png");
         attack_right_2 = setupImage("/player/"+joueur+"/right/attack2.png");
         attack_right_3 = setupImage("/player/"+joueur+"/right/attack3.png");
-
+    
         attack_up_1 = setupImage("/player/"+joueur+"/up/attack1.png");
         attack_up_2 = setupImage("/player/"+joueur+"/up/attack2.png");
         attack_up_3 = setupImage("/player/"+joueur+"/up/attack3.png");
-
+    
         attack_down_1 = setupImage("/player/"+joueur+"/down/attack1.png");
         attack_down_2 = setupImage("/player/"+joueur+"/down/attack2.png");
         attack_down_3 = setupImage("/player/"+joueur+"/down/attack3.png");
-
+    
         attack_left_1 = setupImage("/player/"+joueur+"/left/attack1.png");
         attack_left_2 = setupImage("/player/"+joueur+"/left/attack2.png");
         attack_left_3 = setupImage("/player/"+joueur+"/left/attack3.png");
     }
+    
     public void update(){
         if (keyH.up == true || keyH.down==true || keyH.left==true || keyH.right==true) {
             setDirection();

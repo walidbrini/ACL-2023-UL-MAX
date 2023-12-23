@@ -25,7 +25,7 @@ public class Level {
     public void startNewGame(){
         gp.getLabyrinth().setDifficulty(Difficulty.CHICKEN);
         gp.labyrinth.generate(null);
-        gp.player.setDefaultValues();
+        gp.player.setDefaultValues();// this line makes the game bugs 
         levelNumber = 1;
         gp.player.setPosition(gp.labyrinth.getSpawn().getPosition().getX() * gp.tileSize,
                               gp.labyrinth.getSpawn().getPosition().getY() * gp.tileSize);
@@ -58,6 +58,8 @@ public class Level {
         printWriter.print(',');
         printWriter.print(gp.player.mana);
         printWriter.print(',');
+        printWriter.print(gp.control.play);
+        printWriter.print(',');
         printWriter.close();
         setGameSaved(true);
     }
@@ -69,19 +71,21 @@ public class Level {
         String line = reader.readLine();
         if (line != null) {
             String[] values = line.split(",");
-            if (values.length == 6) { // Assuming there are 5 values separated by commas
+            if (values.length == 7) { // Assuming there are 5 values separated by commas
                 levelNumber = Integer.parseInt(values[0]);
                 gp.labyrinth.setDifficulty(Difficulty.valueOf(values[1]));
                 int playerX = Integer.parseInt(values[2]);
                 int playerY = Integer.parseInt(values[3]);
                 int playerLife = Integer.parseInt(values[4]);
                 int playerMana = Integer.parseInt(values[5]);
+                int player_graph = Integer.parseInt(values[6]);
 
                 gp.getPlayer().setPosition(playerX, playerY);
                 gp.getPlayer().setLife(playerLife);
                 gp.getPlayer().setMana(playerMana);
-
-            } else {
+                gp.getPlayer().getPlayerImage(player_graph);
+                gp.getPlayer().getPlayerAttackImage(player_graph);
+                        } else {
                 // Handle incorrect file format
                 System.out.println("Error: Incorrect file format");
             }
@@ -95,7 +99,6 @@ public class Level {
     public void update(){
         if(gameLoaded){
             spawnNewMonsters();
-            System.out.println("efefe");
             gameLoaded = false;
         }
 

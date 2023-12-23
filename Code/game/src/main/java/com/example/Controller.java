@@ -6,7 +6,7 @@ public class Controller implements KeyListener {
 	GamePanel gp;
 	public boolean up,left,down,right,attaque,shoot;
 	public int weapon = 1;
-	public int play = 0 ;
+	public int play = 1 ;
 
 	public Controller(GamePanel gp){
 		this.gp =gp;

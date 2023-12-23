@@ -37,7 +37,7 @@ public class Labyrinth {
     private void fillBordersWithWalls(){
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (i == 0 || i == width - 1 || j == 0 || j == (height - 1))
+                    if (i == 0 || i == width - 1 || j == 0 || j == (height - 1))
                     grid[i][j] = wall;
                 else  grid[i][j] = walkway;
             }

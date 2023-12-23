@@ -27,7 +27,7 @@ public class MonsterSpawner {
     }
     
     private void ensureDistanceFromOtherMonsters(Monstre newMonster) {
-        int minDistance = 3;
+        int minDistance = 10;
     
         for (Monstre existingMonster : monsters) {
             while (calculateDistance(newMonster, existingMonster) < minDistance) {
